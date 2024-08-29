@@ -1,0 +1,126 @@
+name: hex_place
+description: "A new Flutter project."
+
+# Prevent accidental publishing to pub.dev.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flame: ^1.18.0
+  universal_html: ^2.2.4
+  intl: ^0.19.0
+  flutter_lints: ^4.0.0
+  socket_io_client: ^2.0.3+1
+  flutter_simple_dependency_injection: ^2.0.0
+  url_strategy: ^0.3.0
+  url_launcher: ^6.3.0
+  http: ^1.2.2
+  flutter_secure_storage: ^9.2.2
+  http_client: ^1.5.3
+  dio: ^5.5.0+1
+  oktoast: ^3.4.0
+  jwt_decode: ^0.3.1
+  get_it: ^7.7.0
+  tuple: ^2.0.2
+  image: ^4.2.0
+  file_picker: ^8.0.7
+  isolated_worker: ^0.1.1
+  dropdown_button2: ^2.3.9
+  back_button_interceptor: ^7.0.3
+  quiver: ^3.2.1
+  google_sign_in: ^6.2.1
+  flutter_keyboard_visibility: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path_android: "assets/images/hex_place_icon_android.png"
+  image_path_ios: "assets/images/hex_place_icon.png"
+  adaptive_icon_background: "assets/images/hex_place_icon_android.png"
+  adaptive_icon_foreground: "assets/images/hex_place_icon_android.png"
+  web:
+    generate: true
+    image_path: "assets/images/hex_place_icon.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/images/hex_place_icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/hex_place_icon.png"
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/tile_variants/sprite_regular.png
+    - assets/images/tiles/Sprite_000000.png
+    - assets/images/tiles/Sprite_ffffff.png
+    - assets/images/tiles/Sprite_00a368.png
+    - assets/images/tiles/Sprite_00756f.png
+    - assets/images/tiles/Sprite_00cc78.png
+    - assets/images/tiles/Sprite_009eaa.png
+    - assets/images/tiles/Sprite_ff4500.png
+    - assets/images/tiles/Sprite_ffa800.png
+    - assets/images/tiles/Sprite_be0039.png
+    - assets/images/tiles/Sprite_ff3881.png
+    - assets/images/tiles/Sprite_6a5cff.png
+    - assets/images/tiles/Sprite_ff99aa.png
+    - assets/images/tiles/Sprite_ffd635.png
+    - assets/images/tiles/Sprite_b44ac0.png
+    - assets/images/tiles/Sprite_51e9f4.png
+    - assets/images/tiles/Sprite_493ac1.png
+    - assets/images/tiles/Sprite_898d90.png
+    - assets/images/tiles/Sprite_d4d7d9.png
+    - assets/images/tiles/Sprite_7eed56.png
+    - assets/images/tiles/Sprite_9c6926.png
+    - assets/images/tiles/Sprite_811e9f.png
+    - assets/images/tiles/Sprite_6d482f.png
+    - assets/images/tiles/Sprite_2450a4.png
+    - assets/images/tiles/Sprite_3690ea.png
+    - assets/images/brocast_transparent.png
+    - assets/images/Github_logo_PNG1.png
+    - assets/images/google_button.png
+    - assets/images/reddit_button.png
+    - assets/images/gogle_button.png
+    - assets/images/github_button.png
+    - assets/images/default_avatar.png
+    - assets/images/ui/gold_shield_frame.png
+    - assets/images/ui/hexagon_frame_small_fill.png
+    - assets/images/ui/icon/globe_icon_no_colour.png
+    - assets/images/ui/icon/friend_icon_clean.png
+    - assets/images/ui/icon/message_icon_clean.png
+    - assets/images/ui/icon/update_notification.png
+    - assets/images/ui/icon/guild_icon_clean.png
+    - assets/images/ui/icon/shield_default.png
+    - assets/images/hex_place_logo.png
