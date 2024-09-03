@@ -80,7 +80,7 @@ class ChatMessages extends ChangeNotifier {
 
   initializeChatMessages() {
     DateTime firstTime = DateTime(2023);
-    String message = "Welcome to the Age of Gold chat!";
+    String message = "Welcome to the Hex Place chat!";
     Message newMessage = Message(-1, "Server", message, false, firstTime, true);
     chatMessages.add(newMessage);
     String messageEvent = "Here you can see any event that happened in your view!";

@@ -13,6 +13,7 @@ import 'package:hex_place/views/user_interface/ui_views/guild_window/guild_windo
 import 'package:hex_place/views/user_interface/ui_views/map_coordintes_window/map_coordinates_change_notifier.dart';
 import 'package:hex_place/views/user_interface/ui_views/profile_box/profile_change_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:hex_place/views/user_interface/ui_views/zoom_widget/zoom_widget_change_notifier.dart';
 
 
 class SocialInteraction extends StatefulWidget {
@@ -39,6 +40,7 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
   int levelClock = 0;
   bool canChangeTiles = true;
 
+  int zoomOverviewState = 0;
   int mapCoordinateOverviewState = 0;
   int friendOverviewState = 0;
   int messageOverviewState = 0;
@@ -50,7 +52,6 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
   @override
   void initState() {
     super.initState();
-    // TODO: Change to it's own change notifier?
     profileChangeNotifier = ProfileChangeNotifier();
     friendWindowChangeNotifier = FriendWindowChangeNotifier();
     profileChangeNotifier.addListener(socialInteractionListener);
@@ -103,6 +104,10 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
     }
   }
 
+  showZoomWindow() {
+    ZoomWidgetChangeNotifier().setZoomWidgetVisible(true);
+  }
+
   showMapCoordinatesWindow() {
     MapCoordinatesWindowChangeNotifier().setMapCoordinatesVisible(true);
   }
@@ -119,6 +124,55 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
   showGuildWindow() {
     print("pressed the guild button");
     GuildWindowChangeNotifier().setGuildWindowVisible(true);
+  }
+
+  Widget zoomButton(double zoomButtonSize) {
+    return SizedBox(
+      child: Row(
+          children: [
+            const SizedBox(width: 5),
+            Tooltip(
+              message: "Zoom in or out",
+              child: InkWell(
+                onHover: (value) {
+                  setState(() {
+                    zoomOverviewState = value ? 1 : 0;
+                  });
+                },
+                onTap: () {
+                  setState(() {
+                    zoomOverviewState = 2;
+                    showZoomWindow();
+                  });
+                },
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      width: zoomButtonSize,
+                      height: zoomButtonSize,
+                      child: ClipOval(
+                          child: Material(
+                            color: overviewColour(zoomOverviewState, Colors.orange, Colors.orangeAccent, Colors.orange.shade800),
+                          )
+                      ),
+                    ),
+                    SizedBox(
+                      width: zoomButtonSize,
+                      height: zoomButtonSize,
+                      child: Icon(
+                        size: (zoomButtonSize/5) * 3,
+                        Icons.zoom_in,
+                        color: Colors.white,
+                        shadows: const <Shadow>[Shadow(color: Colors.black, blurRadius: 3.0)],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ]
+      ),
+    );
   }
 
   Widget mapCoordinatesButton(double mapCoordinateButtonSize) {
@@ -161,11 +215,6 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                         shadows: const <Shadow>[Shadow(color: Colors.black, blurRadius: 3.0)],
                       ),
                     ),
-                    friendWindowChangeNotifier.unansweredFriendRequests ? Image.asset(
-                      "assets/images/ui/icon/update_notification.png",
-                      width: mapCoordinateButtonSize,
-                      height: mapCoordinateButtonSize,
-                    ) : Container(),
                   ],
                 ),
               ),
@@ -331,21 +380,33 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
     );
   }
 
-  Widget profileOverviewNormal(double profileOverviewWidth, double profileOverviewHeight, double fontSize) {
+  Widget profileOverviewNormal(double profileOverviewHeight, double fontSize) {
     double profileAvatarHeight = 100;
     return Container(
-      child: Column(
+      child: Row(
         children: [
-          SizedBox(height: profileAvatarHeight),
-          const SizedBox(height: 10),
-          mapCoordinatesButton(50),
-          const SizedBox(height: 10),
-          friendOverviewButton(50),
-          const SizedBox(height: 10),
-          messageOverviewButton(50),
-          const SizedBox(height: 10),
-          guildOverviewButton(50)
-        ]
+          Column(
+            children: [
+              SizedBox(height: profileAvatarHeight),
+              const SizedBox(height: 10),
+              mapCoordinatesButton(50),
+              const SizedBox(height: 10),
+              friendOverviewButton(50),
+              const SizedBox(height: 10),
+              messageOverviewButton(50),
+              const SizedBox(height: 10),
+              guildOverviewButton(50)
+            ]
+          ),
+          SizedBox(width: 5),
+          Column(
+              children: [
+                SizedBox(height: profileAvatarHeight),
+                const SizedBox(height: 10),
+                zoomButton(50),
+              ]
+          )
+        ],
       ),
     );
   }
@@ -353,7 +414,7 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
   Widget profileOverviewMobile(double fontSize) {
     double statusBarPadding = MediaQuery.of(context).viewPadding.top;
     double totalWidth = MediaQuery.of(context).size.width;
-    return Container(
+    return SizedBox(
       child: Column(
         children: [
           SizedBox(height: statusBarPadding+5),
@@ -369,6 +430,14 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
               const SizedBox(width: 5),
               guildOverviewButton(30)
             ]
+          ),
+          SizedBox(height: 5),
+          Row(
+              children: [
+                SizedBox(width: totalWidth/2),
+                const SizedBox(width: 5),
+                zoomButton(30),
+              ]
           ),
         ]
       ),
@@ -412,12 +481,12 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
 
     return SingleChildScrollView(
       child: SizedBox(
-        width: profileOverviewWidth,
-        height: profileOverviewHeight,
+        width: (profileOverviewWidth * 2) + 5,
+        height: (profileOverviewHeight * 2) + 5,
         child: Align(
           alignment: FractionalOffset.topLeft,
           child: normalMode
-              ? profileOverviewNormal(profileOverviewWidth, profileOverviewHeight, fontSize)
+              ? profileOverviewNormal(profileOverviewHeight, fontSize)
               : profileOverviewMobile(fontSize)
         ),
       ),

@@ -4,8 +4,10 @@ import 'package:hex_place/component/hexagon.dart';
 import 'package:hex_place/services/settings.dart';
 import 'package:hex_place/services/socket_services.dart';
 import 'package:hex_place/util/util.dart';
+import 'package:hex_place/views/user_interface/ui_views/loading_box/loading_box_change_notifier.dart';
 import 'package:hex_place/views/user_interface/ui_views/login_view/login_window_change_notifier.dart';
 import 'package:hex_place/views/user_interface/ui_views/profile_box/profile_change_notifier.dart';
+import 'package:hex_place/views/user_interface/ui_views/zoom_widget/zoom_widget_change_notifier.dart';
 import 'package:hex_place/world/hex_world.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -20,7 +22,7 @@ import 'util/tapped_map.dart';
 
 
 // flutter run -d chrome --release --web-hostname localhost --web-port 7357
-class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetector, TapDetector {
+class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetector, TapDetector, DoubleTapCallbacks {
 
   bool playFieldFocus = true;
   FocusNode gameFocus;
@@ -28,6 +30,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   SocketServices? socket;
 
   Vector2 cameraVelocity = Vector2.zero();
+  late ZoomWidgetChangeNotifier zoomWidgetChangeNotifier;
 
   late Settings settings;
   @override
@@ -35,6 +38,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     await super.onLoad();
     socket = SocketServices();
     socket!.addListener(socketListener);
+    zoomWidgetChangeNotifier = ZoomWidgetChangeNotifier();
     settings = Settings();
     html.window.onBeforeUnload.listen((event) async {
       if (settings.getUser() != null) {
@@ -83,10 +87,11 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     double zoomIncrease = (info.raw.scrollDelta.dy/1000);
     camera.viewfinder.zoom *= (1 - zoomIncrease);
 
-    clampZoom();
+    camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.1, 2);
 
     gameSize = camera.viewport.size / camera.viewfinder.zoom;
     checkHexagonArraySize();
+    zoomWidgetChangeNotifier.setZoomValue(camera.viewfinder.zoom);
   }
 
   Vector2 gameSize = Vector2(0, 0);
@@ -165,7 +170,26 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     Vector2 screenPos = info.eventPosition.global;
     gameWorld!.onTappedUp(tapPos, screenPos);
     gameWorld!.focusWorld();
+
     super.onTapUp(info);
+  }
+
+  bool doubleTapDrag = false;
+  double? dragZoomPosStartY;
+  double? dragZoomPosEndY;
+
+  @override
+  void onDoubleTapUp(DoubleTapEvent event) {
+    super.onDoubleTapUp(event);
+    print("double tap up");
+    doubleTapDrag = false;
+  }
+
+  @override
+  void onDoubleTapDown(DoubleTapDownEvent event) {
+    super.onDoubleTapDown(event);
+    print("double tap down");
+    doubleTapDrag = true;
   }
 
   // We use the pointer variables to determine regular or multidrag
@@ -187,21 +211,28 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   @override
   void onDragStart(DragStartEvent event) {
     super.onDragStart(event);
-
     // All distances need to be normalized using the current zoom.
     double cameraZoom = camera.viewfinder.zoom;
-    // Vector2 dragStart = (event.localPosition) * cameraZoom;
-    start = event.localPosition / cameraZoom;
-    start!.sub((gameSize / cameraZoom) / 2);
-    // We need to move the pointer according to the current camera position
+    Vector2 tapPos = event.localPosition / cameraZoom;
+    tapPos.sub((gameSize / cameraZoom) / 2);
 
-    gameWorld!.resetClick();
-    gameWorld!.focusWorld();
+    if (doubleTapDrag) {
+      print("zooming?");
+      dragZoomPosStartY = event.localPosition.y;
+    } else {
+      print("not zooming?");
+      // Vector2 dragStart = (event.localPosition) * cameraZoom;
+      start = tapPos;
+      // We need to move the pointer according to the current camera position
 
-    if (pointerId1 == -1) {
-      pointerId1 = event.pointerId;
-    } else if (pointerId1 != -1 && pointerId2 == -1) {
-      pointerId2 = event.pointerId;
+      gameWorld!.resetClick();
+      gameWorld!.focusWorld();
+
+      if (pointerId1 == -1) {
+        pointerId1 = event.pointerId;
+      } else if (pointerId1 != -1 && pointerId2 == -1) {
+        pointerId2 = event.pointerId;
+      }
     }
   }
 
@@ -211,31 +242,43 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
-
     double cameraZoom = camera.viewfinder.zoom;
-    end = event.localEndPosition / cameraZoom;
-    end!.sub((gameSize / cameraZoom) / 2);
+    Vector2 tapPos = event.localEndPosition / cameraZoom;
+    tapPos.sub((gameSize / cameraZoom) / 2);
+    if (doubleTapDrag) {
+      dragZoomPosEndY = event.localEndPosition.y;
+      double distance = (dragZoomPosStartY! - dragZoomPosEndY!).clamp(-5, 5);
+      dragZoomPosStartY = dragZoomPosEndY;
 
-    if (pointerId1 != -1 && pointerId2 == -1) {
-      Vector2 distance = (start! - end!);
-      start = event.localEndPosition / cameraZoom;
-      start!.sub((gameSize / cameraZoom) / 2);
+      double zoomIncrease = (distance/2000) / cameraZoom;
+      camera.viewfinder.zoom *= (1 - zoomIncrease);
 
-      dragTo.add(distance);
-    } else if (pointerId1 != -1 && pointerId2 != -1) {
+      camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.1, 2);
+      zoomWidgetChangeNotifier.setZoomValue(camera.viewfinder.zoom);
+    } else {
+      double cameraZoom = camera.viewfinder.zoom;
+      end = tapPos;
 
-      if (event.pointerId == pointerId1) {
-        firstFinger = (event.localEndPosition) * cameraZoom;
-        firstFinger!.sub((camera.viewfinder.position) * cameraZoom);
-        finger1 = true;
-      } else if (event.pointerId == pointerId2) {
-        secondFinger = (event.localEndPosition) * cameraZoom;
-        secondFinger!.sub((camera.viewfinder.position) * cameraZoom);
-        finger2 = true;
-      }
-      // Once 2 fingers have been detected and updated we do the pinch zoom
-      if (finger1 && finger2) {
-        pinchZoom();
+      if (pointerId1 != -1 && pointerId2 == -1 && !pinched) {
+        Vector2 distance = (start! - end!);
+        start = event.localEndPosition / cameraZoom;
+        start!.sub((gameSize / cameraZoom) / 2);
+
+        dragTo.add(distance);
+      } else if (pointerId1 != -1 && pointerId2 != -1) {
+        if (event.pointerId == pointerId1) {
+          firstFinger = (event.localEndPosition) * cameraZoom;
+          firstFinger!.sub((camera.viewfinder.position) * cameraZoom);
+          finger1 = true;
+        } else if (event.pointerId == pointerId2) {
+          secondFinger = (event.localEndPosition) * cameraZoom;
+          secondFinger!.sub((camera.viewfinder.position) * cameraZoom);
+          finger2 = true;
+        }
+        // Once 2 fingers have been detected and updated we do the pinch zoom
+        if (finger1 && finger2) {
+          pinchZoom();
+        }
       }
     }
   }
@@ -247,10 +290,11 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   }
 
   resetDrag() {
-    if (pinched) {
+    if (pinched || doubleTapDrag) {
       gameSize = camera.viewport.size / camera.viewfinder.zoom;
       checkHexagonArraySize();
       pinched = false;
+      doubleTapDrag = false;
     }
     start = null;
     end = null;
@@ -261,6 +305,9 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     distanceBetweenFingers = null;
     pointerId1 = -1;
     pointerId2 = -1;
+    doubleTapDrag = false;
+    dragZoomPosStartY = null;
+    dragZoomPosEndY = null;
     // _world!.focusWorld();
   }
 
@@ -272,18 +319,15 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       double currentDistance = distanceBetweenFingers!;
       distanceBetweenFingers = firstFinger!.distanceTo(secondFinger!);
       double movementFingers = currentDistance - distanceBetweenFingers!;
-      double zoomIncrease = (movementFingers / 200).clamp(-0.04, 0.04);
+      double zoomIncrease = ((movementFingers / 1000) / camera.viewfinder.zoom).clamp(-0.04, 0.04);
       camera.viewfinder.zoom *= (1 - zoomIncrease);
-      clampZoom();
+      camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.1, 2);
+      zoomWidgetChangeNotifier.setZoomValue(camera.viewfinder.zoom);
     }
     finger1 = false;
     finger2 = false;
     firstFinger = null;
     secondFinger = null;
-  }
-
-  void clampZoom() {
-    camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.1, 4);
   }
 
   List<int>? getCameraPos() {
@@ -374,7 +418,11 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       }
       if (currentHexSize != hexArraySize) {
         currentHexSize = hexArraySize;
-        gameWorld!.setHexagonArraySize(hexArraySize);
+        LoadingBoxChangeNotifier().setLoadingBoxVisible(true);
+        Future.delayed(const Duration(milliseconds: 20), () {
+          gameWorld!.setHexagonArraySize(hexArraySize);
+          LoadingBoxChangeNotifier().setLoadingBoxVisible(false);
+        });
       }
     }
   }
@@ -419,6 +467,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     if (gameWorld != null) {
       // reset the camera zoom and hexagon array size.
       camera.viewfinder.zoom = 1;
+      zoomWidgetChangeNotifier.setZoomValue(1);
       gameSize = camera.viewport.size / camera.viewfinder.zoom;
       checkHexagonArraySize();
       // Revert the transformations applied in getTileFromPos
@@ -434,7 +483,6 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       int wrapQ = wraparounds1[1];
       int actualHexR = wraparounds1[2];
       int wrapR = wraparounds1[3];
-      print("hexQ: $hexQ  hexR: $hexR  actualHexQ: $actualHexQ  actualHexR: $actualHexR  wrapQ: $wrapQ  wrapR: $wrapR");
 
       if (wrapQ != 0 || wrapR != 0) {
         // `wrapQ` or `wrapR` are not 0 so we are jumping to the point on the map that is wrapped around.
@@ -462,5 +510,15 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       // We reset the world to the new position so that it will retrieve the new hexagons.
       gameWorld!.resetWorld(actualHexQ, actualHexR);
     }
+  }
+
+  // These functions are used by the zoom widget to change the zoom level.
+  setZoomValue(double zoomLevel) {
+    camera.viewfinder.zoom = zoomLevel;
+  }
+  setZoomValueEnd(double zoomLevel) {
+    camera.viewfinder.zoom = zoomLevel;
+    gameSize = camera.viewport.size / camera.viewfinder.zoom;
+    checkHexagonArraySize();
   }
 }

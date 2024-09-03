@@ -12,6 +12,7 @@ import 'package:hex_place/views/user_interface/ui_views/login_view/login_window.
 import 'package:hex_place/views/user_interface/ui_views/map_coordinates/map_coordinates.dart';
 import 'package:hex_place/views/user_interface/ui_views/map_coordintes_window/map_coordinates_window.dart';
 import 'package:hex_place/views/user_interface/ui_views/social_interaction/social_interaction.dart';
+import 'package:hex_place/views/user_interface/ui_views/zoom_widget/zoom_widget.dart';
 import 'package:hex_place/views/world_access_page.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -50,6 +51,7 @@ Future<void> main() async {
         game: game,
         overlayBuilderMap: const {
           'mapCoordinates': _mapCoordinatesBoxBuilder,
+          'zoomWidget': _zoomWidgetBoxBuilder,
           'chatBox': _chatBoxBuilder,
           'loginWindow': _loginWindowBuilder,
           'mapCoordinatesWindow': _mapCoordinatesWindowBuilder,
@@ -68,6 +70,7 @@ Future<void> main() async {
         },
         initialActiveOverlays: const [
           'mapCoordinates',
+          'zoomWidget',
           'chatBox',
           'loginWindow',
           'mapCoordinatesWindow',
@@ -93,7 +96,7 @@ Future<void> main() async {
   runApp(
       OKToast(
         child: MaterialApp(
-          title: "Age of Gold",
+          title: "Hex Place",
           navigatorKey: locator<NavigationService>().navigatorKey,
           theme: ThemeData(
             // Define the default brightness and colors.
@@ -176,6 +179,10 @@ Widget _areYouSureBoxBuilder(BuildContext buildContext, HexPlace game) {
 
 Widget _mapCoordinatesBoxBuilder(BuildContext buildContext, HexPlace game) {
   return MapCoordinates(key: UniqueKey(), game: game);
+}
+
+Widget _zoomWidgetBoxBuilder(BuildContext buildContext, HexPlace game) {
+  return ZoomWidget(key: UniqueKey(), game: game);
 }
 
 Widget _mapCoordinatesWindowBuilder(BuildContext buildContext, HexPlace game) {

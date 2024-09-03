@@ -13,6 +13,7 @@ class User {
   late String userName;
   late DateTime tileLock;
   bool verified = false;
+  bool admin = false;
   late List<Friend> friends;
   Uint8List? avatar;
   Guild? guild;
@@ -48,6 +49,10 @@ class User {
 
   bool isVerified() {
     return verified;
+  }
+
+  bool isAdmin() {
+    return admin;
   }
 
   Uint8List? getAvatar() {
@@ -174,6 +179,9 @@ class User {
     if (json.containsKey("verified")) {
       verified = json["verified"];
     }
+    if (json.containsKey("is_admin")) {
+      admin = json["is_admin"];
+    }
     if (json.containsKey("friends")) {
       friends = [];
       for (var friend in json["friends"]) {
@@ -191,7 +199,7 @@ class User {
       }
       tileLock = DateTime.parse(timeLock).toLocal();
     } else {
-      // If the timeLlock is not present it will not be used.
+      // If the timeLock is not present it will not be used.
       tileLock = DateTime.now();
     }
 

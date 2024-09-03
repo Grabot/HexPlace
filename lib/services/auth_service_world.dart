@@ -8,6 +8,7 @@ import 'package:flame/components.dart';
 import 'package:hex_place/services/settings.dart';
 import 'package:hex_place/services/socket_services.dart';
 import 'package:dio/dio.dart';
+import 'package:hex_place/views/user_interface/ui_views/loading_box/loading_box_change_notifier.dart';
 import 'package:tuple/tuple.dart';
 import 'auth_api.dart';
 import 'models/user.dart';
@@ -40,7 +41,9 @@ class AuthServiceWorld {
         // update the lock time of the user.
         Settings settings = Settings();
         if (json.containsKey("tile_lock") && settings.getUser() != null) {
-          settings.getUser()!.updateTileLock(json["tile_lock"]);
+          if (!settings.getUser()!.isAdmin()) {
+            settings.getUser()!.updateTileLock(json["tile_lock"]);
+          }
           return "success";
         } else {
           return "error occurred";

@@ -786,9 +786,9 @@ class LoginWindowState extends State<LoginWindow> {
     );
   }
 
-  Widget ageOfGoldName() {
+  Widget hexPlaceName() {
     return Text(
-      "Age of Gold",
+      "Hex Place",
       style: TextStyle(
           color: Colors.white,
           fontSize: fontSize*2
@@ -806,7 +806,7 @@ class LoginWindowState extends State<LoginWindow> {
             children: [
               loginHeader(40),
               const SizedBox(height: 10),
-              ageOfGoldName(),
+              hexPlaceName(),
               const SizedBox(height: 10),
               ageOfGoldLogo(loginWidth, normalMode),
               signUpMode == 0 ? login(loginWidth - (30 * 2)) : Container(),

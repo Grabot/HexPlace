@@ -107,7 +107,7 @@ class ProfileOverviewState extends State<ProfileOverview> with TickerProviderSta
     );  // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text("Leave?"),
-      content: const Text("Do you want to logout of Age of Gold?"),
+      content: const Text("Do you want to logout of Hex Place?"),
       actions: [
         cancelButton,
         continueButton,
