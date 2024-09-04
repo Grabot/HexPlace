@@ -1,26 +1,5 @@
-
 import 'dart:ui';
 
-var flatSmallDirt1 = const Rect.fromLTWH(1, 1, 32, 28);
-var flatSmallDirt2 = const Rect.fromLTWH(1, 1, 32, 28);
-
-var flatSmallGrass1 = const Rect.fromLTWH(35, 1, 32, 28);
-var flatSmallGrass2 = const Rect.fromLTWH(35, 1, 32, 28);
-
-var flatSmallWater1 = const Rect.fromLTWH(69, 1, 32, 28);
-var flatSmallWater2 = const Rect.fromLTWH(69, 1, 32, 28);
-
-var pointSmallDirt1 = const Rect.fromLTWH(1, 1, 28, 16);
-var pointSmallDirt2 = const Rect.fromLTWH(1, 1, 28, 16);
-
-var pointSmallGrass1 = const Rect.fromLTWH(1, 19, 28, 16);
-var pointSmallGrass2 = const Rect.fromLTWH(1, 19, 28, 16);
-
-var pointSmallWater1 = const Rect.fromLTWH(1, 37, 28, 16);
-var pointSmallWater2 = const Rect.fromLTWH(1, 37, 28, 16);
-
-// They are the same, but they should be able to be different.
-// So we define them all
 List tileTextures = [
   tileAmethyst,
   tileBlack,
@@ -50,385 +29,144 @@ List tileTextures = [
 
 // b44ac0
 List tileAmethyst = [
-  const Rect.fromLTWH(911, 118, 128, 112),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28),
-  const Rect.fromLTWH(511, 1, 32, 28)
+  const Rect.fromLTWH(991, 1, 64, 56),
+  const Rect.fromLTWH(1, 991, 56, 64),
 ];
 
 // 000000
 List tileBlack = [
-  const Rect.fromLTWH(1, 1, 128, 112),
-  const Rect.fromLTWH(1, 1, 32, 28),
-  const Rect.fromLTWH(1, 1, 32, 28),
-  const Rect.fromLTWH(1, 1, 32, 28),
-  const Rect.fromLTWH(1, 1, 32, 28),
-  const Rect.fromLTWH(1, 1, 32, 28),
-  const Rect.fromLTWH(1, 1, 32, 28),
-  const Rect.fromLTWH(1, 1, 32, 28),
-  const Rect.fromLTWH(1, 1, 32, 28),
-  const Rect.fromLTWH(1, 1, 32, 28),
-  const Rect.fromLTWH(1, 1, 32, 28),
-  const Rect.fromLTWH(1, 1, 32, 28)
+  const Rect.fromLTWH(1, 1, 64, 56),
+  const Rect.fromLTWH(1, 1, 56, 64),
 ];
 
 // 009eaa
 List tileBondiBlue = [
-  const Rect.fromLTWH(391, 118, 128, 112),
-  const Rect.fromLTWH(69, 1, 32, 28),
-  const Rect.fromLTWH(69, 1, 32, 28),
-  const Rect.fromLTWH(69, 1, 32, 28),
-  const Rect.fromLTWH(69, 1, 32, 28),
-  const Rect.fromLTWH(69, 1, 32, 28),
-  const Rect.fromLTWH(69, 1, 32, 28),
-  const Rect.fromLTWH(69, 1, 32, 28),
-  const Rect.fromLTWH(69, 1, 32, 28),
-  const Rect.fromLTWH(69, 1, 32, 28),
-  const Rect.fromLTWH(69, 1, 32, 28),
-  const Rect.fromLTWH(69, 1, 32, 28)
+  const Rect.fromLTWH(133, 1, 64, 56),
+  const Rect.fromLTWH(1, 133, 56, 64),
 ];
 
 // ffd635
 List tileBrightSun = [
-  const Rect.fromLTWH(1431, 1, 128, 112),
-  const Rect.fromLTWH(749, 1, 32, 28),
-  const Rect.fromLTWH(749, 1, 32, 28),
-  const Rect.fromLTWH(749, 1, 32, 28),
-  const Rect.fromLTWH(749, 1, 32, 28),
-  const Rect.fromLTWH(749, 1, 32, 28),
-  const Rect.fromLTWH(749, 1, 32, 28),
-  const Rect.fromLTWH(749, 1, 32, 28),
-  const Rect.fromLTWH(749, 1, 32, 28),
-  const Rect.fromLTWH(749, 1, 32, 28),
-  const Rect.fromLTWH(749, 1, 32, 28),
-  const Rect.fromLTWH(749, 1, 32, 28)
+  const Rect.fromLTWH(1453, 1, 64, 56),
+  const Rect.fromLTWH(1, 1453, 56, 64),
 ];
 
 // 00cc78
 List tileCaribbeanGreen = [
-  const Rect.fromLTWH(131, 1, 128, 112),
-  const Rect.fromLTWH(137, 1, 32, 28),
-  const Rect.fromLTWH(137, 1, 32, 28),
-  const Rect.fromLTWH(137, 1, 32, 28),
-  const Rect.fromLTWH(137, 1, 32, 28),
-  const Rect.fromLTWH(137, 1, 32, 28),
-  const Rect.fromLTWH(137, 1, 32, 28),
-  const Rect.fromLTWH(137, 1, 32, 28),
-  const Rect.fromLTWH(137, 1, 32, 28),
-  const Rect.fromLTWH(137, 1, 32, 28),
-  const Rect.fromLTWH(137, 1, 32, 28),
-  const Rect.fromLTWH(137, 1, 32, 28)
+  const Rect.fromLTWH(265, 1, 64, 56),
+  const Rect.fromLTWH(1, 265, 56, 64),
 ];
 
 // 2450a4
 List tileCeruleanBlue = [
-  const Rect.fromLTWH(781, 118, 128, 112),
-  const Rect.fromLTWH(171, 1, 32, 28),
-  const Rect.fromLTWH(171, 1, 32, 28),
-  const Rect.fromLTWH(171, 1, 32, 28),
-  const Rect.fromLTWH(171, 1, 32, 28),
-  const Rect.fromLTWH(171, 1, 32, 28),
-  const Rect.fromLTWH(171, 1, 32, 28),
-  const Rect.fromLTWH(171, 1, 32, 28),
-  const Rect.fromLTWH(171, 1, 32, 28),
-  const Rect.fromLTWH(171, 1, 32, 28),
-  const Rect.fromLTWH(171, 1, 32, 28),
-  const Rect.fromLTWH(171, 1, 32, 28)
+  const Rect.fromLTWH(331, 1, 64, 56),
+  const Rect.fromLTWH(1, 331, 56, 64),
 ];
 
 // 6a5cff
 List tileCornflowerBlue = [
-  const Rect.fromLTWH(131, 118, 128, 112),
-  const Rect.fromLTWH(307, 1, 32, 28),
-  const Rect.fromLTWH(307, 1, 32, 28),
-  const Rect.fromLTWH(307, 1, 32, 28),
-  const Rect.fromLTWH(307, 1, 32, 28),
-  const Rect.fromLTWH(307, 1, 32, 28),
-  const Rect.fromLTWH(307, 1, 32, 28),
-  const Rect.fromLTWH(307, 1, 32, 28),
-  const Rect.fromLTWH(307, 1, 32, 28),
-  const Rect.fromLTWH(307, 1, 32, 28),
-  const Rect.fromLTWH(307, 1, 32, 28),
-  const Rect.fromLTWH(307, 1, 32, 28)
+  const Rect.fromLTWH(595, 1, 64, 56),
+  const Rect.fromLTWH(1, 595, 56, 64),
 ];
 
 // 7eed56
 List tileConifer = [
-  const Rect.fromLTWH(261, 118, 128, 112),
-  const Rect.fromLTWH(375, 1, 32, 28),
-  const Rect.fromLTWH(375, 1, 32, 28),
-  const Rect.fromLTWH(375, 1, 32, 28),
-  const Rect.fromLTWH(375, 1, 32, 28),
-  const Rect.fromLTWH(375, 1, 32, 28),
-  const Rect.fromLTWH(375, 1, 32, 28),
-  const Rect.fromLTWH(375, 1, 32, 28),
-  const Rect.fromLTWH(375, 1, 32, 28),
-  const Rect.fromLTWH(375, 1, 32, 28),
-  const Rect.fromLTWH(375, 1, 32, 28),
-  const Rect.fromLTWH(375, 1, 32, 28)
+  const Rect.fromLTWH(727, 1, 64, 56),
+  const Rect.fromLTWH(1, 727, 56, 64),
 ];
 
 // 493ac1
 List tileGovernorBay = [
-  const Rect.fromLTWH(521, 118, 128, 112),
-  const Rect.fromLTWH(239, 1, 32, 28),
-  const Rect.fromLTWH(239, 1, 32, 28),
-  const Rect.fromLTWH(239, 1, 32, 28),
-  const Rect.fromLTWH(239, 1, 32, 28),
-  const Rect.fromLTWH(239, 1, 32, 28),
-  const Rect.fromLTWH(239, 1, 32, 28),
-  const Rect.fromLTWH(239, 1, 32, 28),
-  const Rect.fromLTWH(239, 1, 32, 28),
-  const Rect.fromLTWH(239, 1, 32, 28),
-  const Rect.fromLTWH(239, 1, 32, 28),
-  const Rect.fromLTWH(239, 1, 32, 28)
+  const Rect.fromLTWH(463, 1, 64, 56),
+  const Rect.fromLTWH(1, 463, 56, 64),
 ];
 
 // 00a368
 List tileGreenHaze = [
-  const Rect.fromLTWH(1, 118, 128, 112),
-  const Rect.fromLTWH(103, 1, 32, 28),
-  const Rect.fromLTWH(103, 1, 32, 28),
-  const Rect.fromLTWH(103, 1, 32, 28),
-  const Rect.fromLTWH(103, 1, 32, 28),
-  const Rect.fromLTWH(103, 1, 32, 28),
-  const Rect.fromLTWH(103, 1, 32, 28),
-  const Rect.fromLTWH(103, 1, 32, 28),
-  const Rect.fromLTWH(103, 1, 32, 28),
-  const Rect.fromLTWH(103, 1, 32, 28),
-  const Rect.fromLTWH(103, 1, 32, 28),
-  const Rect.fromLTWH(103, 1, 32, 28)
+  const Rect.fromLTWH(199, 1, 64, 56),
+  const Rect.fromLTWH(1, 199, 56, 64),
 ];
 
 // d4d7d9
 List tileIron = [
-  const Rect.fromLTWH(1041, 118, 128, 112),
-  const Rect.fromLTWH(579, 1, 32, 28),
-  const Rect.fromLTWH(579, 1, 32, 28),
-  const Rect.fromLTWH(579, 1, 32, 28),
-  const Rect.fromLTWH(579, 1, 32, 28),
-  const Rect.fromLTWH(579, 1, 32, 28),
-  const Rect.fromLTWH(579, 1, 32, 28),
-  const Rect.fromLTWH(579, 1, 32, 28),
-  const Rect.fromLTWH(579, 1, 32, 28),
-  const Rect.fromLTWH(579, 1, 32, 28),
-  const Rect.fromLTWH(579, 1, 32, 28),
-  const Rect.fromLTWH(579, 1, 32, 28)
+  const Rect.fromLTWH(1123, 1, 64, 56),
+  const Rect.fromLTWH(1, 1123, 56, 64),
 ];
 
 // be0039
 List tileMonza = [
-  const Rect.fromLTWH(1041, 1, 128, 112),
-  const Rect.fromLTWH(545, 1, 32, 28),
-  const Rect.fromLTWH(545, 1, 32, 28),
-  const Rect.fromLTWH(545, 1, 32, 28),
-  const Rect.fromLTWH(545, 1, 32, 28),
-  const Rect.fromLTWH(545, 1, 32, 28),
-  const Rect.fromLTWH(545, 1, 32, 28),
-  const Rect.fromLTWH(545, 1, 32, 28),
-  const Rect.fromLTWH(545, 1, 32, 28),
-  const Rect.fromLTWH(545, 1, 32, 28),
-  const Rect.fromLTWH(545, 1, 32, 28),
-  const Rect.fromLTWH(545, 1, 32, 28)
+  const Rect.fromLTWH(1057, 1, 64, 56),
+  const Rect.fromLTWH(1, 1057, 56, 64),
 ];
 
 // 898d90
 List tileOsloGray = [
-  const Rect.fromLTWH(781, 1, 128, 112),
-  const Rect.fromLTWH(443, 1, 32, 28),
-  const Rect.fromLTWH(443, 1, 32, 28),
-  const Rect.fromLTWH(443, 1, 32, 28),
-  const Rect.fromLTWH(443, 1, 32, 28),
-  const Rect.fromLTWH(443, 1, 32, 28),
-  const Rect.fromLTWH(443, 1, 32, 28),
-  const Rect.fromLTWH(443, 1, 32, 28),
-  const Rect.fromLTWH(443, 1, 32, 28),
-  const Rect.fromLTWH(443, 1, 32, 28),
-  const Rect.fromLTWH(443, 1, 32, 28),
-  const Rect.fromLTWH(443, 1, 32, 28)
+  const Rect.fromLTWH(859, 1, 64, 56),
+  const Rect.fromLTWH(1, 859, 56, 64),
 ];
 
 // 9c6926
 List tilePaarl = [
-  const Rect.fromLTWH(391, 1, 128, 112),
-  const Rect.fromLTWH(477, 1, 32, 28),
-  const Rect.fromLTWH(477, 1, 32, 28),
-  const Rect.fromLTWH(477, 1, 32, 28),
-  const Rect.fromLTWH(477, 1, 32, 28),
-  const Rect.fromLTWH(477, 1, 32, 28),
-  const Rect.fromLTWH(477, 1, 32, 28),
-  const Rect.fromLTWH(477, 1, 32, 28),
-  const Rect.fromLTWH(477, 1, 32, 28),
-  const Rect.fromLTWH(477, 1, 32, 28),
-  const Rect.fromLTWH(477, 1, 32, 28),
-  const Rect.fromLTWH(477, 1, 32, 28)
+  const Rect.fromLTWH(925, 1, 64, 56),
+  const Rect.fromLTWH(1, 925, 56, 64),
 ];
 
 // 3690ea
 List tilePictonBlue = [
-  const Rect.fromLTWH(911, 1, 128, 112),
-  const Rect.fromLTWH(205, 1, 32, 28),
-  const Rect.fromLTWH(205, 1, 32, 28),
-  const Rect.fromLTWH(205, 1, 32, 28),
-  const Rect.fromLTWH(205, 1, 32, 28),
-  const Rect.fromLTWH(205, 1, 32, 28),
-  const Rect.fromLTWH(205, 1, 32, 28),
-  const Rect.fromLTWH(205, 1, 32, 28),
-  const Rect.fromLTWH(205, 1, 32, 28),
-  const Rect.fromLTWH(205, 1, 32, 28),
-  const Rect.fromLTWH(205, 1, 32, 28),
-  const Rect.fromLTWH(205, 1, 32, 28)
+  const Rect.fromLTWH(397, 1, 64, 56),
+  const Rect.fromLTWH(1, 397, 56, 64),
 ];
 
 // 00756f
 List tilePineGreen = [
-  const Rect.fromLTWH(651, 1, 128, 112),
-  const Rect.fromLTWH(35, 1, 32, 28),
-  const Rect.fromLTWH(35, 1, 32, 28),
-  const Rect.fromLTWH(35, 1, 32, 28),
-  const Rect.fromLTWH(35, 1, 32, 28),
-  const Rect.fromLTWH(35, 1, 32, 28),
-  const Rect.fromLTWH(35, 1, 32, 28),
-  const Rect.fromLTWH(35, 1, 32, 28),
-  const Rect.fromLTWH(35, 1, 32, 28),
-  const Rect.fromLTWH(35, 1, 32, 28),
-  const Rect.fromLTWH(35, 1, 32, 28),
-  const Rect.fromLTWH(35, 1, 32, 28)
+  const Rect.fromLTWH(67, 1, 64, 56),
+  const Rect.fromLTWH(1, 67, 56, 64),
 ];
 
 // ff99aa
 List tilePinkSalmon = [
-  const Rect.fromLTWH(1171, 1, 128, 112),
-  const Rect.fromLTWH(681, 1, 32, 28),
-  const Rect.fromLTWH(681, 1, 32, 28),
-  const Rect.fromLTWH(681, 1, 32, 28),
-  const Rect.fromLTWH(681, 1, 32, 28),
-  const Rect.fromLTWH(681, 1, 32, 28),
-  const Rect.fromLTWH(681, 1, 32, 28),
-  const Rect.fromLTWH(681, 1, 32, 28),
-  const Rect.fromLTWH(681, 1, 32, 28),
-  const Rect.fromLTWH(681, 1, 32, 28),
-  const Rect.fromLTWH(681, 1, 32, 28),
-  const Rect.fromLTWH(681, 1, 32, 28)
+  const Rect.fromLTWH(1321, 1, 64, 56),
+  const Rect.fromLTWH(1, 1321, 56, 64),
 ];
 
 // 811e9f
 List tileSeance = [
-  const Rect.fromLTWH(651, 118, 128, 112),
-  const Rect.fromLTWH(409, 1, 32, 28),
-  const Rect.fromLTWH(409, 1, 32, 28),
-  const Rect.fromLTWH(409, 1, 32, 28),
-  const Rect.fromLTWH(409, 1, 32, 28),
-  const Rect.fromLTWH(409, 1, 32, 28),
-  const Rect.fromLTWH(409, 1, 32, 28),
-  const Rect.fromLTWH(409, 1, 32, 28),
-  const Rect.fromLTWH(409, 1, 32, 28),
-  const Rect.fromLTWH(409, 1, 32, 28),
-  const Rect.fromLTWH(409, 1, 32, 28),
-  const Rect.fromLTWH(409, 1, 32, 28)
+  const Rect.fromLTWH(793, 1, 64, 56),
+  const Rect.fromLTWH(1, 793, 56, 64),
 ];
 
 // 6d482f
 List tileSpice = [
-  const Rect.fromLTWH(261, 1, 128, 112),
-  const Rect.fromLTWH(341, 1, 32, 28),
-  const Rect.fromLTWH(341, 1, 32, 28),
-  const Rect.fromLTWH(341, 1, 32, 28),
-  const Rect.fromLTWH(341, 1, 32, 28),
-  const Rect.fromLTWH(341, 1, 32, 28),
-  const Rect.fromLTWH(341, 1, 32, 28),
-  const Rect.fromLTWH(341, 1, 32, 28),
-  const Rect.fromLTWH(341, 1, 32, 28),
-  const Rect.fromLTWH(341, 1, 32, 28),
-  const Rect.fromLTWH(341, 1, 32, 28),
-  const Rect.fromLTWH(341, 1, 32, 28)
+  const Rect.fromLTWH(661, 1, 64, 56),
+  const Rect.fromLTWH(1, 661, 56, 64),
 ];
 
 // 51e9f4
 List tileSpray = [
-  const Rect.fromLTWH(521, 1, 128, 112),
-  const Rect.fromLTWH(273, 1, 32, 28),
-  const Rect.fromLTWH(273, 1, 32, 28),
-  const Rect.fromLTWH(273, 1, 32, 28),
-  const Rect.fromLTWH(273, 1, 32, 28),
-  const Rect.fromLTWH(273, 1, 32, 28),
-  const Rect.fromLTWH(273, 1, 32, 28),
-  const Rect.fromLTWH(273, 1, 32, 28),
-  const Rect.fromLTWH(273, 1, 32, 28),
-  const Rect.fromLTWH(273, 1, 32, 28),
-  const Rect.fromLTWH(273, 1, 32, 28),
-  const Rect.fromLTWH(273, 1, 32, 28)
+  const Rect.fromLTWH(529, 1, 64, 56),
+  const Rect.fromLTWH(1, 529, 56, 64),
 ];
 
 // ff4500
 List tileVermillion = [
-  const Rect.fromLTWH(1301, 1, 128, 112),
-  const Rect.fromLTWH(647, 1, 32, 28),
-  const Rect.fromLTWH(647, 1, 32, 28),
-  const Rect.fromLTWH(647, 1, 32, 28),
-  const Rect.fromLTWH(647, 1, 32, 28),
-  const Rect.fromLTWH(647, 1, 32, 28),
-  const Rect.fromLTWH(647, 1, 32, 28),
-  const Rect.fromLTWH(647, 1, 32, 28),
-  const Rect.fromLTWH(647, 1, 32, 28),
-  const Rect.fromLTWH(647, 1, 32, 28),
-  const Rect.fromLTWH(647, 1, 32, 28),
-  const Rect.fromLTWH(647, 1, 32, 28)
+  const Rect.fromLTWH(1255, 1, 64, 56),
+  const Rect.fromLTWH(1, 1255, 56, 64),
 ];
 
 // ffa800
 List tileWebOrange = [
-  const Rect.fromLTWH(1301, 118, 128, 112),
-  const Rect.fromLTWH(715, 1, 32, 28),
-  const Rect.fromLTWH(715, 1, 32, 28),
-  const Rect.fromLTWH(715, 1, 32, 28),
-  const Rect.fromLTWH(715, 1, 32, 28),
-  const Rect.fromLTWH(715, 1, 32, 28),
-  const Rect.fromLTWH(715, 1, 32, 28),
-  const Rect.fromLTWH(715, 1, 32, 28),
-  const Rect.fromLTWH(715, 1, 32, 28),
-  const Rect.fromLTWH(715, 1, 32, 28),
-  const Rect.fromLTWH(715, 1, 32, 28),
-  const Rect.fromLTWH(715, 1, 32, 28)
+  const Rect.fromLTWH(1387, 1, 64, 56),
+  const Rect.fromLTWH(1, 1387, 56, 64),
 ];
 
 // ffffff
 List tileWhite = [
-  const Rect.fromLTWH(1431, 118, 128, 112),
-  const Rect.fromLTWH(783, 1, 32, 28),
-  const Rect.fromLTWH(783, 1, 32, 28),
-  const Rect.fromLTWH(783, 1, 32, 28),
-  const Rect.fromLTWH(783, 1, 32, 28),
-  const Rect.fromLTWH(783, 1, 32, 28),
-  const Rect.fromLTWH(783, 1, 32, 28),
-  const Rect.fromLTWH(783, 1, 32, 28),
-  const Rect.fromLTWH(783, 1, 32, 28),
-  const Rect.fromLTWH(783, 1, 32, 28),
-  const Rect.fromLTWH(783, 1, 32, 28),
-  const Rect.fromLTWH(783, 1, 32, 28)
+  const Rect.fromLTWH(1519, 1, 64, 56),
+  const Rect.fromLTWH(1, 1519, 56, 64),
 ];
 
 // ff3881
 List tileWildStrawberry = [
-  const Rect.fromLTWH(1171, 118, 128, 112),
-  const Rect.fromLTWH(613, 1, 32, 28),
-  const Rect.fromLTWH(613, 1, 32, 28),
-  const Rect.fromLTWH(613, 1, 32, 28),
-  const Rect.fromLTWH(613, 1, 32, 28),
-  const Rect.fromLTWH(613, 1, 32, 28),
-  const Rect.fromLTWH(613, 1, 32, 28),
-  const Rect.fromLTWH(613, 1, 32, 28),
-  const Rect.fromLTWH(613, 1, 32, 28),
-  const Rect.fromLTWH(613, 1, 32, 28),
-  const Rect.fromLTWH(613, 1, 32, 28),
-  const Rect.fromLTWH(613, 1, 32, 28)
+  const Rect.fromLTWH(1189, 1, 64, 56),
+  const Rect.fromLTWH(1, 1189, 56, 64),
 ];

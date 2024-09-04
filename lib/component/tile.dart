@@ -60,15 +60,13 @@ class Tile {
     this.tileType = tileType;
   }
 
-  updateTile(List<SpriteBatch?> batches) {
-    for (int variation = 0; variation < batches.length; variation++) {
-      if (batches[variation] != null) {
-        batches[variation]!.add(
-            source: tileTextures[tileType][variation],
-            offset: getPos(),
-            scale: scaleX
-        );
-      }
+  updateTile(SpriteBatch? batches) {
+    if (batches != null) {
+      batches.add(
+          source: tileTextures[tileType][1],
+          offset: getPos(),
+          scale: scaleX
+      );
     }
   }
 

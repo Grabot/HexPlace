@@ -11,21 +11,8 @@ class Hexagon {
 
   late Vector2 center;
 
-  // Different variations for possible animations
-  List<SpriteBatch?> variations = [
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null
-  ];
+  SpriteBatch? flatTop;
+  SpriteBatch? pointTop;
 
   List<Tile> hexagonTiles = [];
 
@@ -64,10 +51,21 @@ class Hexagon {
     visible = false;
   }
 
+  int texturesLoaded = 0;
   loadTextures() {
-    SpriteBatch.load('tile_variants/sprite_regular.png').then((SpriteBatch batch) {
-      variations[0] = batch;
-      updateHexagon();
+    SpriteBatch.load('tile_variants/flat_top.png').then((SpriteBatch batch) {
+      flatTop = batch;
+      texturesLoaded += 1;
+      if (texturesLoaded == 2) {
+        updateHexagon();
+      }
+    });
+    SpriteBatch.load('tile_variants/point_top.png').then((SpriteBatch batch) {
+      pointTop = batch;
+      texturesLoaded += 1;
+      if (texturesLoaded == 2) {
+        updateHexagon();
+      }
     });
   }
 
@@ -99,7 +97,7 @@ class Hexagon {
 
   updateHexagon() {
     for (Tile tile in hexagonTiles) {
-      tile.updateTile(variations);
+      tile.updateTile(pointTop);
     }
   }
 
@@ -107,9 +105,9 @@ class Hexagon {
     return center;
   }
 
-  renderHexagon(Canvas canvas, int variation) {
-    if (variations[variation] != null) {
-      variations[variation]!.render(canvas);
+  renderHexagon(Canvas canvas) {
+    if (pointTop != null) {
+      pointTop!.render(canvas);
     }
   }
 

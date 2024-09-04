@@ -1,20 +1,17 @@
+import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 import 'package:hex_place/component/hexagon.dart';
 import 'package:hex_place/component/tile.dart';
 import 'package:hex_place/constants/global.dart';
-import 'package:hex_place/services/auth_service_world.dart';
 import 'package:hex_place/services/socket_services.dart';
 import 'package:hex_place/util/hexagon_list.dart';
-import 'package:hex_place/util/render_hexagons.dart';
-import 'package:hex_place/util/selected_tile.dart';
-import 'package:hex_place/util/tapped_map.dart';
+import 'package:hex_place/util/rotate/render_hexagons_rotate.dart';
 import 'package:hex_place/views/user_interface/ui_util/clear_ui.dart';
 import 'package:hex_place/views/user_interface/ui_util/selected_tile_info.dart';
 import 'package:hex_place/views/user_interface/ui_views/map_coordinates/map_coordinates_change_notifier.dart';
-import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
 
 
-class HexWorld extends Component {
+class HexWorldRotate extends Component {
 
   late HexagonList hexagonList;
 
@@ -32,7 +29,7 @@ class HexWorld extends Component {
 
   late MapCoordinatesChangeNotifier mapCoordinatesChangeNotifier = MapCoordinatesChangeNotifier();
 
-  HexWorld(this.startHexQ, this.startHexR);
+  HexWorldRotate(this.startHexQ, this.startHexR);
 
   @override
   Future<void> onLoad() async {
@@ -44,18 +41,18 @@ class HexWorld extends Component {
 
     hexagonList = HexagonList();
     hexagonList.setSocketService(socketServices);
-    hexagonList.retrieveHexagons(startHexQ, startHexR);
+    hexagonList.retrieveHexagonsTestTemp(startHexQ, startHexR);
   }
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
 
-    renderHexagons(canvas, cameraPosition, hexagonList, screen, socketServices);
+    renderHexagonsTempTest(canvas, cameraPosition, hexagonList, screen, socketServices);
 
-    if (mouseTile != null) {
-      tileSelected(mouseTile!, canvas);
-    }
+    // if (mouseTile != null) {
+    //   tileSelected(mouseTile!, canvas);
+    // }
   }
 
   jumpToCoordinates(int q, int r) {
@@ -69,16 +66,16 @@ class HexWorld extends Component {
   }
 
   void onTappedUp(Vector2 mouseTapped, Vector2 screenPos) {
-    List<int> tileProperties = getTileFromPos(mouseTapped.x, mouseTapped.y);
-    int q = tileProperties[0];
-    int r = tileProperties[1];
-
-    Tile? mouseTileTap = hexagonList.getTileFromCoordinates(q, r);
-    selectedTileInfo.setCurrentTile(mouseTileTap);
-    if (mouseTileTap != null) {
-      mouseTile = mouseTileTap;
-      getAdditionalTileInfo(mouseTile!, screenPos);
-    }
+    // List<int> tileProperties = getTileFromPos(mouseTapped.x, mouseTapped.y);
+    // int q = tileProperties[0];
+    // int r = tileProperties[1];
+    //
+    // Tile? mouseTileTap = hexagonList.getTileFromCoordinates(q, r);
+    // selectedTileInfo.setCurrentTile(mouseTileTap);
+    // if (mouseTileTap != null) {
+    //   mouseTile = mouseTileTap;
+    //   getAdditionalTileInfo(mouseTile!, screenPos);
+    // }
   }
 
   focusWorld() {
@@ -86,42 +83,42 @@ class HexWorld extends Component {
   }
 
   getAdditionalTileInfo(Tile tile, Vector2 screenPos) {
-    AuthServiceWorld().getTileInfo(tile, screenPos).then((value) {
-      if (value != "success") {
-        // TODO: What to do when it is not successful
-      } else {
-        print("success!");
-      }
-    }).onError((error, stackTrace) {
-      // TODO: What to do on an error?
-    });
+    // AuthServiceWorld().getTileInfo(tile, screenPos).then((value) {
+    //   if (value != "success") {
+    //     // TODO: What to do when it is not successful
+    //   } else {
+    //     print("success!");
+    //   }
+    // }).onError((error, stackTrace) {
+    //   // TODO: What to do on an error?
+    // });
   }
 
   int currentCameraQ = 0;
   int currentCameraR = 0;
 
-  void checkCameraPos(Vector2 cameraPos) {
-    List<int> tileProperties = getTileFromPos(cameraPos.x, cameraPos.y);
-    int q = tileProperties[0];
-    int r = tileProperties[1];
-    if (q != currentCameraQ || r != currentCameraR) {
-      currentCameraQ = q;
-      currentCameraR = r;
-
-      Tile? cameraTile = hexagonList.getTileFromCoordinates(q, r);
-
-      if (cameraTile != null) {
-        mapCoordinatesChangeNotifier
-            .setCoordinates([cameraTile.tileQ, cameraTile.tileR]);
-      } else {
-        mapCoordinatesChangeNotifier.setCoordinates([q, r]);
-      }
-    }
-  }
+  // void checkCameraPos(Vector2 cameraPos) {
+  //   List<int> tileProperties = getTileFromPos(cameraPos.x, cameraPos.y);
+  //   int q = tileProperties[0];
+  //   int r = tileProperties[1];
+  //   if (q != currentCameraQ || r != currentCameraR) {
+  //     currentCameraQ = q;
+  //     currentCameraR = r;
+  //
+  //     Tile? cameraTile = hexagonList.getTileFromCoordinates(q, r);
+  //
+  //     if (cameraTile != null) {
+  //       mapCoordinatesChangeNotifier
+  //           .setCoordinates([cameraTile.tileQ, cameraTile.tileR]);
+  //     } else {
+  //       mapCoordinatesChangeNotifier.setCoordinates([q, r]);
+  //     }
+  //   }
+  // }
 
   updateWorld(Vector2 cameraPos, double zoomLevel, Vector2 worldSize) {
     cameraPosition = cameraPos;
-    checkCameraPos(cameraPos);
+    // checkCameraPos(cameraPos);
 
     zoom = zoomLevel;
 
@@ -146,30 +143,30 @@ class HexWorld extends Component {
   }
 
   setHexagonArraySize(int arraySize) {
-    hexagonList.changeArraySize(arraySize);
+    // hexagonList.changeArraySize(arraySize);
   }
 
   worldCheck(int q, int r) {
-    Tile? mouseTileTap = hexagonList.getTileFromCoordinates(q, r);
-    if (mouseTileTap == null) {
-      return false;
-    } else {
-      return true;
-    }
+    // Tile? mouseTileTap = hexagonList.getTileFromCoordinates(q, r);
+    // if (mouseTileTap == null) {
+    //   return false;
+    // } else {
+    //   return true;
+    // }
   }
 
   resetWorld(int hexQ, int hexR) {
-    hexagonList.retrieveHexagons(hexQ, hexR);
+    // hexagonList.retrieveHexagons(hexQ, hexR);
   }
 
   Hexagon? getHexFromTile(int tileQ, int tileR) {
-    Tile? tile = hexagonList.getTileFromCoordinates(tileQ, tileR);
-    if (tile != null) {
-      Hexagon? hexagon = tile.hexagon;
-      if (hexagon != null) {
-        return hexagon;
-      }
-    }
+    // Tile? tile = hexagonList.getTileFromCoordinates(tileQ, tileR);
+    // if (tile != null) {
+    //   Hexagon? hexagon = tile.hexagon;
+    //   if (hexagon != null) {
+    //     return hexagon;
+    //   }
+    // }
     return null;
   }
 }

@@ -84,31 +84,32 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/tile_variants/sprite_regular.png
-    - assets/images/tiles/Sprite_000000.png
-    - assets/images/tiles/Sprite_ffffff.png
-    - assets/images/tiles/Sprite_00a368.png
-    - assets/images/tiles/Sprite_00756f.png
-    - assets/images/tiles/Sprite_00cc78.png
-    - assets/images/tiles/Sprite_009eaa.png
-    - assets/images/tiles/Sprite_ff4500.png
-    - assets/images/tiles/Sprite_ffa800.png
-    - assets/images/tiles/Sprite_be0039.png
-    - assets/images/tiles/Sprite_ff3881.png
-    - assets/images/tiles/Sprite_6a5cff.png
-    - assets/images/tiles/Sprite_ff99aa.png
-    - assets/images/tiles/Sprite_ffd635.png
-    - assets/images/tiles/Sprite_b44ac0.png
-    - assets/images/tiles/Sprite_51e9f4.png
-    - assets/images/tiles/Sprite_493ac1.png
-    - assets/images/tiles/Sprite_898d90.png
-    - assets/images/tiles/Sprite_d4d7d9.png
-    - assets/images/tiles/Sprite_7eed56.png
-    - assets/images/tiles/Sprite_9c6926.png
-    - assets/images/tiles/Sprite_811e9f.png
-    - assets/images/tiles/Sprite_6d482f.png
-    - assets/images/tiles/Sprite_2450a4.png
-    - assets/images/tiles/Sprite_3690ea.png
+    - assets/images/tile_variants/flat_top.png
+    - assets/images/tile_variants/point_top.png
+    - assets/images/tiles_flat_top/flat_000000.png
+    - assets/images/tiles_flat_top/flat_ffffff.png
+    - assets/images/tiles_flat_top/flat_00a368.png
+    - assets/images/tiles_flat_top/flat_00756f.png
+    - assets/images/tiles_flat_top/flat_00cc78.png
+    - assets/images/tiles_flat_top/flat_009eaa.png
+    - assets/images/tiles_flat_top/flat_ff4500.png
+    - assets/images/tiles_flat_top/flat_ffa800.png
+    - assets/images/tiles_flat_top/flat_be0039.png
+    - assets/images/tiles_flat_top/flat_ff3881.png
+    - assets/images/tiles_flat_top/flat_6a5cff.png
+    - assets/images/tiles_flat_top/flat_ff99aa.png
+    - assets/images/tiles_flat_top/flat_ffd635.png
+    - assets/images/tiles_flat_top/flat_b44ac0.png
+    - assets/images/tiles_flat_top/flat_51e9f4.png
+    - assets/images/tiles_flat_top/flat_493ac1.png
+    - assets/images/tiles_flat_top/flat_898d90.png
+    - assets/images/tiles_flat_top/flat_d4d7d9.png
+    - assets/images/tiles_flat_top/flat_7eed56.png
+    - assets/images/tiles_flat_top/flat_9c6926.png
+    - assets/images/tiles_flat_top/flat_811e9f.png
+    - assets/images/tiles_flat_top/flat_6d482f.png
+    - assets/images/tiles_flat_top/flat_2450a4.png
+    - assets/images/tiles_flat_top/flat_3690ea.png
     - assets/images/brocast_transparent.png
     - assets/images/Github_logo_PNG1.png
     - assets/images/google_button.png

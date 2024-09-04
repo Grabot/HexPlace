@@ -1,26 +1,25 @@
+import 'package:hex_place/component/hexagon.dart';
 import 'package:hex_place/util/hexagon_list.dart';
 import 'package:hex_place/services/socket_services.dart';
 import 'package:hex_place/util/tapped_map.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-import '../component/hexagon.dart';
-import 'check_offset.dart';
 
 
-renderHexagons(Canvas canvas, Vector2 camera, HexagonList hexagonList, Rect screen, SocketServices socketServices) {
+renderHexagonsTempTest(Canvas canvas, Vector2 camera, HexagonList hexagonList, Rect screen, SocketServices socketServices) {
 
-  List<int> tileProperties = getTileFromPos(camera.x, camera.y);
-  int q = tileProperties[0];
-  int r = tileProperties[1];
+  // List<int> tileProperties = getTileFromPos(camera.x, camera.y);
+  // int q = tileProperties[0];
+  // int r = tileProperties[1];
 
-  checkVisible(hexagonList, screen, socketServices);
+  checkVisibleTestTemp(hexagonList, screen, socketServices);
 
-  offsetMap(q, r, hexagonList, socketServices);
+  // offsetMap(q, r, hexagonList, socketServices);
 
-  drawHexagons(canvas, screen, hexagonList, socketServices);
+  drawHexagonsTestTemp(canvas, screen, hexagonList, socketServices);
 }
 
-checkVisible(HexagonList hexagonList, Rect screen, SocketServices socketServices) {
+checkVisibleTestTemp(HexagonList hexagonList, Rect screen, SocketServices socketServices) {
   for (int top = 0; top <= hexagonList.hexagons.length - 1; top++) {
     Hexagon? currentHexagon;
     for (int right = hexagonList.hexagons.length - 1; right >= 0; right--) {
@@ -57,7 +56,7 @@ checkVisible(HexagonList hexagonList, Rect screen, SocketServices socketServices
   }
 }
 
-drawHexagons(Canvas canvas, Rect screen, HexagonList hexagonList, SocketServices socketServices) {
+drawHexagonsTestTemp(Canvas canvas, Rect screen, HexagonList hexagonList, SocketServices socketServices) {
   // draw from top to bottom
   for (int top = 0; top <= hexagonList.hexagons.length - 1; top++) {
     Hexagon? currentHexagon;

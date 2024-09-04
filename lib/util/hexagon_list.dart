@@ -65,6 +65,21 @@ class HexagonList {
     }
   }
 
+  retrieveHexagonsTestTemp(int startHexQ, int startHexR) {
+    print("Retrieving hexagons q: $startHexQ r: $startHexR");
+    int currentSizeHex = hexagons.length;
+    int currentSizeTile = currentSizeHex * 14 + 50;
+    hexagons = List.generate(currentSizeHex, (_) =>
+        List.filled(currentSizeHex, null, growable: true), growable: true);
+    tiles = List.generate(currentSizeTile, (_) =>
+        List.filled(currentSizeTile, null, growable: true), growable: true);
+    currentHexQ = startHexQ;
+    currentHexR = startHexR;
+    currentQ = convertHexToTileQ(currentHexQ, currentHexR);
+    currentR = convertHexToTileR(currentHexQ, currentHexR);
+    socketServices.getHexagon(0, 0);
+  }
+
   Tile? getTileFromCoordinates(int q, int r) {
     int qTile = tileQ + q - currentQ;
     int rTile = tileR + r - currentR;

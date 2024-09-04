@@ -79,7 +79,7 @@ class ZoomWidgetState extends State<ZoomWidget> with TickerProviderStateMixin {
         width: 50,
         height: 300,
         child: SfSlider.vertical(
-          min: 0.1,
+          min: 0.2,
           max: 2.0,
           value: zoomWidgetChangeNotifier.getZoomValue(),
           onChanged: (newValue) {

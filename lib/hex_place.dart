@@ -14,6 +14,7 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hex_place/world/hex_world_rotate.dart';
 import 'package:universal_html/html.dart' as html;
 
 import 'constants/global.dart';
@@ -59,9 +60,9 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     });
   }
 
-  HexWorld? gameWorld;
+  HexWorldRotate? gameWorld;
   startGame() async {
-    gameWorld = HexWorld(0, 0);
+    gameWorld = HexWorldRotate(0, 0);
     world.add(gameWorld!);
     gameSize = camera.viewport.size / camera.viewfinder.zoom;
     checkHexagonArraySize();
@@ -87,7 +88,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     double zoomIncrease = (info.raw.scrollDelta.dy/1000);
     camera.viewfinder.zoom *= (1 - zoomIncrease);
 
-    camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.1, 2);
+    camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.2, 2);
 
     gameSize = camera.viewport.size / camera.viewfinder.zoom;
     checkHexagonArraySize();
@@ -253,7 +254,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       double zoomIncrease = (distance/2000) / cameraZoom;
       camera.viewfinder.zoom *= (1 - zoomIncrease);
 
-      camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.1, 2);
+      camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.2, 2);
       zoomWidgetChangeNotifier.setZoomValue(camera.viewfinder.zoom);
     } else {
       double cameraZoom = camera.viewfinder.zoom;
@@ -321,7 +322,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       double movementFingers = currentDistance - distanceBetweenFingers!;
       double zoomIncrease = ((movementFingers / 1000) / camera.viewfinder.zoom).clamp(-0.04, 0.04);
       camera.viewfinder.zoom *= (1 - zoomIncrease);
-      camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.1, 2);
+      camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.2, 2);
       zoomWidgetChangeNotifier.setZoomValue(camera.viewfinder.zoom);
     }
     finger1 = false;
