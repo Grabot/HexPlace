@@ -14,6 +14,8 @@ class Settings extends ChangeNotifier {
 
   User? user;
 
+  int rotation = 0;
+
   // String? avatar;
   Uint8List? avatar;
 
@@ -101,5 +103,12 @@ class Settings extends ChangeNotifier {
 
   int getRefreshTokenExpiration() {
     return refreshTokenExpiration;
+  }
+
+  setRotation(int rotation) {
+    this.rotation = rotation;
+  }
+  getRotation() {
+    return rotation;
   }
 }

@@ -40,6 +40,8 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
   int levelClock = 0;
   bool canChangeTiles = true;
 
+  int rotateClockwiseOverviewState = 0;
+  int rotateCounterClockwiseOverviewState = 0;
   int zoomOverviewState = 0;
   int mapCoordinateOverviewState = 0;
   int friendOverviewState = 0;
@@ -104,6 +106,26 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
     }
   }
 
+  rotateClockwise() {
+    int currentRotation = settings.getRotation();
+    currentRotation -= 1;
+    if (currentRotation < 0) {
+      currentRotation = 3;
+    }
+    settings.setRotation(currentRotation);
+    widget.game.rotateWorld(currentRotation);
+  }
+
+  rotateCounterClockwise() {
+    int currentRotation = settings.getRotation();
+    currentRotation += 1;
+    if (currentRotation > 3) {
+      currentRotation = 0;
+    }
+    settings.setRotation(currentRotation);
+    widget.game.rotateWorld(currentRotation);
+  }
+
   showZoomWindow() {
     ZoomWidgetChangeNotifier().setZoomWidgetVisible(true);
   }
@@ -122,8 +144,105 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
   }
 
   showGuildWindow() {
-    print("pressed the guild button");
     GuildWindowChangeNotifier().setGuildWindowVisible(true);
+  }
+
+  Widget rotateCounterClockwiseButton(double counterClockwiseButtonSize) {
+    return SizedBox(
+      child: Row(
+          children: [
+            const SizedBox(width: 5),
+            Tooltip(
+              message: "Rotate clockwise",
+              child: InkWell(
+                onHover: (value) {
+                  setState(() {
+                    rotateCounterClockwiseOverviewState = value ? 1 : 0;
+                  });
+                },
+                onTap: () {
+                  setState(() {
+                    rotateCounterClockwiseOverviewState = 2;
+                    rotateCounterClockwise();
+                  });
+                },
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      width: counterClockwiseButtonSize,
+                      height: counterClockwiseButtonSize,
+                      child: ClipOval(
+                          child: Material(
+                            color: overviewColour(rotateCounterClockwiseOverviewState, Colors.orange, Colors.orangeAccent, Colors.orange.shade800),
+                          )
+                      ),
+                    ),
+                    SizedBox(
+                      width: counterClockwiseButtonSize,
+                      height: counterClockwiseButtonSize,
+                      child: Icon(
+                        size: (counterClockwiseButtonSize/5) * 3,
+                        Icons.rotate_90_degrees_ccw,
+                        color: Colors.white,
+                        shadows: const <Shadow>[Shadow(color: Colors.black, blurRadius: 3.0)],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ]
+      ),
+    );
+  }
+
+  Widget rotateClockwiseButton(double clockwiseButtonSize) {
+    return SizedBox(
+      child: Row(
+          children: [
+            const SizedBox(width: 5),
+            Tooltip(
+              message: "Rotate clockwise",
+              child: InkWell(
+                onHover: (value) {
+                  setState(() {
+                    rotateClockwiseOverviewState = value ? 1 : 0;
+                  });
+                },
+                onTap: () {
+                  setState(() {
+                    rotateClockwiseOverviewState = 2;
+                    rotateClockwise();
+                  });
+                },
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      width: clockwiseButtonSize,
+                      height: clockwiseButtonSize,
+                      child: ClipOval(
+                          child: Material(
+                            color: overviewColour(rotateClockwiseOverviewState, Colors.orange, Colors.orangeAccent, Colors.orange.shade800),
+                          )
+                      ),
+                    ),
+                    SizedBox(
+                      width: clockwiseButtonSize,
+                      height: clockwiseButtonSize,
+                      child: Icon(
+                        size: (clockwiseButtonSize/5) * 3,
+                        Icons.rotate_90_degrees_cw,
+                        color: Colors.white,
+                        shadows: const <Shadow>[Shadow(color: Colors.black, blurRadius: 3.0)],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ]
+      ),
+    );
   }
 
   Widget zoomButton(double zoomButtonSize) {
@@ -404,6 +523,10 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                 SizedBox(height: profileAvatarHeight),
                 const SizedBox(height: 10),
                 zoomButton(50),
+                const SizedBox(height: 10),
+                rotateClockwiseButton(50),
+                const SizedBox(height: 10),
+                rotateCounterClockwiseButton(50),
               ]
           )
         ],
@@ -437,6 +560,10 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                 SizedBox(width: totalWidth/2),
                 const SizedBox(width: 5),
                 zoomButton(30),
+                const SizedBox(width: 5),
+                rotateClockwiseButton(30),
+                const SizedBox(width: 5),
+                rotateCounterClockwiseButton(30),
               ]
           ),
         ]

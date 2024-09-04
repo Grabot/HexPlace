@@ -660,7 +660,7 @@ class SocketServices extends ChangeNotifier {
     Tile? currentTile = getTile(hexagonList, wrapCoordinates, data);
     if (currentTile != null) {
       currentTile.setTileType(newTileType);
-      currentTile.hexagon!.updateHexagon();
+      currentTile.hexagon!.updateHexagon(Settings().getRotation());
 
       addTileInfo(data, currentTile);
     }

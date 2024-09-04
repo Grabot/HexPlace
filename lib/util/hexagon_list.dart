@@ -78,6 +78,7 @@ class HexagonList {
     currentQ = convertHexToTileQ(currentHexQ, currentHexR);
     currentR = convertHexToTileR(currentHexQ, currentHexR);
     socketServices.getHexagon(0, 0);
+    socketServices.getHexagon(0, 1);
   }
 
   Tile? getTileFromCoordinates(int q, int r) {
@@ -229,6 +230,21 @@ class HexagonList {
         if (hexagons[q][r] != null) {
           hexagons[q][r]!.setToRetrieve = true;
           hexagons[q][r]!.retrieved = false;
+        }
+      }
+    }
+  }
+
+  rotateHexagonsAndTiles(int rotation) {
+    print("rotation everything $rotation");
+    for (int q = 0; q < hexagons.length; q++) {
+      for (int r = 0; r < hexagons[0].length; r++) {
+        if (hexagons[q][r] != null) {
+          hexagons[q][r]!.setPosition(rotation);
+          for (Tile? tile in hexagons[q][r]!.hexagonTiles) {
+            tile!.setPosition(rotation);
+          }
+          hexagons[q][r]!.updateHexagon(rotation);
         }
       }
     }

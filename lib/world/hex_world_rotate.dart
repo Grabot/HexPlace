@@ -169,4 +169,8 @@ class HexWorldRotate extends Component {
     // }
     return null;
   }
+
+  rotateWorld(int rotation) {
+    hexagonList.rotateHexagonsAndTiles(rotation);
+  }
 }

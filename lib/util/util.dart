@@ -49,7 +49,7 @@ List removeDuplicates(List hexToRetrieve) {
 }
 
 
-getTilePosition(int q, int r) {
+getTilePosition(int q, int r, int rotation) {
   double xPos = xSize * 3 / 2 * q - xSize;
   double yTr1 = ySize * (sqrt(3) / 2 * q);
   yTr1 *= -1; // The y axis gets positive going down, so we flip it.
@@ -61,7 +61,27 @@ getTilePosition(int q, int r) {
   xPos += xSize;
   yPos += ySize;
 
-  return Vector2(xPos, yPos);
+  if (rotation == 0) {
+    // "regular" rotation position
+    return Vector2(xPos, yPos);
+  } else if (rotation == 1) {
+    // rotate 90 degrees clockwise
+    return Vector2(yPos, -xPos);
+  } else if (rotation == 2) {
+    // 180 degrees
+    return Vector2(-xPos, -yPos);
+  } else if (rotation == 3) {
+    // rotate 270 degrees
+    return Vector2(-yPos, xPos);
+  } else {
+    print("big issue");
+  }
+  // rotate 90 degrees counter clockwise
+  // return Vector2(yPos, -xPos);
+  // 180 degrees
+  // return Vector2(-xPos, -yPos);
+  // rotate 270 degrees
+  // return Vector2(-yPos, xPos);
 }
 
 // All these conversions are based on the radius of 4.
@@ -284,7 +304,7 @@ addHexagon(HexagonList hexagonList, SocketServices socketServices, data) {
     }
   }
 
-  hexagon.updateHexagon();
+  hexagon.updateHexagon(Settings().getRotation());
   int qHex = hexagonList.hexQ + hexagon.hexQArray - hexagonList.currentHexQ;
   int rHex = hexagonList.hexR + hexagon.hexRArray - hexagonList.currentHexR;
   if (qHex < 0 || qHex >= hexagonList.hexagons.length

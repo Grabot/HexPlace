@@ -1,3 +1,4 @@
+import 'package:hex_place/services/settings.dart';
 import 'package:hex_place/util/hexagon_list.dart';
 import 'package:hex_place/services/socket_services.dart';
 import 'package:hex_place/util/tapped_map.dart';
@@ -59,6 +60,7 @@ checkVisible(HexagonList hexagonList, Rect screen, SocketServices socketServices
 
 drawHexagons(Canvas canvas, Rect screen, HexagonList hexagonList, SocketServices socketServices) {
   // draw from top to bottom
+  int rotation = Settings().getRotation();
   for (int top = 0; top <= hexagonList.hexagons.length - 1; top++) {
     Hexagon? currentHexagon;
     for (int right = hexagonList.hexagons.length - 1; right >= 0; right--) {
@@ -68,7 +70,7 @@ drawHexagons(Canvas canvas, Rect screen, HexagonList hexagonList, SocketServices
             && currentHexagon.center.x < screen.right
             && currentHexagon.center.y > screen.top
             && currentHexagon.center.y < screen.bottom) {
-          currentHexagon.renderHexagon(canvas);
+          currentHexagon.renderHexagon(canvas, rotation);
         }
       }
     }

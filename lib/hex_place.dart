@@ -522,4 +522,9 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     gameSize = camera.viewport.size / camera.viewfinder.zoom;
     checkHexagonArraySize();
   }
+
+  rotateWorld(int rotation) {
+    print("rotating world $rotation");
+    gameWorld!.rotateWorld(rotation);
+  }
 }

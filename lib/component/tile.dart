@@ -4,6 +4,7 @@ import 'package:hex_place/component/hexagon.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/sprite.dart';
+import 'package:hex_place/services/settings.dart';
 import '../constants/global.dart';
 import '../util/util.dart';
 
@@ -30,7 +31,7 @@ class Tile {
 
   // We assume the condition r + s + q = 0 is true.
   Tile(this.q, this.r, this.tileType, this.tileQ, this.tileR) {
-    setPosition();
+    setPosition(Settings().getRotation());
   }
 
   setHexagon(Hexagon hexagonTile) {
@@ -41,17 +42,6 @@ class Tile {
     return Vector2(position.x, position.y);
   }
 
-  // size = 16.
-  // flat
-  // width = 2 * size
-  // height = sqrt(3) * size / 2   divided by 2 to give the isometric view
-  // point
-  // width = sqrt(3) * size
-  // height = 2 * size / 2   divided by 2 to give the isometric view
-  Vector2 getSize() {
-    return Vector2(2 * xSize, sqrt(3) * ySize);
-  }
-
   int getTileType() {
     return tileType;
   }
@@ -60,18 +50,22 @@ class Tile {
     this.tileType = tileType;
   }
 
-  updateTile(SpriteBatch? batches) {
+  updateTile(SpriteBatch? batches, int rotation) {
+    int variant = 0;
+    if (rotation == 1 || rotation == 3) {
+      variant = 1;
+    }
     if (batches != null) {
       batches.add(
-          source: tileTextures[tileType][1],
+          source: tileTextures[tileType][variant],
           offset: getPos(),
           scale: scaleX
       );
     }
   }
 
-  setPosition() {
-    position = getTilePosition(q, r);
+  setPosition(rotation) {
+    position = getTilePosition(q, r, rotation);
   }
 
   Tile.fromJson(data) {

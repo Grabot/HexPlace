@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:hex_place/component/tile.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
+import 'package:hex_place/services/settings.dart';
 
 import '../constants/global.dart';
 import '../util/util.dart';
@@ -42,7 +43,7 @@ class Hexagon {
     r = hexRArray;
     loadTextures();
     // calculate the center point by determining which tile is in the center
-    setPosition();
+    setPosition(Settings().getRotation());
 
     retrieved = false;
     setToRetrieve = false;
@@ -57,17 +58,24 @@ class Hexagon {
       flatTop = batch;
       texturesLoaded += 1;
       if (texturesLoaded == 2) {
-        updateHexagon();
+        updateHexagon(Settings().getRotation());
       }
     });
     SpriteBatch.load('tile_variants/point_top.png').then((SpriteBatch batch) {
       pointTop = batch;
       texturesLoaded += 1;
       if (texturesLoaded == 2) {
-        updateHexagon();
+        updateHexagon(Settings().getRotation());
       }
     });
   }
+
+  // setRotation(int rotation) {
+  //   this.rotation = rotation;
+  // }
+  // getRotation() {
+  //   return rotation;
+  // }
 
   setWrapQ(int wrapQ) {
     this.wrapQ = wrapQ;
@@ -95,9 +103,19 @@ class Hexagon {
     hexagonTiles.sort((a, b) => a.getPos().y.compareTo(b.getPos().y));
   }
 
-  updateHexagon() {
+  updateHexagon(int rotation) {
+    if (flatTop != null) {
+      flatTop!.clear();
+    }
+    if (pointTop != null) {
+      pointTop!.clear();
+    }
     for (Tile tile in hexagonTiles) {
-      tile.updateTile(pointTop);
+      if (rotation == 0 || rotation == 2) {
+        tile.updateTile(flatTop, rotation);
+      } else {
+        tile.updateTile(pointTop, rotation);
+      }
     }
   }
 
@@ -105,9 +123,15 @@ class Hexagon {
     return center;
   }
 
-  renderHexagon(Canvas canvas) {
-    if (pointTop != null) {
-      pointTop!.render(canvas);
+  renderHexagon(Canvas canvas, rotation) {
+    if (rotation == 0 || rotation == 2) {
+      if (flatTop != null) {
+        flatTop!.render(canvas);
+      }
+    } else {
+      if (pointTop != null) {
+        pointTop!.render(canvas);
+      }
     }
   }
 
@@ -116,12 +140,13 @@ class Hexagon {
     return "hex q: $hexQArray r: $hexRArray on pos: $center}";
   }
 
-  setPosition() {
+  setPosition(int rotation) {
     // calculate the center point by determining which tile is in the center
     int tileQ = convertHexToTileQ(hexQArray, hexRArray);
     int tileR = convertHexToTileR(hexQArray, hexRArray);
 
-    center = getTilePosition(tileQ, tileR);
+    // TODO: check? Is this it?
+    center = getTilePosition(tileQ, tileR, rotation);
   }
 
   Hexagon.fromJson(data) {
@@ -146,7 +171,7 @@ class Hexagon {
         hexRArray += (mapSize * 2 + 1) * getWrapR();
       }
     }
-    setPosition();
+    setPosition(Settings().getRotation());
     retrieved = true;
     setToRetrieve = true;
   }
