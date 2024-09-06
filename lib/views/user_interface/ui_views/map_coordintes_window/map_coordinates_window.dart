@@ -83,7 +83,7 @@ class MapCoordinatesWindowState extends State<MapCoordinatesWindow> with TickerP
       int r = int.parse(rController.text);
       qController.text = "";
       rController.text = "";
-      widget.game.jumpToCoordinates(q, r);
+      widget.game.jumpToCoordinates(q, r, true);
       goBack();
     }
   }

@@ -522,11 +522,11 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
               children: [
                 SizedBox(height: profileAvatarHeight),
                 const SizedBox(height: 10),
-                zoomButton(50),
+                rotateCounterClockwiseButton(50),
                 const SizedBox(height: 10),
                 rotateClockwiseButton(50),
                 const SizedBox(height: 10),
-                rotateCounterClockwiseButton(50),
+                zoomButton(50),
               ]
           )
         ],
@@ -559,11 +559,11 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
               children: [
                 SizedBox(width: totalWidth/2),
                 const SizedBox(width: 5),
-                zoomButton(30),
+                rotateCounterClockwiseButton(30),
                 const SizedBox(width: 5),
                 rotateClockwiseButton(30),
                 const SizedBox(width: 5),
-                rotateCounterClockwiseButton(30),
+                zoomButton(30),
               ]
           ),
         ]

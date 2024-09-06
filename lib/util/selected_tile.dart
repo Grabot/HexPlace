@@ -27,7 +27,6 @@ Vector2 pointyHexCorner(double i, Vector2 center, int rotation) {
     xOffset = 1;
   } else if (rotation == 3) {
     xOffset = -4;
-    yOffset = -1;
   }
   return Vector2(pointX + xOffset, pointY + yOffset);
 }

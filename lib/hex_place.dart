@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:hex_place/component/hexagon.dart';
 import 'package:hex_place/services/settings.dart';
 import 'package:hex_place/services/socket_services.dart';
+import 'package:hex_place/util/hexagon_list.dart';
 import 'package:hex_place/util/util.dart';
 import 'package:hex_place/views/user_interface/ui_views/loading_box/loading_box_change_notifier.dart';
 import 'package:hex_place/views/user_interface/ui_views/login_view/login_window_change_notifier.dart';
+import 'package:hex_place/views/user_interface/ui_views/map_coordinates/map_coordinates_change_notifier.dart';
 import 'package:hex_place/views/user_interface/ui_views/profile_box/profile_change_notifier.dart';
 import 'package:hex_place/views/user_interface/ui_views/zoom_widget/zoom_widget_change_notifier.dart';
 import 'package:hex_place/world/hex_world.dart';
@@ -88,7 +90,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     double zoomIncrease = (info.raw.scrollDelta.dy/1000);
     camera.viewfinder.zoom *= (1 - zoomIncrease);
 
-    camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.2, 2);
+    camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.2, 20);
 
     gameSize = camera.viewport.size / camera.viewfinder.zoom;
     checkHexagonArraySize();
@@ -120,6 +122,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     if (frameTimes >= 1) {
       fps = frames;
       print("fps: $fps");
+      print("current hex Q: ${HexagonList().currentHexQ}   hex R: ${HexagonList().currentHexR}");
       frameTimes = 0;
       frames = 0;
     }
@@ -469,14 +472,15 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   }
 
 
-  jumpToCoordinates(int tileQ, int tileR) {
+  jumpToCoordinates(int tileQ, int tileR, bool reset) {
     if (gameWorld != null) {
-      // reset the camera zoom and hexagon array size.
-      camera.viewfinder.zoom = 1;
-      zoomWidgetChangeNotifier.setZoomValue(1);
-      gameSize = camera.viewport.size / camera.viewfinder.zoom;
-      checkHexagonArraySize();
-      // Revert the transformations applied in getTileFromPos
+      if (reset) {
+        // reset the camera zoom and hexagon array size.
+        camera.viewfinder.zoom = 1;
+        zoomWidgetChangeNotifier.setZoomValue(1);
+        gameSize = camera.viewport.size / camera.viewfinder.zoom;
+        checkHexagonArraySize();
+      }
 
       int hexQ = convertTileToHexQ(tileQ, tileR);
       int hexR = convertTileToHexR(tileQ, tileR);
@@ -522,21 +526,24 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       double cameraY = yPos;
       if (rotation == 0) {
       } else if (rotation == 1) {
-        cameraX = yPos;
-        cameraY = -xPos;
+        cameraX = -yPos;
+        cameraY = xPos;
       } else if (rotation == 2) {
         cameraX = -xPos;
         cameraY = -yPos;
       } else if (rotation == 3) {
-        cameraX = -yPos;
-        cameraY = xPos;
+        cameraX = yPos;
+        cameraY = -xPos;
       }
 
       // We position the camera to that position and also the dragTo position.
       camera.viewfinder.position = Vector2(cameraX, cameraY);
       dragTo = Vector2(cameraX, cameraY);
-      // We reset the world to the new position so that it will retrieve the new hexagons.
-      gameWorld!.resetWorld(actualHexQ, actualHexR);
+      // We don't reset when the user is rotation, because the correct hexagons should already be retrieved.
+      if (reset) {
+        // We reset the world to the new position so that it will retrieve the new hexagons.
+        gameWorld!.resetWorld(actualHexQ, actualHexR);
+      }
     }
   }
 
@@ -551,6 +558,11 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   }
 
   rotateWorld(int rotation) {
+    // First we rotate and then we jump to the current Q and R position.
+    List<int> coordinates = MapCoordinatesChangeNotifier().getCoordinates();
+    int q = coordinates[0];
+    int r = coordinates[1];
     gameWorld!.rotateWorld(rotation);
+    jumpToCoordinates(q, r, false);
   }
 }

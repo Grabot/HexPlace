@@ -249,4 +249,9 @@ class HexagonList {
       }
     }
   }
+
+  checkForWrap() {
+    // When rotating the camera is placed in a correct position but
+    // the data is not reset because it should still be valid.
+  }
 }

@@ -9,19 +9,17 @@ List<int> getTileFromPos(double mouseX, double mouseY, int rotation) {
 
   if (rotation == 0) {
     mouseY = mouseY * -1;
-  }
-  if (rotation == 1) {
+  } else if (rotation == 1) {
     double mouseXTemp = mouseX;
     mouseX = mouseY;
-    mouseY = -mouseXTemp;
-    mouseY = mouseY * -1;
+    mouseY = mouseXTemp;
   } else if (rotation == 2) {
     mouseX = mouseX * -1;
     // Also mouseY should be inverted, but than it should be inverted again.
   } else if (rotation == 3) {
     double mouseXTemp = mouseX;
-    mouseX = mouseY;
-    mouseY = mouseXTemp;
+    mouseX = -mouseY;
+    mouseY = -mouseXTemp;
   }
 
   double xTranslate = (2 / 3 * mouseX);

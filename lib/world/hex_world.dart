@@ -182,5 +182,6 @@ class HexWorld extends Component {
   rotateWorld(int rotation) {
     this.rotation = rotation;
     hexagonList.rotateHexagonsAndTiles(rotation);
+    hexagonList.checkForWrap();
   }
 }

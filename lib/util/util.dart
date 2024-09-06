@@ -72,6 +72,8 @@ getTilePosition(int q, int r, int rotation) {
     double xPosTemp = xPos;
     xPos = -yPos;
     yPos = xPosTemp;
+    yPos += (ySize * 2);
+    xPos -= (xSize * 2);
   }
 
   yPos *= -1; // The y axis gets positive going down, so we flip it.
