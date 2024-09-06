@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:flame/palette.dart';
+import 'package:flutter/material.dart';
 import 'package:hex_place/component/get_texture.dart';
 import 'package:hex_place/component/hexagon.dart';
 import 'package:flame/components.dart';
@@ -11,7 +13,7 @@ import '../util/util.dart';
 
 class Tile {
 
-  late Vector2 position;
+  late Vector2 tilePosition;
   late int q;
   late int r;
   late int tileType;
@@ -29,7 +31,6 @@ class Tile {
 
   Hexagon? hexagon;
 
-  // We assume the condition r + s + q = 0 is true.
   Tile(this.q, this.r, this.tileType, this.tileQ, this.tileR) {
     setPosition(Settings().getRotation());
   }
@@ -39,7 +40,7 @@ class Tile {
   }
 
   Vector2 getPos() {
-    return Vector2(position.x, position.y);
+    return Vector2(tilePosition.x, tilePosition.y);
   }
 
   int getTileType() {
@@ -65,7 +66,7 @@ class Tile {
   }
 
   setPosition(rotation) {
-    position = getTilePosition(q, r, rotation);
+    tilePosition = getTilePosition(q, r, rotation);
   }
 
   Tile.fromJson(data) {
@@ -77,6 +78,6 @@ class Tile {
     tileQ = data["q"];
     tileR = data["r"];
 
-    position = Vector2(0, 0);
+    tilePosition = Vector2(0, 0);
   }
 }

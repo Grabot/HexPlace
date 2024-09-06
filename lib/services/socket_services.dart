@@ -583,7 +583,6 @@ class SocketServices extends ChangeNotifier {
     }
 
     if (hexagonList.hexagons[qHex][rHex] == null) {
-      print("created hexagon $qHex $rHex");
       hexagonList.hexagons[qHex][rHex] = Hexagon(q, r);
     }
   }

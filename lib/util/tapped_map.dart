@@ -1,21 +1,36 @@
 import 'dart:math';
-import '../constants/global.dart';
+import 'package:hex_place/constants/global.dart';
 
 
-List<int> getTileFromPos(double mouseX, double mouseY) {
-  double qDetailed = -1;
-  double rDetailed = -1;
-  double sDetailed = -1;
+List<int> getTileFromPos(double mouseX, double mouseY, int rotation) {
+  double qDetailed = 0;
+  double rDetailed = 0;
+  double sDetailed = 0;
 
-  // We need to adjust by 1 so minus the xSize
-  double xTranslate = (2/3 * mouseX) - xSize;
+  if (rotation == 0) {
+    mouseY = mouseY * -1;
+  }
+  if (rotation == 1) {
+    double mouseXTemp = mouseX;
+    mouseX = mouseY;
+    mouseY = -mouseXTemp;
+    mouseY = mouseY * -1;
+  } else if (rotation == 2) {
+    mouseX = mouseX * -1;
+    // Also mouseY should be inverted, but than it should be inverted again.
+  } else if (rotation == 3) {
+    double mouseXTemp = mouseX;
+    mouseX = mouseY;
+    mouseY = mouseXTemp;
+  }
+
+  double xTranslate = (2 / 3 * mouseX);
   qDetailed = xTranslate / xSize;
-  double yTranslate1 = (-1/3 * mouseX);
+  double yTranslate1 = (-1 / 3 * mouseX);
   // We need to adjust by 1 so minus the ySize
-  double yTranslate2 = (sqrt(3) / 3 * mouseY) - ySize;
-  yTranslate2 *= -1;  // The y axis gets positive going down, so we flip it.
+  double yTranslate2 = (sqrt(3) / 3 * mouseY);
   rDetailed = (yTranslate1 / xSize) + (yTranslate2 / ySize);
-  sDetailed = (qDetailed + rDetailed) * -1;
+  sDetailed = -qDetailed - rDetailed;
 
   int q = qDetailed.round();
   int r = rDetailed.round();
@@ -32,5 +47,6 @@ List<int> getTileFromPos(double mouseX, double mouseY) {
   } else {
     s = -q - r;
   }
+
   return [q, r];
 }

@@ -52,36 +52,31 @@ List removeDuplicates(List hexToRetrieve) {
 getTilePosition(int q, int r, int rotation) {
   double xPos = xSize * 3 / 2 * q - xSize;
   double yTr1 = ySize * (sqrt(3) / 2 * q);
-  yTr1 *= -1; // The y axis gets positive going down, so we flip it.
   double yTr2 = ySize * (sqrt(3) * r);
-  yTr2 *= -1; // The y axis gets positive going down, so we flip it.
   double yPos = yTr1 + yTr2 - ySize;
 
-  // slight offset to put the center in the center and not a corner.
-  xPos += xSize;
-  yPos += ySize;
-
+  // offset to put the center in the center and not a corner.
   if (rotation == 0) {
-    // "regular" rotation position
-    return Vector2(xPos, yPos);
+    yPos += (ySize * 2);
   } else if (rotation == 1) {
-    // rotate 90 degrees clockwise
-    return Vector2(yPos, -xPos);
+    // Set the x and y correctly for the rotation
+    double xPosTemp = xPos;
+    xPos = yPos;
+    yPos = -xPosTemp;
   } else if (rotation == 2) {
-    // 180 degrees
-    return Vector2(-xPos, -yPos);
+    xPos += (xSize * 2);
+    xPos *= -1;
+    yPos *= -1;
   } else if (rotation == 3) {
-    // rotate 270 degrees
-    return Vector2(-yPos, xPos);
-  } else {
-    print("big issue");
+    // Set the x and y correctly for the rotation
+    double xPosTemp = xPos;
+    xPos = -yPos;
+    yPos = xPosTemp;
   }
-  // rotate 90 degrees counter clockwise
-  // return Vector2(yPos, -xPos);
-  // 180 degrees
-  // return Vector2(-xPos, -yPos);
-  // rotate 270 degrees
-  // return Vector2(-yPos, xPos);
+
+  yPos *= -1; // The y axis gets positive going down, so we flip it.
+
+  return Vector2(xPos, yPos);
 }
 
 // All these conversions are based on the radius of 4.

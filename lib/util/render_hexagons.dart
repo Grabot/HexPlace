@@ -8,9 +8,9 @@ import '../component/hexagon.dart';
 import 'check_offset.dart';
 
 
-renderHexagons(Canvas canvas, Vector2 camera, HexagonList hexagonList, Rect screen, SocketServices socketServices) {
+renderHexagons(Canvas canvas, Vector2 camera, HexagonList hexagonList, Rect screen, SocketServices socketServices, int rotation) {
 
-  List<int> tileProperties = getTileFromPos(camera.x, camera.y);
+  List<int> tileProperties = getTileFromPos(camera.x, camera.y, rotation);
   int q = tileProperties[0];
   int r = tileProperties[1];
 
@@ -18,7 +18,7 @@ renderHexagons(Canvas canvas, Vector2 camera, HexagonList hexagonList, Rect scre
 
   offsetMap(q, r, hexagonList, socketServices);
 
-  drawHexagons(canvas, screen, hexagonList, socketServices);
+  drawHexagons(canvas, screen, hexagonList, socketServices, rotation);
 }
 
 checkVisible(HexagonList hexagonList, Rect screen, SocketServices socketServices) {
@@ -58,9 +58,8 @@ checkVisible(HexagonList hexagonList, Rect screen, SocketServices socketServices
   }
 }
 
-drawHexagons(Canvas canvas, Rect screen, HexagonList hexagonList, SocketServices socketServices) {
+drawHexagons(Canvas canvas, Rect screen, HexagonList hexagonList, SocketServices socketServices, int rotation) {
   // draw from top to bottom
-  int rotation = Settings().getRotation();
   for (int top = 0; top <= hexagonList.hexagons.length - 1; top++) {
     Hexagon? currentHexagon;
     for (int right = hexagonList.hexagons.length - 1; right >= 0; right--) {

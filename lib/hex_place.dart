@@ -14,7 +14,6 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hex_place/world/hex_world_rotate.dart';
 import 'package:universal_html/html.dart' as html;
 
 import 'constants/global.dart';
@@ -60,10 +59,11 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     });
   }
 
-  HexWorldRotate? gameWorld;
+  HexWorld? gameWorld;
   startGame() async {
-    gameWorld = HexWorldRotate(0, 0);
+    gameWorld = HexWorld(0, 0);
     world.add(gameWorld!);
+    camera.viewfinder.zoom = 2;
     gameSize = camera.viewport.size / camera.viewfinder.zoom;
     checkHexagonArraySize();
   }
@@ -167,6 +167,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     Vector2 tapPos = info.eventPosition.widget / cameraZoom;
     tapPos.sub(gameSize / 2);
     tapPos.add(camera.viewfinder.position);
+    print("tapPos: $tapPos");
     // Screen position will be used to display the tile info box.
     Vector2 screenPos = info.eventPosition.global;
     gameWorld!.onTappedUp(tapPos, screenPos);
@@ -332,7 +333,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   }
 
   List<int>? getCameraPos() {
-    List<int> tileProperties = getTileFromPos(camera.viewfinder.position.x, camera.viewfinder.position.y);
+    List<int> tileProperties = getTileFromPos(camera.viewfinder.position.x, camera.viewfinder.position.y, gameWorld!.rotation);
     int q = tileProperties[0];
     int r = tileProperties[1];
 
@@ -398,6 +399,10 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     double currentZoom = camera.viewfinder.zoom;
     double currentWidth = gameSize.x;
     double currentHeight = gameSize.y;
+    // TODO: Remove after testing
+    if (currentZoom > 5) {
+      return;
+    }
     if (gameWorld != null) {
       int hexArraySize = 0;
       if (currentWidth < 2000 && currentHeight < 1100) {
@@ -501,9 +506,31 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
         showToastMessage("Given coordinates q: $tileQ and r: $tileR are out of bounds, jumping to wrapped coordinates: $newTileQ, $newTileR");
       }
 
-      // We use the tile values to calculate the camera position.
-      double cameraX = xSize * ((3/2) * newTileQ) + xSize;
-      double cameraY = ySize * (sqrt(3)/2 * newTileQ + sqrt(3) * newTileR) * -1;
+      double xPos = xSize * 3 / 2 * newTileQ - xSize;
+      double yTr1 = ySize * (sqrt(3) / 2 * newTileQ);
+      yTr1 *= -1; // The y axis gets positive going down, so we flip it.
+      double yTr2 = ySize * (sqrt(3) * newTileR);
+      yTr2 *= -1; // The y axis gets positive going down, so we flip it.
+      double yPos = yTr1 + yTr2 - ySize;
+
+      // slight offset to put the center in the center and not a corner.
+      xPos += xSize;
+      yPos += ySize;
+
+      int rotation = Settings().getRotation();
+      double cameraX = xPos;
+      double cameraY = yPos;
+      if (rotation == 0) {
+      } else if (rotation == 1) {
+        cameraX = yPos;
+        cameraY = -xPos;
+      } else if (rotation == 2) {
+        cameraX = -xPos;
+        cameraY = -yPos;
+      } else if (rotation == 3) {
+        cameraX = -yPos;
+        cameraY = xPos;
+      }
 
       // We position the camera to that position and also the dragTo position.
       camera.viewfinder.position = Vector2(cameraX, cameraY);
@@ -524,7 +551,6 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   }
 
   rotateWorld(int rotation) {
-    print("rotating world $rotation");
     gameWorld!.rotateWorld(rotation);
   }
 }

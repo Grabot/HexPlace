@@ -1,7 +1,9 @@
+import 'package:flame/palette.dart';
 import 'package:hex_place/component/hexagon.dart';
 import 'package:hex_place/component/tile.dart';
 import 'package:hex_place/constants/global.dart';
 import 'package:hex_place/services/auth_service_world.dart';
+import 'package:hex_place/services/settings.dart';
 import 'package:hex_place/services/socket_services.dart';
 import 'package:hex_place/util/hexagon_list.dart';
 import 'package:hex_place/util/render_hexagons.dart';
@@ -34,6 +36,8 @@ class HexWorld extends Component {
 
   HexWorld(this.startHexQ, this.startHexR);
 
+  int rotation = 0;
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
@@ -45,16 +49,18 @@ class HexWorld extends Component {
     hexagonList = HexagonList();
     hexagonList.setSocketService(socketServices);
     hexagonList.retrieveHexagons(startHexQ, startHexR);
+
+    rotation = Settings().getRotation();
   }
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
 
-    renderHexagons(canvas, cameraPosition, hexagonList, screen, socketServices);
+    renderHexagons(canvas, cameraPosition, hexagonList, screen, socketServices, rotation);
 
     if (mouseTile != null) {
-      tileSelected(mouseTile!, canvas);
+      tileSelected(mouseTile!, canvas, rotation);
     }
   }
 
@@ -69,7 +75,7 @@ class HexWorld extends Component {
   }
 
   void onTappedUp(Vector2 mouseTapped, Vector2 screenPos) {
-    List<int> tileProperties = getTileFromPos(mouseTapped.x, mouseTapped.y);
+    List<int> tileProperties = getTileFromPos(mouseTapped.x, mouseTapped.y, rotation);
     int q = tileProperties[0];
     int r = tileProperties[1];
 
@@ -101,7 +107,7 @@ class HexWorld extends Component {
   int currentCameraR = 0;
 
   void checkCameraPos(Vector2 cameraPos) {
-    List<int> tileProperties = getTileFromPos(cameraPos.x, cameraPos.y);
+    List<int> tileProperties = getTileFromPos(cameraPos.x, cameraPos.y, rotation);
     int q = tileProperties[0];
     int r = tileProperties[1];
     if (q != currentCameraQ || r != currentCameraR) {
@@ -171,5 +177,10 @@ class HexWorld extends Component {
       }
     }
     return null;
+  }
+
+  rotateWorld(int rotation) {
+    this.rotation = rotation;
+    hexagonList.rotateHexagonsAndTiles(rotation);
   }
 }
