@@ -236,7 +236,6 @@ class HexagonList {
   }
 
   rotateHexagonsAndTiles(int rotation) {
-    print("rotation everything $rotation");
     for (int q = 0; q < hexagons.length; q++) {
       for (int r = 0; r < hexagons[0].length; r++) {
         if (hexagons[q][r] != null) {
@@ -250,8 +249,4 @@ class HexagonList {
     }
   }
 
-  checkForWrap() {
-    // When rotating the camera is placed in a correct position but
-    // the data is not reset because it should still be valid.
-  }
 }

@@ -53,7 +53,7 @@ class Tile {
 
   updateTile(SpriteBatch? batches, int rotation) {
     int variant = 0;
-    if (rotation == 1 || rotation == 3) {
+    if (rotation % 2 == 1) {
       variant = 1;
     }
     if (batches != null) {

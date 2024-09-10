@@ -49,34 +49,75 @@ List removeDuplicates(List hexToRetrieve) {
 }
 
 
-getTilePosition(int q, int r, int rotation) {
-  double xPos = xSize * 3 / 2 * q - xSize;
-  double yTr1 = ySize * (sqrt(3) / 2 * q);
-  double yTr2 = ySize * (sqrt(3) * r);
-  double yPos = yTr1 + yTr2 - ySize;
+Vector2 getTilePosition(int q, int r, int rotation) {
+  double xPos = 0;
+  double yPos = 0;
+  int s = -q - r;
 
-  // offset to put the center in the center and not a corner.
-  if (rotation == 0) {
-    yPos += (ySize * 2);
-  } else if (rotation == 1) {
-    // Set the x and y correctly for the rotation
-    double xPosTemp = xPos;
-    xPos = yPos;
-    yPos = -xPosTemp;
-  } else if (rotation == 2) {
-    xPos += (xSize * 2);
+  if (rotation % 2 == 0) {
+
+    if (rotation == 2) {
+      int rTemp = r;
+      r = -s;
+      q = -rTemp;
+    } else if (rotation == 4) {
+      // // s,  q
+      int qTemp = q;
+      q = s;
+      r = qTemp;
+    } else if (rotation == 6) {
+      // s,  q
+      q = -q;
+      r = -r;
+    } else if (rotation == 8) {
+      int rTemp = r;
+      r = s;
+      q = rTemp;
+    } else if (rotation == 10) {
+      r = -q;
+      q = -s;
+    }
+
+    xPos = xSize * 3 / 2 * q - xSize;
+    double yTr1 = ySize * (sqrt(3) / 2) * q;
+    double yTr2 = ySize * (sqrt(3) * r);
+    yPos = yTr1 + yTr2 - ySize;
     xPos *= -1;
     yPos *= -1;
-  } else if (rotation == 3) {
-    // Set the x and y correctly for the rotation
-    double xPosTemp = xPos;
-    xPos = -yPos;
-    yPos = xPosTemp;
-    yPos += (ySize * 2);
+    yPos -= (ySize * 2);
+    xPos -= (xSize * 2);
+  } else {
+
+    // We calculate as if [q, s]
+    int rTemp = r;
+    r = s;
+    s = rTemp;
+    if (rotation == 1) {
+    } else if (rotation == 3) {
+      r = -q;
+      q = -rTemp;
+    } else if (rotation == 5) {
+      q = r;
+      r = s;
+    } else if (rotation == 7) {
+      q = -q;
+      r = -r;
+    } else if (rotation == 9) {
+      r = q;
+      q = s;
+    } else if (rotation == 11) {
+      q = -r;
+      r = -rTemp;
+    }
+
+    double xTr1Point = xSize * sqrt(3) * q;
+    double xTr2Point = xSize * (sqrt(3) / 2) * r;
+    double xPosPoint = xTr1Point + xTr2Point - xSize;
+    double yPosPoint = xSize * 3 / 2 * r - ySize;
+    xPos = xPosPoint * -1;
+    yPos = yPosPoint;
     xPos -= (xSize * 2);
   }
-
-  yPos *= -1; // The y axis gets positive going down, so we flip it.
 
   return Vector2(xPos, yPos);
 }

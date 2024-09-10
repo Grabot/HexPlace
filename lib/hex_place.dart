@@ -368,13 +368,13 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       }
 
       if (event.logicalKey == LogicalKeyboardKey.keyA) {
-        dragAccelerateKey.x = isKeyDown ? mouseSpeed : 0;
-      } else if (event.logicalKey == LogicalKeyboardKey.keyD) {
         dragAccelerateKey.x = isKeyDown ? -mouseSpeed : 0;
+      } else if (event.logicalKey == LogicalKeyboardKey.keyD) {
+        dragAccelerateKey.x = isKeyDown ? mouseSpeed : 0;
       } else if (event.logicalKey == LogicalKeyboardKey.keyW) {
-        dragAccelerateKey.y = isKeyDown ? mouseSpeed : 0;
-      } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
         dragAccelerateKey.y = isKeyDown ? -mouseSpeed : 0;
+      } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
+        dragAccelerateKey.y = isKeyDown ? mouseSpeed : 0;
       }
 
       if (event.logicalKey == LogicalKeyboardKey.keyP && isKeyDown) {
@@ -510,32 +510,11 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
         showToastMessage("Given coordinates q: $tileQ and r: $tileR are out of bounds, jumping to wrapped coordinates: $newTileQ, $newTileR");
       }
 
-      double xPos = xSize * 3 / 2 * newTileQ - xSize;
-      double yTr1 = ySize * (sqrt(3) / 2 * newTileQ);
-      yTr1 *= -1; // The y axis gets positive going down, so we flip it.
-      double yTr2 = ySize * (sqrt(3) * newTileR);
-      yTr2 *= -1; // The y axis gets positive going down, so we flip it.
-      double yPos = yTr1 + yTr2 - ySize;
-
-      // slight offset to put the center in the center and not a corner.
-      xPos += xSize;
-      yPos += ySize;
-
       int rotation = Settings().getRotation();
-      double cameraX = xPos;
-      double cameraY = yPos;
-      if (rotation == 0) {
-      } else if (rotation == 1) {
-        cameraX = -yPos;
-        cameraY = xPos;
-      } else if (rotation == 2) {
-        cameraX = -xPos;
-        cameraY = -yPos;
-      } else if (rotation == 3) {
-        cameraX = yPos;
-        cameraY = -xPos;
-      }
-
+      print("jumping to position: $newTileQ, $newTileR with rotation $rotation");
+      Vector2 pos = getTilePosition(newTileQ, newTileR, rotation);
+      double cameraX = pos.x + xSize;
+      double cameraY = pos.y + ySize;
       // We position the camera to that position and also the dragTo position.
       camera.viewfinder.position = Vector2(cameraX, cameraY);
       dragTo = Vector2(cameraX, cameraY);
@@ -562,7 +541,21 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     List<int> coordinates = MapCoordinatesChangeNotifier().getCoordinates();
     int q = coordinates[0];
     int r = coordinates[1];
-    gameWorld!.rotateWorld(rotation);
-    jumpToCoordinates(q, r, false);
+    if (gameWorld!.checkForWrap()) {
+      // With the reset the camera zoom will be set to 1.
+      // We keep the current zoom and reset it back after all is done.
+      double cameraZoom = camera.viewfinder.zoom;
+      jumpToCoordinates(q, r, true);
+      gameWorld!.rotateWorld(rotation);
+      jumpToCoordinates(q, r, false);
+
+      camera.viewfinder.zoom = cameraZoom;
+      zoomWidgetChangeNotifier.setZoomValue(cameraZoom);
+    } else {
+      gameWorld!.rotateWorld(rotation);
+      jumpToCoordinates(q, r, false);
+    }
+    gameSize = camera.viewport.size / camera.viewfinder.zoom;
+    checkHexagonArraySize();
   }
 }

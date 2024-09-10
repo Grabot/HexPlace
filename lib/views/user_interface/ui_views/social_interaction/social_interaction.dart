@@ -110,7 +110,7 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
     int currentRotation = settings.getRotation();
     currentRotation -= 1;
     if (currentRotation < 0) {
-      currentRotation = 3;
+      currentRotation += 12;
     }
     settings.setRotation(currentRotation);
     widget.game.rotateWorld(currentRotation);
@@ -119,8 +119,8 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
   rotateCounterClockwise() {
     int currentRotation = settings.getRotation();
     currentRotation += 1;
-    if (currentRotation > 3) {
-      currentRotation = 0;
+    if (currentRotation >= 12) {
+      currentRotation -= 12;
     }
     settings.setRotation(currentRotation);
     widget.game.rotateWorld(currentRotation);

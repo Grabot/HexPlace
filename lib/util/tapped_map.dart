@@ -9,25 +9,25 @@ List<int> getTileFromPos(double mouseX, double mouseY, int rotation) {
 
   if (rotation == 0) {
     mouseY = mouseY * -1;
-  } else if (rotation == 1) {
-    double mouseXTemp = mouseX;
-    mouseX = mouseY;
-    mouseY = mouseXTemp;
-  } else if (rotation == 2) {
     mouseX = mouseX * -1;
-    // Also mouseY should be inverted, but than it should be inverted again.
-  } else if (rotation == 3) {
-    double mouseXTemp = mouseX;
-    mouseX = -mouseY;
-    mouseY = -mouseXTemp;
+  } else if (rotation == 1) {
+    mouseX = mouseX * -1;
   }
 
-  double xTranslate = (2 / 3 * mouseX);
-  qDetailed = xTranslate / xSize;
-  double yTranslate1 = (-1 / 3 * mouseX);
-  // We need to adjust by 1 so minus the ySize
-  double yTranslate2 = (sqrt(3) / 3 * mouseY);
-  rDetailed = (yTranslate1 / xSize) + (yTranslate2 / ySize);
+  if (rotation % 2 == 0 ) {
+    double xTranslate = (2 / 3 * mouseX);
+    qDetailed = xTranslate / xSize;
+    double yTranslate1 = (-1 / 3 * mouseX);
+    // We need to adjust by 1 so minus the ySize
+    double yTranslate2 = (sqrt(3) / 3 * mouseY);
+    rDetailed = (yTranslate1 / xSize) + (yTranslate2 / ySize);
+  } else {
+    double yTrans1 = (2 / 3 * mouseY);
+    rDetailed = yTrans1 / xSize;
+    double xTrans1 = (-1 / 3 * mouseY);
+    double xTrans2 = (sqrt(3) / 3 * mouseX);
+    qDetailed = (xTrans1 / xSize) + (xTrans2 / ySize);
+  }
   sDetailed = -qDetailed - rDetailed;
 
   int q = qDetailed.round();
@@ -46,5 +46,31 @@ List<int> getTileFromPos(double mouseX, double mouseY, int rotation) {
     s = -q - r;
   }
 
-  return [q, r];
+  // We now return the correct tile coordinates based on the rotation
+  if (rotation == 1) {
+    return [q, s];
+  } else if (rotation == 2) {
+    return [s, q];
+  } else if (rotation == 3) {
+    return [-r, -s];
+  } else if (rotation == 4) {
+    return [-r, -s];
+  } else if (rotation == 5) {
+    return [q, r];
+  } else if (rotation == 6) {
+    return [q, r];
+  } else if (rotation == 7) {
+    return [-s, -q];
+  } else if (rotation == 8) {
+    return [-s, -q];
+  } else if (rotation == 9) {
+    return [r, s];
+  } else if (rotation == 10) {
+    return [r, s];
+  } else if (rotation == 11) {
+    return [-q, -r];
+  } else {
+    // rotation 0
+    return [q, r];
+  }
 }

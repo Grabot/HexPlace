@@ -14,7 +14,7 @@ class Settings extends ChangeNotifier {
 
   User? user;
 
-  int rotation = 0;
+  int rotation = 11;
 
   // String? avatar;
   Uint8List? avatar;

@@ -106,8 +106,8 @@ class HexWorld extends Component {
   int currentCameraQ = 0;
   int currentCameraR = 0;
 
-  void checkCameraPos(Vector2 cameraPos) {
-    List<int> tileProperties = getTileFromPos(cameraPos.x, cameraPos.y, rotation);
+  void checkCameraPos() {
+    List<int> tileProperties = getTileFromPos(cameraPosition.x, cameraPosition.y, rotation);
     int q = tileProperties[0];
     int r = tileProperties[1];
     if (q != currentCameraQ || r != currentCameraR) {
@@ -127,7 +127,7 @@ class HexWorld extends Component {
 
   updateWorld(Vector2 cameraPos, double zoomLevel, Vector2 worldSize) {
     cameraPosition = cameraPos;
-    checkCameraPos(cameraPos);
+    checkCameraPos();
 
     zoom = zoomLevel;
 
@@ -179,9 +179,27 @@ class HexWorld extends Component {
     return null;
   }
 
+  bool checkForWrap() {
+    List<int> tileProperties = getTileFromPos(cameraPosition.x, cameraPosition.y, rotation);
+    int q = tileProperties[0];
+    int r = tileProperties[1];
+
+    Tile? cameraTile = hexagonList.getTileFromCoordinates(q, r);
+    if (cameraTile != null) {
+      if (cameraTile.q != cameraTile.tileQ || cameraTile.r != cameraTile.tileR) {
+        // A simple wrap check is to see if the q is different from tileQ or r is different from tileR.
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      // Can't find a camera tile? Just do the reset by returning true.
+      return true;
+    }
+  }
+
   rotateWorld(int rotation) {
     this.rotation = rotation;
     hexagonList.rotateHexagonsAndTiles(rotation);
-    hexagonList.checkForWrap();
   }
 }

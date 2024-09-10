@@ -111,7 +111,7 @@ class Hexagon {
       pointTop!.clear();
     }
     for (Tile tile in hexagonTiles) {
-      if (rotation == 0 || rotation == 2) {
+      if (rotation % 2 == 0) {
         tile.updateTile(flatTop, rotation);
       } else {
         tile.updateTile(pointTop, rotation);
@@ -124,7 +124,7 @@ class Hexagon {
   }
 
   renderHexagon(Canvas canvas, rotation) {
-    if (rotation == 0 || rotation == 2) {
+    if (rotation % 2 == 0) {
       if (flatTop != null) {
         flatTop!.render(canvas);
       }

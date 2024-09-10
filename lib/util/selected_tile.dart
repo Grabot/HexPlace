@@ -8,7 +8,7 @@ import '../constants/global.dart';
 
 Vector2 pointyHexCorner(double i, Vector2 center, int rotation) {
   double angleDeg = 60 * i;
-  if (rotation == 1 || rotation == 3) {
+  if (rotation % 2 == 1) {
     angleDeg += 30;
   }
 
@@ -17,16 +17,36 @@ Vector2 pointyHexCorner(double i, Vector2 center, int rotation) {
   double pointY = center.y + (ySize * sin(angleRad)) + ySize;
   double xOffset = 0;
   double yOffset = 0;
+
   if (rotation == 0) {
-    yOffset = -4;
+    yOffset -= 4;
+    xOffset += 1;
   } else if (rotation == 1) {
-    xOffset = -4;
-    yOffset = -1;
+    xOffset -= 3;
   } else if (rotation == 2) {
-    yOffset = -4;
-    xOffset = 1;
+    yOffset -= 4;
   } else if (rotation == 3) {
-    xOffset = -4;
+    xOffset -= 4;
+  } else if (rotation == 4) {
+    yOffset -= 4;
+  } else if (rotation == 5) {
+    xOffset -= 4;
+  } else if (rotation == 6) {
+    yOffset -= 4;
+  } else if (rotation == 7) {
+    xOffset -= 4;
+    yOffset -= 1;
+  } else if (rotation == 8) {
+    yOffset -= 4;
+  } else if (rotation == 9) {
+    xOffset -= 3;
+    yOffset -= 1;
+  } else if (rotation == 10) {
+    yOffset -= 4;
+    xOffset += 1;
+  } else if (rotation == 11) {
+    xOffset -= 3;
+    yOffset -= 1;
   }
   return Vector2(pointX + xOffset, pointY + yOffset);
 }
