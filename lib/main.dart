@@ -4,7 +4,12 @@ import 'package:hex_place/constants/route_paths.dart' as routes;
 import 'package:hex_place/locator.dart';
 import 'package:hex_place/services/settings.dart';
 import 'package:hex_place/util/navigation_service.dart';
+import 'package:hex_place/views/delete_account_page.dart';
+import 'package:hex_place/views/delete_page.dart';
 import 'package:hex_place/views/email_verification_page.dart';
+import 'package:hex_place/views/password_reset_page.dart';
+import 'package:hex_place/views/privacy_page.dart';
+import 'package:hex_place/views/terms_page.dart';
 import 'package:hex_place/views/user_interface/ui_views/change_avatar_box/change_avatar_box.dart';
 import 'package:hex_place/views/user_interface/ui_views/change_guild_crest_box/change_guild_crest_box.dart';
 import 'package:hex_place/views/user_interface/ui_views/guild_window/guild_window.dart';
@@ -92,6 +97,11 @@ Future<void> main() async {
 
   Widget worldAccess = WorldAccess(key: UniqueKey(), game: game);
   Widget emailVerification = EmailVerification(key: UniqueKey(), game: game);
+  Widget passwordReset = PasswordReset(key: UniqueKey(), game: game);
+  Widget privacy = PrivacyPage(key: UniqueKey());
+  Widget terms = TermsPage(key: UniqueKey());
+  Widget delete = DeletePage(key: UniqueKey());
+  Widget deleteAccount = DeleteAccountPage(key: UniqueKey());
 
   runApp(
       OKToast(
@@ -109,7 +119,12 @@ Future<void> main() async {
           routes: {
             routes.HomeRoute: (context) => gameWidget,
             routes.WorldAccessRoute: (context) => worldAccess,
-            routes.EmailVerificationRoute: (context) => emailVerification
+            routes.EmailVerificationRoute: (context) => emailVerification,
+            routes.PasswordResetRoute: (context) => passwordReset,
+            routes.PrivacyRoute: (context) => privacy,
+            routes.TermsRoute: (context) => terms,
+            routes.DeleteRoute: (context) => delete,
+            routes.DeleteAccountRoute: (context) => deleteAccount,
           },
           onGenerateRoute: (settings) {
             if (settings.name != null && settings.name!.startsWith(routes.WorldAccessRoute)) {
@@ -122,6 +137,36 @@ Future<void> main() async {
               return MaterialPageRoute(
                   builder: (context) {
                     return emailVerification;
+                  }
+              );
+            } else if (settings.name!.startsWith(routes.PasswordResetRoute)) {
+              return MaterialPageRoute(
+                  builder: (context) {
+                    return passwordReset;
+                  }
+              );
+            } else if (settings.name!.startsWith(routes.PrivacyRoute)) {
+              return MaterialPageRoute(
+                  builder: (context) {
+                    return privacy;
+                  }
+              );
+            } else if (settings.name!.startsWith(routes.TermsRoute)) {
+              return MaterialPageRoute(
+                  builder: (context) {
+                    return terms;
+                  }
+              );
+            } else if (settings.name!.startsWith(routes.DeleteRoute)) {
+              return MaterialPageRoute(
+                  builder: (context) {
+                    return delete;
+                  }
+              );
+            } else if (settings.name!.startsWith(routes.DeleteAccountRoute)) {
+              return MaterialPageRoute(
+                  builder: (context) {
+                    return deleteAccount;
                   }
               );
             } else {

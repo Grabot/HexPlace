@@ -182,7 +182,7 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                       height: counterClockwiseButtonSize,
                       child: Icon(
                         size: (counterClockwiseButtonSize/5) * 3,
-                        Icons.rotate_90_degrees_cw_outlined,
+                        Icons.rotate_right,
                         color: Colors.white,
                         shadows: const <Shadow>[Shadow(color: Colors.black, blurRadius: 3.0)],
                       ),
@@ -231,7 +231,7 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                       height: clockwiseButtonSize,
                       child: Icon(
                         size: (clockwiseButtonSize/5) * 3,
-                        Icons.rotate_90_degrees_ccw_outlined,
+                        Icons.rotate_left,
                         color: Colors.white,
                         shadows: const <Shadow>[Shadow(color: Colors.black, blurRadius: 3.0)],
                       ),

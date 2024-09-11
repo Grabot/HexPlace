@@ -7,18 +7,10 @@ List<int> getTileFromPos(double mouseX, double mouseY, int rotation) {
   double rDetailed = 0;
   double sDetailed = 0;
 
-  if (rotation == 0) {
-    mouseY = mouseY * -1;
-    mouseX = mouseX * -1;
-  } else if (rotation == 1) {
-    mouseX = mouseX * -1;
-  }
-
   if (rotation % 2 == 0 ) {
     double xTranslate = (2 / 3 * mouseX);
     qDetailed = xTranslate / xSize;
     double yTranslate1 = (-1 / 3 * mouseX);
-    // We need to adjust by 1 so minus the ySize
     double yTranslate2 = (sqrt(3) / 3 * mouseY);
     rDetailed = (yTranslate1 / xSize) + (yTranslate2 / ySize);
   } else {
@@ -26,7 +18,7 @@ List<int> getTileFromPos(double mouseX, double mouseY, int rotation) {
     rDetailed = yTrans1 / xSize;
     double xTrans1 = (-1 / 3 * mouseY);
     double xTrans2 = (sqrt(3) / 3 * mouseX);
-    qDetailed = (xTrans1 / xSize) + (xTrans2 / ySize);
+    qDetailed = (xTrans1 / xSize) + (xTrans2 / xSize);
   }
   sDetailed = -qDetailed - rDetailed;
 
@@ -48,7 +40,7 @@ List<int> getTileFromPos(double mouseX, double mouseY, int rotation) {
 
   // We now return the correct tile coordinates based on the rotation
   if (rotation == 1) {
-    return [q, s];
+    return [s, q];
   } else if (rotation == 2) {
     return [s, q];
   } else if (rotation == 3) {
@@ -71,6 +63,6 @@ List<int> getTileFromPos(double mouseX, double mouseY, int rotation) {
     return [-q, -r];
   } else {
     // rotation 0
-    return [q, r];
+    return [-q, -r];
   }
 }

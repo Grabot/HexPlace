@@ -808,7 +808,7 @@ class LoginWindowState extends State<LoginWindow> {
               const SizedBox(height: 10),
               hexPlaceName(),
               const SizedBox(height: 10),
-              ageOfGoldLogo(loginWidth, normalMode),
+              hexPlaceLogo(loginWidth, normalMode),
               signUpMode == 0 ? login(loginWidth - (30 * 2)) : Container(),
               signUpMode == 1 ? register(loginWidth - (30 * 2)) : Container(),
               signUpMode == 2 && !passwordResetSend ? resetPassword(loginWidth - (30 * 2)) : Container(),

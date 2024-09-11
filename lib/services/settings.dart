@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:isolated_worker/js_isolated_worker.dart';
 import 'models/user.dart';
@@ -14,9 +13,8 @@ class Settings extends ChangeNotifier {
 
   User? user;
 
-  int rotation = 11;
+  int rotation = 0;
 
-  // String? avatar;
   Uint8List? avatar;
 
   bool loggingIn = false;

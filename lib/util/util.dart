@@ -575,7 +575,7 @@ int getRankId(String guildRank) {
   }
 }
 
-Widget ageOfGoldLogo(double width, bool normalMode) {
+Widget hexPlaceLogo(double width, bool normalMode) {
   return Container(
       padding: normalMode
           ? EdgeInsets.only(left: width/4, right: width/4)
