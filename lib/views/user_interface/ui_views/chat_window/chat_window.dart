@@ -360,7 +360,6 @@ class ChatWindowState extends State<ChatWindow> {
 
   pressedPersonalButton(ChatData chatData) {
     setState(() {
-      print("setting personal stuff");
       chatTitle = chatData.name;
       isEvent = false;
       isWorld = false;
@@ -388,9 +387,7 @@ class ChatWindowState extends State<ChatWindow> {
     }
     if (messageScrollController.offset <= messageScrollController.position.minScrollExtent &&
         !messageScrollController.position.outOfRange) {
-      setState(() {
-        print("reach the top");
-      });
+      setState(() {});
     }
   }
 

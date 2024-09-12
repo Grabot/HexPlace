@@ -121,8 +121,6 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
 
     if (frameTimes >= 1) {
       fps = frames;
-      print("fps: $fps");
-      print("current hex Q: ${HexagonList().currentHexQ}   hex R: ${HexagonList().currentHexR}");
       frameTimes = 0;
       frames = 0;
     }
@@ -170,7 +168,6 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     Vector2 tapPos = info.eventPosition.widget / cameraZoom;
     tapPos.sub(gameSize / 2);
     tapPos.add(camera.viewfinder.position);
-    print("tapPos: $tapPos");
     // Screen position will be used to display the tile info box.
     Vector2 screenPos = info.eventPosition.global;
     gameWorld!.onTappedUp(tapPos, screenPos);
@@ -186,14 +183,12 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   @override
   void onDoubleTapUp(DoubleTapEvent event) {
     super.onDoubleTapUp(event);
-    print("double tap up");
     doubleTapDrag = false;
   }
 
   @override
   void onDoubleTapDown(DoubleTapDownEvent event) {
     super.onDoubleTapDown(event);
-    print("double tap down");
     doubleTapDrag = true;
   }
 
@@ -222,10 +217,8 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     tapPos.sub((gameSize / cameraZoom) / 2);
 
     if (doubleTapDrag) {
-      print("zooming?");
       dragZoomPosStartY = event.localPosition.y;
     } else {
-      print("not zooming?");
       // Vector2 dragStart = (event.localPosition) * cameraZoom;
       start = tapPos;
       // We need to move the pointer according to the current camera position
@@ -511,7 +504,6 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       }
 
       int rotation = Settings().getRotation();
-      print("jumping to position: $newTileQ, $newTileR with rotation $rotation");
       Vector2 pos = getTilePosition(newTileQ, newTileR, rotation);
       double cameraX = pos.x + xSize;
       double cameraY = pos.y + ySize;

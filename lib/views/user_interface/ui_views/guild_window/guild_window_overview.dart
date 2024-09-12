@@ -65,7 +65,6 @@ class GuildWindowOverviewState extends State<GuildWindowOverview> {
   }
 
   leaveGuild() {
-    print("pressed the leave guild button");
     // The information should be set on the "user" object so just refresh the state
     setState(() {});
   }

@@ -109,7 +109,6 @@ class AuthServiceWorld {
       if (json["result"]) {
         Map<String, dynamic> jsonTile = json["tile"];
         SelectedTileInfo selectedTileInfo = SelectedTileInfo();
-        print("screenPos: $screenPos");
         selectedTileInfo.setTapPos(screenPos);
         if (jsonTile["last_changed_by"] != null && jsonTile["last_changed_time"] != null) {
           // update Selected Tile info

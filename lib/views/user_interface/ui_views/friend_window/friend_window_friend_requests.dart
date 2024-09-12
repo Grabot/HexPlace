@@ -68,7 +68,6 @@ class FriendWindowFriendRequestsState extends State<FriendWindowFriendRequests> 
   }
 
   cancelFriendRequest(Friend friend) {
-    print("cancel request!");
     AuthServiceSocial().denyRequest(friend.getFriendId()).then((value) {
       if (value.getResult()) {
         setState(() {

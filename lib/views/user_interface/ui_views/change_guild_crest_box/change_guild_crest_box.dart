@@ -176,7 +176,6 @@ class ChangeGuildCrestBoxState extends State<ChangeGuildCrestBox> with TickerPro
   }
 
   resetDefaultImage() {
-    print("resetting default image");
     rootBundle.load('assets/images/ui/icon/shield_default.png').then((data) {
       Uint8List defaultImage = data.buffer.asUint8List();
       changeGuildCrestChangeNotifier.setDefault(true);
@@ -251,7 +250,6 @@ class ChangeGuildCrestBoxState extends State<ChangeGuildCrestBox> with TickerPro
         controller: cropController,
         hexCrop: false,
         onStatusChanged: (status) {
-          print("status changed $status");
           if (status == CropStatus.cropping || status == CropStatus.loading) {
             LoadingBoxChangeNotifier().setLoadingBoxVisible(true);
           } else if (status == CropStatus.ready) {

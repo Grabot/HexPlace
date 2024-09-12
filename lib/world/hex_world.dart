@@ -95,8 +95,6 @@ class HexWorld extends Component {
     AuthServiceWorld().getTileInfo(tile, screenPos).then((value) {
       if (value != "success") {
         // TODO: What to do when it is not successful
-      } else {
-        print("success!");
       }
     }).onError((error, stackTrace) {
       // TODO: What to do on an error?

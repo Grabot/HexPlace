@@ -229,7 +229,6 @@ class ChangeAvatarBoxState extends State<ChangeAvatarBox> with TickerProviderSta
         controller: cropController,
         hexCrop: true,
         onStatusChanged: (status) {
-          print("status changed $status");
           if (status == CropStatus.cropping || status == CropStatus.loading) {
             LoadingBoxChangeNotifier().setLoadingBoxVisible(true);
           } else if (status == CropStatus.ready) {

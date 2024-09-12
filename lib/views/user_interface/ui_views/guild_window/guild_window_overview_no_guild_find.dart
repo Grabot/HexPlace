@@ -76,7 +76,6 @@ class GuildWindowOverviewNoGuildFindState extends State<GuildWindowOverviewNoGui
   }
 
   findGuildAction() {
-    print("pressed search for new guilds");
     if (findGuildKey.currentState!.validate()) {
       AuthServiceGuild().searchGuild(findGuildController.text).then((response) {
         if (response != null) {
@@ -104,7 +103,6 @@ class GuildWindowOverviewNoGuildFindState extends State<GuildWindowOverviewNoGui
     }
     AuthServiceGuild().requestToJoin(guildRequested.guildId).then((response) {
       if (response.getResult()) {
-        print("request to join guild was successful");
         showToastMessage("Requested to join guild ${guildRequested.guildName}");
         setState(() {
           widget.guildInformation.guildsSendRequests.add(guildRequested);
@@ -153,7 +151,6 @@ class GuildWindowOverviewNoGuildFindState extends State<GuildWindowOverviewNoGui
   }
 
   denyRequest(Guild denyGuild) {
-    print("deny request for guild ${denyGuild.getGuildName()}");
     if (widget.me == null) {
       showToastMessage("something went wrong");
       return;

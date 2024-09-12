@@ -205,9 +205,6 @@ class AuthServiceLogin {
     );
 
     LoginResponse loginResponse = LoginResponse.fromJson(response.data);
-    if (loginResponse.getResult()) {
-      print("test endpoint was positive");
-    }
     return loginResponse;
   }
 

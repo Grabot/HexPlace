@@ -83,7 +83,6 @@ class AreYouSureBoxState extends State<AreYouSureBox> {
     } else {
       AuthServiceGuild().leaveGuild(userId, guildId).then((value) {
         if (value.getResult()) {
-          print("leave guild success");
           me.setGuild(null);
           GuildInformation guildInformation = GuildInformation();
           guildInformation.setGuildCrest(null);

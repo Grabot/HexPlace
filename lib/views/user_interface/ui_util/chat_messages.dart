@@ -169,7 +169,6 @@ class ChatMessages extends ChangeNotifier {
     bool found = false;
     for (ChatData chatData in regions) {
       if (chatData.name == other) {
-        print("change region");
         // If the chatbox is open on this user we don't set the unreadMessage
         if (!checkIfPersonalMessageIsRead(other, null)) {
           chatData.unreadMessages += 1;
@@ -179,7 +178,6 @@ class ChatMessages extends ChangeNotifier {
       }
     }
     if (!found) {
-      print("create region");
       ChatData newChatData = ChatData(3, senderId, other, 1, false);
       regions.add(newChatData);
     }
@@ -377,7 +375,6 @@ class ChatMessages extends ChangeNotifier {
         retrievePersonalMessages(selectedChatData!);
       }
     }
-    print("retrieving more messages");
   }
 
   checkReadPersonalMessage(int fromId) {
@@ -625,7 +622,6 @@ class ChatMessages extends ChangeNotifier {
   }
 
   addNewRegion(ChatData newRegion) {
-    print("adding region");
     regions.add(newRegion);
 
     if (!personalMessages.containsKey(newRegion.name)) {
@@ -636,7 +632,6 @@ class ChatMessages extends ChangeNotifier {
   }
 
   removeOldRegion(ChatData oldRegion) {
-    print("removing region");
     regions.remove(oldRegion);
     dropdownMenuItems = buildDropdownMenuItems();
   }

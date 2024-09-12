@@ -114,12 +114,10 @@ class GuildWindowOverviewGuildNewMembersState extends State<GuildWindowOverviewG
     }
     AuthServiceGuild().askNewMember(newMember.id, widget.guild.guildId).then((response) {
       if (response.getResult()) {
-        print("doing call asked join");
         showToastMessage("Request send to user ${newMember.getUserName()}");
         setState(() {
           widget.guildInformation.addAskedMember(newMember);
         });
-        print("doing call asked join DONE");
       } else {
         showToastMessage(response.getMessage());
       }

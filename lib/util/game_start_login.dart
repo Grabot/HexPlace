@@ -10,7 +10,6 @@ Future<bool> loginCheck() async {
   int current = (DateTime.now().millisecondsSinceEpoch / 1000).round();
 
   if (accessToken != null && accessToken != "") {
-    print("access token!");
     int expiration = Jwt.parseJwt(accessToken)['exp'];
     if ((expiration - current) > 0) {
       // token valid! Attempt to login with it.
@@ -23,7 +22,6 @@ Future<bool> loginCheck() async {
     // If there is an access token but it is not valid we might be able to refresh the tokens.
     String? refreshToken = await secureStorage.getRefreshToken();
     if (refreshToken != null && refreshToken != "") {
-      print("refresh token!");
       int expirationRefresh = Jwt.parseJwt(refreshToken)['exp'];
       if ((expirationRefresh - current) > 0) {
         // refresh token valid! Attempt to refresh tokens and login with it.

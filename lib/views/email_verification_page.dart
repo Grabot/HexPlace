@@ -34,14 +34,8 @@ class _EmailVerificationState extends State<EmailVerification> {
   @override
   void initState() {
     super.initState();
-    String baseUrl = Uri.base.toString();
-    String path = Uri.base.path;
     accessToken = Uri.base.queryParameters["access_token"];
     refreshToken = Uri.base.queryParameters["refresh_token"];
-
-    print("base: $baseUrl");
-    print("path: $path");
-    print("access token: $accessToken");
 
     if (accessToken != null && refreshToken != null) {
       AuthServiceLogin authService = AuthServiceLogin();

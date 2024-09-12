@@ -63,11 +63,8 @@ class FriendWindowFindFriendState extends State<FriendWindowFindFriend> {
   }
 
   searchForFriend(String possibleFriend) {
-    print("searching for friend $possibleFriend");
     AuthServiceSocial().searchPossibleFriend(possibleFriend).then((value) {
-      print("search result $value");
       if (value != null) {
-        print("found friend");
         nothingFound = false;
         User newFriend = value;
         setState(() {

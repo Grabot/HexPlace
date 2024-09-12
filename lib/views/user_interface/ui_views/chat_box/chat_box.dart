@@ -156,7 +156,6 @@ class ChatBoxState extends State<ChatBox> {
   }
 
   pressedChatTab(String tabName) {
-    print("pressed chat tab");
     resetTimer();
     if (!tileBoxVisible) {
       tileBoxOpen();

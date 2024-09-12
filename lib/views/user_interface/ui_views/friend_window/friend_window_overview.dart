@@ -85,7 +85,6 @@ class FriendWindowOverviewState extends State<FriendWindowOverview> {
   }
 
   removeFriend(Friend friend) {
-    print("cancel request!");
     AuthServiceSocial().denyRequest(friend.getFriendId()).then((value) {
       if (value.getResult()) {
         setState(() {

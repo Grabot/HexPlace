@@ -170,8 +170,6 @@ additionalLoginInformation(User me) {
       if (response != null) {
         me.setGuildInvites(response);
         ProfileChangeNotifier().notify();
-      } else {
-        print("no requests got");
       }
     });
   } else {
@@ -179,8 +177,6 @@ additionalLoginInformation(User me) {
       if (response != null) {
         GuildInformation().requestedMembers = response;
         ProfileChangeNotifier().notify();
-      } else {
-        print("no requests");
       }
     });
   }

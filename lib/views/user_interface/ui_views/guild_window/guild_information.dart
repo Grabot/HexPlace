@@ -109,10 +109,8 @@ class GuildInformation extends ChangeNotifier {
 
   Future<bool> getRequestedUserSend() async {
     if (guildSendRequestsRetrieved) {
-      print("not doing got");
       return false;
     } else {
-      print("going to retreive got");
       List<Guild>? response = await AuthServiceGuild().getRequestedUserSend();
       if (response != null) {
         guildsSendRequests = response;
@@ -126,10 +124,8 @@ class GuildInformation extends ChangeNotifier {
 
   Future<bool> getRequestedUserGot(bool minimal) async {
     if (guildsGotRequestsRetrieved) {
-      print("not doing got");
       return false;
     } else {
-      print("going to retreive got");
       List<Guild>? response = await AuthServiceGuild().getRequestedUserGot(minimal);
       if (response != null) {
         guildsGotRequests = response;
