@@ -60,7 +60,6 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
     socket.addListener(socialInteractionListener);
   }
 
-
   checkUnreadMessages() {
     unreadMessages = ChatMessages().unreadPersonalMessages();
   }
@@ -164,6 +163,11 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                   setState(() {
                     rotateCounterClockwiseOverviewState = 2;
                     rotateCounterClockwise();
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      setState(() {
+                        rotateCounterClockwiseOverviewState = 0;
+                      });
+                    });
                   });
                 },
                 child: Stack(
@@ -213,6 +217,11 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                   setState(() {
                     rotateClockwiseOverviewState = 2;
                     rotateClockwise();
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      setState(() {
+                        rotateClockwiseOverviewState = 0;
+                      });
+                    });
                   });
                 },
                 child: Stack(
@@ -262,6 +271,11 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                   setState(() {
                     zoomOverviewState = 2;
                     showZoomWindow();
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      setState(() {
+                        zoomOverviewState = 0;
+                      });
+                    });
                   });
                 },
                 child: Stack(
@@ -311,6 +325,11 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                   setState(() {
                     mapCoordinateOverviewState = 2;
                     showMapCoordinatesWindow();
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      setState(() {
+                        mapCoordinateOverviewState = 0;
+                      });
+                    });
                   });
                 },
                 child: Stack(
@@ -359,8 +378,13 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
               onTap: () {
                 setState(() {
                   friendOverviewState = 2;
+                  showFriendWindow();
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    setState(() {
+                      friendOverviewState = 0;
+                    });
+                  });
                 });
-                showFriendWindow();
               },
               child: Stack(
                 children: [
@@ -408,8 +432,13 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                 onTap: () {
                   setState(() {
                     messageOverviewState = 2;
+                    showChatWindow();
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      setState(() {
+                        messageOverviewState = 0;
+                      });
+                    });
                   });
-                  showChatWindow();
                 },
                 child: Stack(
                   children: [
@@ -464,8 +493,13 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                 onTap: () {
                   setState(() {
                     guildOverviewState = 2;
+                    showGuildWindow();
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      setState(() {
+                        guildOverviewState = 0;
+                      });
+                    });
                   });
-                  showGuildWindow();
                 },
                 child: Stack(
                   children: [

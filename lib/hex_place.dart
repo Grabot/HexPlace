@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:hex_place/component/hexagon.dart';
 import 'package:hex_place/services/settings.dart';
 import 'package:hex_place/services/socket_services.dart';
@@ -35,6 +36,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   late ZoomWidgetChangeNotifier zoomWidgetChangeNotifier;
 
   late Settings settings;
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -65,7 +67,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
   startGame() async {
     gameWorld = HexWorld(0, 0);
     world.add(gameWorld!);
-    camera.viewfinder.zoom = 2;
+    camera.viewfinder.zoom = 1;
     gameSize = camera.viewport.size / camera.viewfinder.zoom;
     checkHexagonArraySize();
   }
@@ -90,7 +92,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
     double zoomIncrease = (info.raw.scrollDelta.dy/1000);
     camera.viewfinder.zoom *= (1 - zoomIncrease);
 
-    camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.2, 20);
+    camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(zoomWidgetChangeNotifier.minZoom, zoomWidgetChangeNotifier.maxZoom);
 
     gameSize = camera.viewport.size / camera.viewfinder.zoom;
     checkHexagonArraySize();
@@ -248,10 +250,10 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       double distance = (dragZoomPosStartY! - dragZoomPosEndY!).clamp(-5, 5);
       dragZoomPosStartY = dragZoomPosEndY;
 
-      double zoomIncrease = (distance/2000) / cameraZoom;
+      double zoomIncrease = (distance/200);
       camera.viewfinder.zoom *= (1 - zoomIncrease);
 
-      camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.2, 2);
+      camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(zoomWidgetChangeNotifier.minZoom, zoomWidgetChangeNotifier.maxZoom);
       zoomWidgetChangeNotifier.setZoomValue(camera.viewfinder.zoom);
     } else {
       double cameraZoom = camera.viewfinder.zoom;
@@ -319,7 +321,7 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       double movementFingers = currentDistance - distanceBetweenFingers!;
       double zoomIncrease = ((movementFingers / 1000) / camera.viewfinder.zoom).clamp(-0.04, 0.04);
       camera.viewfinder.zoom *= (1 - zoomIncrease);
-      camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(0.2, 2);
+      camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(zoomWidgetChangeNotifier.minZoom, zoomWidgetChangeNotifier.maxZoom);
       zoomWidgetChangeNotifier.setZoomValue(camera.viewfinder.zoom);
     }
     finger1 = false;

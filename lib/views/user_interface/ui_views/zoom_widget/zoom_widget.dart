@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hex_place/hex_place.dart';
 import 'package:hex_place/services/settings.dart';
@@ -79,8 +80,8 @@ class ZoomWidgetState extends State<ZoomWidget> with TickerProviderStateMixin {
         width: 50,
         height: 300,
         child: SfSlider.vertical(
-          min: 0.2,
-          max: 2.0,
+          min: zoomWidgetChangeNotifier.minZoom,
+          max: zoomWidgetChangeNotifier.maxZoom,
           value: zoomWidgetChangeNotifier.getZoomValue(),
           onChanged: (newValue) {
             changeZoomValue(newValue);
