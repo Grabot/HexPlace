@@ -397,6 +397,68 @@ class GuildWindowOverviewGuildNewMembersState extends State<GuildWindowOverviewG
     }
   }
 
+  Widget newMembersGuildTopContentNormal(Guild guild) {
+    return Row(
+      children: [
+        guildAvatarBox(
+            200,
+            225,
+            guild.getGuildCrest()
+        ),
+        Expanded(
+          child: RichText(
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              text: TextSpan(
+                  children: [
+                    TextSpan(
+                        text: guild.getGuildName(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold
+                        )
+                    )
+                  ]
+              )
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget newMembersGuildTopContentMobile(Guild guild) {
+    return Column(
+      children: [
+        guildAvatarBox(
+            200,
+            225,
+            guild.getGuildCrest()
+        ),
+        SizedBox(
+          width: widget.overviewWidth,
+          height: 40,
+          child: RichText(
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              text: TextSpan(
+                  children: [
+                    TextSpan(
+                        text: guild.getGuildName(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold
+                        )
+                    )
+                  ]
+              )
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget newMembersGuildContent(Guild guild) {
 
     double crestHeight = 225;
@@ -405,33 +467,9 @@ class GuildWindowOverviewGuildNewMembersState extends State<GuildWindowOverviewG
 
     return Column(
       children: [
-        Row(
-          children: [
-            guildAvatarBox(
-                200,
-                225,
-                guild.getGuildCrest()
-            ),
-            Expanded(
-              child: RichText(
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  text: TextSpan(
-                      children: [
-                        TextSpan(
-                            text: guild.getGuildName(),
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold
-                            )
-                        )
-                      ]
-                  )
-              ),
-            ),
-          ],
-        ),
+        widget.normalMode
+            ? newMembersGuildTopContentNormal(guild)
+            : newMembersGuildTopContentMobile(guild),
         SizedBox(
           width: widget.overviewWidth,
           height: remainingHeight,

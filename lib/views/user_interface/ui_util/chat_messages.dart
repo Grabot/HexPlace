@@ -561,6 +561,13 @@ class ChatMessages extends ChangeNotifier {
     activateChatTab = "World";
   }
 
+  leaveGuild() {
+    guildMessages = [];
+    unreadGuildMessages = false;
+    chatMessages.removeWhere((element) => element is GuildMessage);
+    unreadGuildMessages = false;
+  }
+
   initializeChatRegions() {
     User? currentUser = Settings().getUser();
     if (currentUser != null) {

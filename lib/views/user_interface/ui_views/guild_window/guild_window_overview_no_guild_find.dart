@@ -383,22 +383,50 @@ class GuildWindowOverviewNoGuildFindState extends State<GuildWindowOverviewNoGui
     );
   }
 
-  Widget findGuildContent() {
-    double crestHeight = 225;
-    double backToOverviewHeight = 40;
-    double remainingHeight = widget.overviewHeight - crestHeight - backToOverviewHeight;
+  Widget findGuildTopContentNormal() {
+    return Row(
+      children: [
+        guildAvatarBox(
+            200,
+            225,
+            null
+        ),
+        Expanded(
+          child: RichText(
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              text: const TextSpan(
+                  children: [
+                    TextSpan(
+                        text: "Find a guild to join!",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold
+                        )
+                    )
+                  ]
+              )
+          ),
+        ),
+      ],
+    );
+  }
 
+  Widget findGuildTopContentMobile() {
     return Column(
       children: [
-        Row(
-          children: [
-            guildAvatarBox(
-                200,
-                225,
-                null
-            ),
-            Expanded(
-              child: RichText(
+        guildAvatarBox(
+            200,
+            225,
+            null
+        ),
+        SizedBox(
+          height: 50,
+          child: Column(
+            children: [
+              Expanded(
+                child: RichText(
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   text: const TextSpan(
@@ -410,13 +438,28 @@ class GuildWindowOverviewNoGuildFindState extends State<GuildWindowOverviewNoGui
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold
                             )
-                        )
-                      ]
-                  )
+                          )
+                        ]
+                    )
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+      ],
+    );
+  }
+
+  Widget findGuildContent() {
+    double crestHeight = 225;
+    double backToOverviewHeight = 40;
+    double remainingHeight = widget.overviewHeight - crestHeight - backToOverviewHeight;
+
+    return Column(
+      children: [
+        widget.normalMode
+            ? findGuildTopContentNormal()
+            : findGuildTopContentMobile(),
         SizedBox(
           width: widget.overviewWidth,
           height: remainingHeight,

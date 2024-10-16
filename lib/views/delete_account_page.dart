@@ -5,6 +5,7 @@ import 'package:hex_place/services/auth_service_login.dart';
 import 'package:hex_place/util/navigation_service.dart';
 import 'package:hex_place/constants/route_paths.dart' as routes;
 import 'package:hex_place/util/util.dart';
+import 'package:oktoast/oktoast.dart';
 
 
 class DeleteAccountPage extends StatefulWidget {
@@ -27,6 +28,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
   String? accessToken;
   String? refreshToken;
 
+  bool busy = true;
   bool invalid = true;
 
   @override
@@ -39,9 +41,13 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
     if (accessToken != null && refreshToken != null) {
       // Check if the token from the mail is still valid.
       AuthServiceLogin().removeAccount(accessToken!, refreshToken!).then((deleteAccountResponse) {
+        busy = false;
         setState(() {
           invalid = !deleteAccountResponse.getResult();
         });
+      }).onError((error, stackTrace) {
+        busy = false;
+        showToast("Failed to delete account: ${error.toString()}");
       });
     } else {
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -77,7 +83,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
   }
 
   Widget invalidLink(double width, double fontSize, bool normalMode) {
-    return Container(
+    return busy ? Container() : Container(
       margin: const EdgeInsets.only(top: 20),
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(

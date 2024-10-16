@@ -315,49 +315,35 @@ class ChangeAvatarBoxState extends State<ChangeAvatarBox> with TickerProviderSta
   Widget changeAvatarMobile(double width, double height, double fontSize) {
     double sidePadding = 20;
     double headerHeight = height / 9;
-    double cropHeight = (height / 9) * 4;
-    double avatarHeight = (height / 9) * 3;
-    double avatarSize = (width - 2 * sidePadding) / 2;
     double buttonWidth = (width - 2 * sidePadding) / 2;
+    double cropResultWidth = width/2;
+    double avatarHeight = cropResultWidth * 1.125;
     double totalButtonHeight = avatarHeight;
     double buttonHeight = totalButtonHeight / 4;
 
     return Container(
       margin: EdgeInsets.only(left: sidePadding, right: sidePadding),
-      width: width,
       child: Column(
           children: [
             changeAvatarHeader(width, headerHeight, fontSize),
-            cropWidget(cropHeight),
+            cropWidget(cropResultWidth),
             SizedBox(
-              height: avatarHeight,
-              width: width,
-              child: Row(
-                children:[
-                  Column(
-                    children: [
-                      const Text("Result:"),
-                      avatarBox(
-                          avatarSize,
-                          avatarSize,
-                          imageCrop
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(height: buttonHeight/3),
-                      uploadNewImageButton(buttonWidth, buttonHeight, 16),
-                      SizedBox(height: buttonHeight/3),
-                      saveImageButton(buttonWidth, buttonHeight, 16),
-                      SizedBox(height: buttonHeight/3),
-                      resetDefaultImageButton(buttonWidth, buttonHeight, 16),
-                    ],
-                  )
-                ]
-              ),
+                width: width,
+                height: 40,
+                child: const Text("Result:")
             ),
-          ]
+            avatarBox(
+                cropResultWidth,
+                cropResultWidth,
+                imageCrop
+            ),
+            SizedBox(height: buttonHeight/3),
+            uploadNewImageButton(buttonWidth, buttonHeight, 16),
+            SizedBox(height: buttonHeight/3),
+            saveImageButton(buttonWidth, buttonHeight, 16),
+            SizedBox(height: buttonHeight/3),
+            resetDefaultImageButton(buttonWidth, buttonHeight, 16),
+        ]
       ),
     );
   }
@@ -405,7 +391,7 @@ class ChangeAvatarBoxState extends State<ChangeAvatarBox> with TickerProviderSta
         width: width,
         height: height,
         color: Colors.cyan,
-        child: Container(
+        child: SingleChildScrollView(
         child: normalMode
             ? changeAvatarNormal(width, fontSize)
             : changeAvatarMobile(width, height, fontSize),

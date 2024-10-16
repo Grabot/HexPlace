@@ -96,6 +96,60 @@ class GuildWindowOverviewNoGuildCreateState extends State<GuildWindowOverviewNoG
     }
   }
 
+  Widget createGuildOptionsNormal(double crestHeight) {
+    return Row(
+      children: [
+        guildAvatarBox(
+            200,
+            crestHeight,
+            widget.guildInformation.getGuildCrest()
+        ),
+        const SizedBox(width: 10),
+        ElevatedButton(
+          onPressed: () {
+            changeGuildCrestAction();
+          },
+          style: buttonStyle(true, Colors.blue),
+          child: Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text(
+              "Change crest image",
+              style: simpleTextStyle(widget.fontSize),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget createGuildOptionsMobile(double crestHeight) {
+    return Column(
+      children: [
+        guildAvatarBox(
+            200,
+            crestHeight,
+            widget.guildInformation.getGuildCrest()
+        ),
+        const SizedBox(width: 10),
+        ElevatedButton(
+          onPressed: () {
+            changeGuildCrestAction();
+          },
+          style: buttonStyle(true, Colors.blue),
+          child: Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text(
+              "Change crest image",
+              style: simpleTextStyle(widget.fontSize),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   Widget createGuild() {
     double guildTextHeight = 30;
     double guildTextFieldHeight = 60;
@@ -151,30 +205,9 @@ class GuildWindowOverviewNoGuildCreateState extends State<GuildWindowOverviewNoG
               )
             ],
           ),
-          Row(
-            children: [
-              guildAvatarBox(
-                  200,
-                  crestHeight,
-                  widget.guildInformation.getGuildCrest()
-              ),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  changeGuildCrestAction();
-                },
-                style: buttonStyle(true, Colors.blue),
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 200,
-                  child: Text(
-                    "Change crest image",
-                    style: simpleTextStyle(widget.fontSize),
-                  ),
-                ),
-              )
-            ],
-          ),
+          widget.normalMode
+              ? createGuildOptionsNormal(crestHeight)
+              : createGuildOptionsMobile(crestHeight),
           SizedBox(height: smallPadding*2),
           Row(
             children: [

@@ -29,6 +29,8 @@ class _DeletePageState extends State<DeletePage> {
         } else {
           showToast("Failed to delete account: ${response.getMessage()}");
         }
+      }).onError((error, stackTrace) {
+        showToast("Failed to delete account: ${error.toString()}");
       });
     }
   }

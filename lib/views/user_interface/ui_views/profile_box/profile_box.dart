@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hex_place/hex_place.dart';
 import 'package:hex_place/locator.dart';
 import 'package:hex_place/services/auth_service_login.dart';
@@ -138,6 +139,29 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
     }
   }
 
+  Widget otherPlatformInfo(double width, double fontSize) {
+    return Container(
+      margin: const EdgeInsets.all(20),
+      width: width,
+      child: Row(
+        children: [
+          Expanded(
+              child: Text.rich(
+                  TextSpan(
+                    text: kIsWeb
+                        ? "Also try Hex Place on Android or IOS!"
+                        : "Also try Hex Place in your browser on hexplace.eu",
+                    style: TextStyle(
+                        fontSize: fontSize*1.5
+                    ),
+                  )
+              )
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget profile() {
     // normal mode is for desktop, mobile mode is for mobile.
     bool normalMode = true;
@@ -157,13 +181,14 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
       child: Container(
         width: width,
         height: height,
-        color: Colors.grey,
+        color: Colors.cyan,
         child: Column(
             children:
             [
               profileHeader(width, headerHeight, fontSize),
               const SizedBox(height: 20),
               userInformationBox(width, fontSize, normalMode),
+              otherPlatformInfo(width, fontSize),
             ]
         ),
       )

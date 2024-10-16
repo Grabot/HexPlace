@@ -6,4 +6,4 @@ double ySize = 32.2;
 // double ySize = 64.4;
 int radius = 4;
 
-int mapSize = 250;
+int mapSize = 50;

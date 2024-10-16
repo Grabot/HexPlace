@@ -465,7 +465,7 @@ class ChatBoxState extends State<ChatBox> {
   bool normalMode = true;
   Widget chatBoxWidget() {
     normalMode = true;
-    double chatBoxWidth = 500;
+    double chatBoxWidth = 600;
     double fontSize = 18;
     if (MediaQuery.of(context).size.width <= 800) {
       // Here we assume that it is a phone and we set the width to the total

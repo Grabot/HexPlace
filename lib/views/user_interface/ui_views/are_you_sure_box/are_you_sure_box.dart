@@ -4,10 +4,13 @@ import 'package:hex_place/services/models/user.dart';
 import 'package:hex_place/services/settings.dart';
 import 'package:hex_place/util/navigation_service.dart';
 import 'package:hex_place/util/util.dart';
+import 'package:hex_place/views/user_interface/ui_util/chat_messages.dart';
 import 'package:hex_place/views/user_interface/ui_views/are_you_sure_box/are_you_sure_change_notifier.dart';
 import 'package:hex_place/views/user_interface/ui_views/guild_window/guild_information.dart';
 import 'package:flutter/material.dart';
 import 'package:hex_place/locator.dart';
+import 'package:hex_place/views/user_interface/ui_views/profile_box/profile_change_notifier.dart';
+import 'package:hex_place/views/user_interface/ui_views/social_interaction/social_interaction.dart';
 
 
 class AreYouSureBox extends StatefulWidget {
@@ -87,6 +90,8 @@ class AreYouSureBoxState extends State<AreYouSureBox> {
           GuildInformation guildInformation = GuildInformation();
           guildInformation.setGuildCrest(null);
           guildInformation.setCrestIsDefault(true);
+          ChatMessages().leaveGuild();
+          ProfileChangeNotifier().notify();
           areYouSureBoxChangeNotifier.setAreYouSureBoxVisible(false);
         } else {
           showToastMessage(value.getMessage());

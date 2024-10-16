@@ -25,6 +25,7 @@ class Settings extends ChangeNotifier {
       // The file can be viewed in a previous commit
       // https://github.com/Grabot/age_of_gold/blob/cf11e6b237caa4bc67fecd7a9bd9250d8b8fe918/web/crop_web.js
       JsIsolatedWorker().importScripts(['crop/crop_web.js']).then((value) {});
+      print("imported crop_web.js");
     }
   }
 

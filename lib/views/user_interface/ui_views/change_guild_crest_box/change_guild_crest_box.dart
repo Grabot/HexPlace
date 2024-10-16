@@ -242,7 +242,7 @@ class ChangeGuildCrestBoxState extends State<ChangeGuildCrestBox> with TickerPro
   }
 
   Widget cropWidget(double cropHeight) {
-    return SizedBox(
+    return Container(
       width: cropHeight,
       height: cropHeight,
       child: imageMain != null ? Crop(
@@ -342,49 +342,35 @@ class ChangeGuildCrestBoxState extends State<ChangeGuildCrestBox> with TickerPro
   Widget changeGuildCrestMobile(double width, double height, double fontSize) {
     double sidePadding = 20;
     double headerHeight = height / 9;
-    double cropHeight = (height / 9) * 4;
-    double avatarHeight = (height / 9) * 3;
-    double avatarSize = (width - 2 * sidePadding) / 2;
     double buttonWidth = (width - 2 * sidePadding) / 2;
+    double cropResultWidth = width/2;
+    double avatarHeight = cropResultWidth * 1.125;
     double totalButtonHeight = avatarHeight;
     double buttonHeight = totalButtonHeight / 4;
 
     return Container(
       margin: EdgeInsets.only(left: sidePadding, right: sidePadding),
-      width: width,
       child: Column(
-          children: [
-            changeGuildCrestHeader(width, headerHeight, fontSize),
-            cropWidget(cropHeight),
-            SizedBox(
-              height: avatarHeight,
-              width: width,
-              child: Row(
-                children:[
-                  Column(
-                    children: [
-                      const Text("Result:"),
-                      guildAvatarBox(
-                          width,
-                          width * 1.125,
-                          imageCrop
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(height: buttonHeight/3),
-                      uploadNewImageButton(buttonWidth, buttonHeight, 16),
-                      SizedBox(height: buttonHeight/3),
-                      selectImageButton(buttonWidth, buttonHeight, 16),
-                      SizedBox(height: buttonHeight/3),
-                      resetDefaultImageButton(buttonWidth, buttonHeight, 16),
-                    ],
-                  )
-                ]
-              ),
-            ),
-          ]
+        children: [
+          changeGuildCrestHeader(width, headerHeight, fontSize),
+          cropWidget(cropResultWidth),
+          SizedBox(
+              width: cropResultWidth,
+              height: 40,
+              child: const Text("Result:")
+          ),
+          guildAvatarBox(
+              cropResultWidth,
+              cropResultWidth * 1.125,
+              imageCrop
+          ),
+          SizedBox(height: buttonHeight/3),
+          uploadNewImageButton(buttonWidth, buttonHeight, 16),
+          SizedBox(height: buttonHeight/3),
+          selectImageButton(buttonWidth, buttonHeight, 16),
+          SizedBox(height: buttonHeight/3),
+          resetDefaultImageButton(buttonWidth, buttonHeight, 16),
+        ]
       ),
     );
   }
@@ -417,13 +403,13 @@ class ChangeGuildCrestBoxState extends State<ChangeGuildCrestBox> with TickerPro
 
   Widget changeGuildCrestBox() {
     // normal mode is for desktop, mobile mode is for mobile.
-    bool normalMode = true;
     double fontSize = 16;
     double width = 800;
     double height = (MediaQuery.of(context).size.height / 10) * 9;
     // When the width is smaller than this we assume it's mobile.
+    bool normalMode = true;
     if (MediaQuery.of(context).size.width <= 800) {
-      width = MediaQuery.of(context).size.width - 50;
+      width = MediaQuery.of(context).size.width;
       fontSize = 10;
       normalMode = false;
     }
@@ -432,11 +418,11 @@ class ChangeGuildCrestBoxState extends State<ChangeGuildCrestBox> with TickerPro
         width: width,
         height: height,
         color: Colors.cyan,
-        child: Container(
-        child: normalMode
-            ? changeGuildCrestNormal(width, fontSize)
-            : changeGuildCrestMobile(width, height, fontSize),
-      )
+        child: SingleChildScrollView(
+          child: normalMode
+                ? changeGuildCrestNormal(width, fontSize)
+                : changeGuildCrestMobile(width, height, fontSize),
+        )
     );
   }
 

@@ -539,22 +539,10 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
       child: Row(
         children: [
           Column(
-            children: [
-              SizedBox(height: profileAvatarHeight),
-              const SizedBox(height: 10),
-              mapCoordinatesButton(50),
-              const SizedBox(height: 10),
-              friendOverviewButton(50),
-              const SizedBox(height: 10),
-              messageOverviewButton(50),
-              const SizedBox(height: 10),
-              guildOverviewButton(50)
-            ]
-          ),
-          SizedBox(width: 5),
-          Column(
               children: [
                 SizedBox(height: profileAvatarHeight),
+                const SizedBox(height: 10),
+                mapCoordinatesButton(50),
                 const SizedBox(height: 10),
                 rotateCounterClockwiseButton(50),
                 const SizedBox(height: 10),
@@ -562,7 +550,19 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                 const SizedBox(height: 10),
                 zoomButton(50),
               ]
-          )
+          ),
+          SizedBox(width: 5),
+          Settings().getUser() != null ? Column(
+            children: [
+              SizedBox(height: profileAvatarHeight),
+              const SizedBox(height: 10),
+              friendOverviewButton(50),
+              const SizedBox(height: 10),
+              messageOverviewButton(50),
+              const SizedBox(height: 10),
+              guildOverviewButton(50)
+            ]
+          ) : Container(),
         ],
       ),
     );
@@ -576,22 +576,10 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
         children: [
           SizedBox(height: statusBarPadding+5),
           Row(
-            children: [
-              SizedBox(width: totalWidth/2),
-              const SizedBox(width: 5),
-              mapCoordinatesButton(30),
-              const SizedBox(width: 5),
-              friendOverviewButton(30),
-              const SizedBox(width: 5),
-              messageOverviewButton(30),
-              const SizedBox(width: 5),
-              guildOverviewButton(30)
-            ]
-          ),
-          SizedBox(height: 5),
-          Row(
               children: [
                 SizedBox(width: totalWidth/2),
+                const SizedBox(width: 5),
+                mapCoordinatesButton(30),
                 const SizedBox(width: 5),
                 rotateCounterClockwiseButton(30),
                 const SizedBox(width: 5),
@@ -600,6 +588,18 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                 zoomButton(30),
               ]
           ),
+          SizedBox(height: 5),
+          Settings().getUser() != null ? Row(
+            children: [
+              SizedBox(width: totalWidth/2),
+              const SizedBox(width: 5),
+              friendOverviewButton(30),
+              const SizedBox(width: 5),
+              messageOverviewButton(30),
+              const SizedBox(width: 5),
+              guildOverviewButton(30)
+            ]
+          ) : Container(),
         ]
       ),
     );
