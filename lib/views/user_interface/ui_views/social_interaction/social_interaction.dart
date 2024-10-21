@@ -534,8 +534,9 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
   }
 
   Widget profileOverviewNormal(double profileOverviewHeight, double fontSize) {
-    double profileAvatarHeight = 100;
-    return Container(
+    double statusBarPadding = MediaQuery.of(context).viewPadding.top;
+    double profileAvatarHeight = 100 + statusBarPadding;
+    return SizedBox(
       child: Row(
         children: [
           Column(
@@ -572,12 +573,12 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
     double statusBarPadding = MediaQuery.of(context).viewPadding.top;
     double totalWidth = MediaQuery.of(context).size.width;
     return SizedBox(
+      width: totalWidth/2,
       child: Column(
         children: [
           SizedBox(height: statusBarPadding+5),
           Row(
               children: [
-                SizedBox(width: totalWidth/2),
                 const SizedBox(width: 5),
                 mapCoordinatesButton(30),
                 const SizedBox(width: 5),
@@ -588,10 +589,9 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
                 zoomButton(30),
               ]
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Settings().getUser() != null ? Row(
             children: [
-              SizedBox(width: totalWidth/2),
               const SizedBox(width: 5),
               friendOverviewButton(30),
               const SizedBox(width: 5),
@@ -622,7 +622,8 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
     profileOverviewHeight += 50;
     profileOverviewHeight += 10;
     normalMode = true;
-    if (MediaQuery.of(context).size.width <= 800) {
+    double statusBarPadding = MediaQuery.of(context).viewPadding.top;
+    if (MediaQuery.of(context).size.width <= 800 && (MediaQuery.of(context).size.width < MediaQuery.of(context).size.height)) {
       profileOverviewWidth = MediaQuery.of(context).size.width/2;
       profileOverviewWidth += 30;
       profileOverviewWidth += 10;
@@ -633,19 +634,28 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
       profileOverviewWidth += 30;
       profileOverviewWidth += 10;
 
-      double statusBarPadding = MediaQuery.of(context).viewPadding.top;
-      profileOverviewHeight = statusBarPadding + 30;
-      profileOverviewHeight += 5;
+      profileOverviewHeight = (30 * 2) + statusBarPadding + (5 * 2);
 
       normalMode = false;
+      if (Settings().getUser() == null) {
+        // No user logged in so there is 1 row less visible.
+        profileOverviewHeight = (15 * 2) + statusBarPadding + (5 * 2);
+      }
+    } else {
+      if (Settings().getUser() == null) {
+        profileOverviewWidth = 25 + 5;
+      }
     }
+
+    profileOverviewWidth = (profileOverviewWidth * 2) + 5;
+    profileOverviewHeight += statusBarPadding;
 
     return SingleChildScrollView(
       child: SizedBox(
-        width: (profileOverviewWidth * 2) + 5,
-        height: (profileOverviewHeight * 2) + 5,
+        width: profileOverviewWidth,
+        height: profileOverviewHeight,
         child: Align(
-          alignment: FractionalOffset.topLeft,
+          alignment: normalMode ? FractionalOffset.topLeft : FractionalOffset.topRight,
           child: normalMode
               ? profileOverviewNormal(profileOverviewHeight, fontSize)
               : profileOverviewMobile(fontSize)

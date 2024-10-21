@@ -253,9 +253,10 @@ class ProfileOverviewState extends State<ProfileOverview> with TickerProviderSta
 
   Widget profileOverviewNormal(double profileOverviewWidth, double profileOverviewHeight, double fontSize) {
     double profileAvatarHeight = 100;
-    return Container(
+    return SizedBox(
       child: Column(
         children: [
+          SizedBox(height: MediaQuery.of(context).viewPadding.top),
           profileWidget(profileOverviewWidth, profileAvatarHeight),
         ]
       ),
