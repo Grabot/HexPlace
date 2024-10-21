@@ -796,6 +796,55 @@ class LoginWindowState extends State<LoginWindow> {
     );
   }
 
+  Widget goToMap(double width) {
+    return Column(
+      children: [
+        Row(
+            children: [
+              Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                    child: const Divider(
+                      color: Colors.white,
+                      height: 36,
+                    )),
+              ),
+              Text(
+                "or",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: fontSize
+                ),
+              ),
+              Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                    child: const Divider(
+                      color: Colors.white,
+                      height: 36,
+                    )),
+              ),
+            ]
+        ),
+        ElevatedButton(
+          onPressed: () {
+            goBack();
+          },
+          style: buttonStyle(false, Colors.blue),
+          child: Container(
+            alignment: Alignment.center,
+            width: width,
+            height: 50,
+            child: Text(
+              'Go to map',
+              style: simpleTextStyle(fontSize),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget loginScreen(double loginBoxSize) {
     return SingleChildScrollView(
         controller: _controller,
@@ -814,6 +863,7 @@ class LoginWindowState extends State<LoginWindow> {
               signUpMode == 2 && !passwordResetSend ? resetPassword(loginWidth - (30 * 2)) : Container(),
               signUpMode == 2 && passwordResetSend ? resetPasswordEmailSend(loginWidth - (30 * 2)) : Container(),
               signUpMode != 2 ? loginAlternatives(loginBoxSize) : Container(),
+              goToMap(loginWidth - (30 * 2)),
               const SizedBox(height: 40),
             ],
           ),

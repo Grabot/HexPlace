@@ -177,11 +177,11 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
     }
     double headerHeight = 40;
 
-    return SingleChildScrollView(
-      child: Container(
-        width: width,
-        height: height,
-        color: Colors.cyan,
+    return Container(
+      width: width,
+      height: height,
+      color: Colors.cyan,
+      child: SingleChildScrollView(
         child: Column(
             children:
             [
@@ -191,7 +191,7 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
               otherPlatformInfo(width, fontSize),
             ]
         ),
-      )
+      ),
     );
   }
 
@@ -531,7 +531,7 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
         child: Column(
             children: [
           settings.getAvatar() != null
-              ? avatarBox(avatarWidth, avatarWidth, settings.getAvatar()!)
+              ? avatarBox(avatarWidth-40, avatarWidth-40, settings.getAvatar()!)
               : Container(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

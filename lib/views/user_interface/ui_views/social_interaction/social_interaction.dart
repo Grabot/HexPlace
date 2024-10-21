@@ -152,7 +152,7 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
           children: [
             const SizedBox(width: 5),
             Tooltip(
-              message: "Rotate clockwise",
+              message: "Rotate right",
               child: InkWell(
                 onHover: (value) {
                   setState(() {
@@ -206,7 +206,7 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
           children: [
             const SizedBox(width: 5),
             Tooltip(
-              message: "Rotate clockwise",
+              message: "Rotate left",
               child: InkWell(
                 onHover: (value) {
                   setState(() {
