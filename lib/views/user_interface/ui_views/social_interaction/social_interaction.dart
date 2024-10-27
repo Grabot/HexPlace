@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hex_place/hex_place.dart';
 import 'package:hex_place/services/models/user.dart';
 import 'package:hex_place/services/settings.dart';
@@ -536,6 +537,11 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
   Widget profileOverviewNormal(double profileOverviewHeight, double fontSize) {
     double statusBarPadding = MediaQuery.of(context).viewPadding.top;
     double profileAvatarHeight = 100 + statusBarPadding;
+    bool showSocials = true;
+    if (Settings().getUser() == null || !kIsWeb) {
+      // Don't show social buttons when not logged in or on mobile
+      showSocials = false;
+    }
     return SizedBox(
       child: Row(
         children: [
@@ -553,7 +559,7 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
               ]
           ),
           SizedBox(width: 5),
-          Settings().getUser() != null ? Column(
+          showSocials ? Column(
             children: [
               SizedBox(height: profileAvatarHeight),
               const SizedBox(height: 10),
@@ -570,6 +576,11 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
   }
 
   Widget profileOverviewMobile(double fontSize) {
+    bool showSocials = true;
+    if (Settings().getUser() == null || !kIsWeb) {
+      // Don't show social buttons when not logged in or on mobile
+      showSocials = false;
+    }
     double statusBarPadding = MediaQuery.of(context).viewPadding.top;
     double totalWidth = MediaQuery.of(context).size.width;
     return SizedBox(
@@ -590,7 +601,7 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
               ]
           ),
           const SizedBox(height: 5),
-          Settings().getUser() != null ? Row(
+          showSocials ? Row(
             children: [
               const SizedBox(width: 5),
               friendOverviewButton(30),
@@ -623,6 +634,12 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
     profileOverviewHeight += 10;
     normalMode = true;
     double statusBarPadding = MediaQuery.of(context).viewPadding.top;
+
+    bool showSocials = true;
+    if (Settings().getUser() == null || !kIsWeb) {
+      // Don't show social buttons when not logged in or on mobile
+      showSocials = false;
+    }
     if (MediaQuery.of(context).size.width <= 800 && (MediaQuery.of(context).size.width < MediaQuery.of(context).size.height)) {
       profileOverviewWidth = MediaQuery.of(context).size.width/2;
       profileOverviewWidth += 30;
@@ -637,12 +654,12 @@ class SocialInteractionState extends State<SocialInteraction> with TickerProvide
       profileOverviewHeight = (30 * 2) + statusBarPadding + (5 * 2);
 
       normalMode = false;
-      if (Settings().getUser() == null) {
+      if (!showSocials) {
         // No user logged in so there is 1 row less visible.
         profileOverviewHeight = (15 * 2) + statusBarPadding + (5 * 2);
       }
     } else {
-      if (Settings().getUser() == null) {
+      if (!showSocials) {
         profileOverviewWidth = 25 + 5;
       }
     }

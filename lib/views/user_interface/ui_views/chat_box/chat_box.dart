@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:hex_place/hex_place.dart';
 import 'package:hex_place/services/auth_service_world.dart';
 import 'package:hex_place/services/models/user.dart';
@@ -474,12 +475,18 @@ class ChatBoxState extends State<ChatBox> {
       fontSize = 12;
     }
 
-    return Align(
+    bool showSocials = true;
+    if (Settings().getUser() == null || !kIsWeb) {
+      // Don't show social buttons when not logged in or on mobile
+      showSocials = false;
+    }
+
+    return showSocials ? Align(
       alignment: FractionalOffset.bottomLeft,
       child: normalMode
           ? chatBoxNormal(chatBoxWidth, fontSize)
           : chatBoxMobile(chatBoxWidth, fontSize)
-    );
+    ) : Container();
   }
 
   Widget chatDropDownRegion() {
