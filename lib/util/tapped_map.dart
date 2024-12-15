@@ -15,10 +15,10 @@ List<int> getTileFromPos(double mouseX, double mouseY, int rotation) {
     rDetailed = (yTranslate1 / xSize) + (yTranslate2 / ySize);
   } else {
     double yTrans1 = (2 / 3 * mouseY);
-    rDetailed = yTrans1 / xSize;
+    rDetailed = yTrans1 / ySize;
     double xTrans1 = (-1 / 3 * mouseY);
     double xTrans2 = (sqrt(3) / 3 * mouseX);
-    qDetailed = (xTrans1 / xSize) + (xTrans2 / xSize);
+    qDetailed = (xTrans1 / ySize) + (xTrans2 / xSize);
   }
   sDetailed = -qDetailed - rDetailed;
 

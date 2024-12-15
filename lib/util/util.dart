@@ -113,7 +113,7 @@ Vector2 getTilePosition(int q, int r, int rotation) {
     double xTr1Point = xSize * sqrt(3) * q;
     double xTr2Point = xSize * (sqrt(3) / 2) * r;
     double xPosPoint = xTr1Point + xTr2Point - xSize;
-    double yPosPoint = xSize * 3 / 2 * r - ySize;
+    double yPosPoint = ySize * 3 / 2 * r - ySize;
     xPos = xPosPoint * -1;
     yPos = yPosPoint;
     xPos -= (xSize * 2);
