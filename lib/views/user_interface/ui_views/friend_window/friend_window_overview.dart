@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:hex_place/hex_place.dart';
 import 'package:hex_place/services/auth_service_social.dart';
 import 'package:hex_place/services/models/friend.dart';
@@ -12,6 +13,8 @@ import 'package:hex_place/views/user_interface/ui_views/chat_window/chat_window_
 import 'package:hex_place/views/user_interface/ui_views/friend_window/friend_window_change_notifier.dart';
 import 'package:hex_place/views/user_interface/ui_views/profile_box/profile_change_notifier.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../services/settings.dart';
 
 
 class FriendWindowOverview extends StatefulWidget {
@@ -102,12 +105,17 @@ class FriendWindowOverviewState extends State<FriendWindowOverview> {
   }
 
   Widget friendInteraction(Friend friend, double avatarBoxSize, double newFriendOptionWidth, double fontSize) {
+    bool showSocials = true;
+    if (Settings().getUser() == null || !kIsWeb) {
+      // Don't show social stuff when not logged in or on mobile
+      showSocials = false;
+    }
     return SizedBox(
       width: newFriendOptionWidth,
       height: 40,
       child: Row(
           children: [
-            InkWell(
+            showSocials ? InkWell(
                 onTap: () {
                   setState(() {
                     messageFriend(friend);
@@ -117,7 +125,7 @@ class FriendWindowOverviewState extends State<FriendWindowOverview> {
                     message: 'Message user',
                     child: addIcon(40, Icons.message, Colors.green)
                 )
-            ),
+            ) : Container(),
             const SizedBox(width: 10),
             InkWell(
               onTap: () {

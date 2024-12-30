@@ -422,7 +422,9 @@ class HexPlace extends FlameGame with DragCallbacks, KeyboardEvents, ScrollDetec
       }
       if (currentHexSize != hexArraySize) {
         currentHexSize = hexArraySize;
-        LoadingBoxChangeNotifier().setLoadingBoxVisible(true);
+        LoadingBoxChangeNotifier loadingBoxChangeNotifier = LoadingBoxChangeNotifier();
+        loadingBoxChangeNotifier.setWithBlackout(false);
+        loadingBoxChangeNotifier.setLoadingBoxVisible(true);
         Future.delayed(const Duration(milliseconds: 20), () {
           gameWorld!.setHexagonArraySize(hexArraySize);
           LoadingBoxChangeNotifier().setLoadingBoxVisible(false);

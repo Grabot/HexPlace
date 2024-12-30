@@ -662,7 +662,15 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
       } else if (delta == 3) {
         // logout user
         AreYouSureBoxChangeNotifier areYouSureBoxChangeNotifier = AreYouSureBoxChangeNotifier();
+        areYouSureBoxChangeNotifier.setShowDelete(false);
         areYouSureBoxChangeNotifier.setShowLogout(true);
+        areYouSureBoxChangeNotifier.setShowLeaveGuild(false);
+        areYouSureBoxChangeNotifier.setAreYouSureBoxVisible(true);
+      } else if (delta == 4) {
+        // TODO: Finish delete account (maybe add functionality to see which login the user has (email or via google)) and add the are you sure box
+        AreYouSureBoxChangeNotifier areYouSureBoxChangeNotifier = AreYouSureBoxChangeNotifier();
+        areYouSureBoxChangeNotifier.setShowDelete(true);
+        areYouSureBoxChangeNotifier.setShowLogout(false);
         areYouSureBoxChangeNotifier.setShowLeaveGuild(false);
         areYouSureBoxChangeNotifier.setAreYouSureBoxVisible(true);
       }
@@ -713,6 +721,9 @@ void buttonChangePassword(BuildContext context) {
 
 void buttonLogout(BuildContext context) {
   Navigator.pop<int>(context, 3);
+}
+void buttonDeleteAccount(BuildContext context) {
+  Navigator.pop<int>(context, 4);
 }
 
 Widget getPopupItems(BuildContext context) {
@@ -779,6 +790,23 @@ Widget getPopupItems(BuildContext context) {
               children: [
                 Text(
                   "Logout",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                )
+              ],
+            )
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerLeft,
+        child: TextButton(
+            onPressed: () {
+              buttonDeleteAccount(context);
+            },
+            child: const Row(
+              children: [
+                Text(
+                  "Delete account",
                   textAlign: TextAlign.left,
                   style: TextStyle(color: Colors.white, fontSize: 14),
                 )

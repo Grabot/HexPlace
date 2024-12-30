@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:hex_place/hex_place.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginWindow extends StatefulWidget {
@@ -267,6 +269,30 @@ class LoginWindowState extends State<LoginWindow> {
                   ),
                   Text(
                     "Google",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: fontSize
+                    ),
+                  )
+                ]
+            ),
+            const SizedBox(width: 10),
+            Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      _handleSignInApple();
+                    },
+                    child: SizedBox(
+                      height: loginBoxSize,
+                      width: loginBoxSize,
+                      child: Image.asset(
+                          "assets/images/apple_button.png"
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "Apple",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: fontSize
@@ -929,6 +955,36 @@ class LoginWindowState extends State<LoginWindow> {
         throw 'Could not launch $url';
       }
     }
+  }
+
+  Future<void> _handleSignInApple() async {
+    isLoading = true;
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      webAuthenticationOptions: WebAuthenticationOptions(
+        clientId: appleClientId,
+        redirectUri: Uri.parse(
+          appleRedirectUri,
+        ),
+      ),
+    );
+
+    AuthServiceLogin().getLoginApple(credential.authorizationCode).then((
+        loginResponse) {
+      if (loginResponse.getResult()) {
+        goBack();
+        isLoading = false;
+        setState(() {});
+      } else if (!loginResponse.getResult()) {
+        showToastMessage(loginResponse.getMessage());
+      }
+    }).onError((error, stackTrace) {
+      showToastMessage(error.toString());
+    });
+    isLoading = false;
   }
 
   Future<void> _handleSignInGoogle() async {
