@@ -31,7 +31,6 @@ class ProfileBox extends StatefulWidget {
 class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
 
   // Used if any text fields are added to the profile.
-  final FocusNode _focusProfileBox = FocusNode();
   late ProfileChangeNotifier profileChangeNotifier;
 
   final NavigationService _navigationService = locator<NavigationService>();
@@ -72,10 +71,9 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
     _controller.forward();
     updateTimeLock();
 
-    _focusProfileBox.addListener(_onFocusChange);
     settings.addListener(settingsChangeListener);
-    _focusUsernameChange.addListener(_onFocusChange);
-    _focusPasswordChange.addListener(_onFocusChange);
+    _focusUsernameChange.addListener(_onFocusChangeUsername);
+    _focusPasswordChange.addListener(_onFocusChangePassword);
 
     setState(() {
 
@@ -105,7 +103,11 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
     }
   }
 
-  _onFocusChange() {
+  _onFocusChangeUsername() {
+    widget.game.windowFocus(_focusUsernameChange.hasFocus);
+  }
+
+  _onFocusChangePassword() {
     widget.game.windowFocus(_focusPasswordChange.hasFocus);
   }
 
@@ -313,11 +315,11 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
           child: settings.getUser() == null
               ? Text(
             "No user logged in",
-            style: simpleTextStyle(fontSize),
+            style: simpleTextStyle(fontSize*1.5),
           )
             : Text(
             "Profile Page",
-            style: simpleTextStyle(fontSize)
+            style: simpleTextStyle(fontSize*1.5)
           ),
         ),
         IconButton(
@@ -352,7 +354,7 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
               height: 50,
               child: Text(
                 'Go to log in screen',
-                style: simpleTextStyle(fontSize),
+                style: simpleTextStyle(fontSize*1.5),
               ),
             ),
           ),

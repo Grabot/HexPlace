@@ -16,6 +16,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:app_links/app_links.dart';
 
 class LoginWindow extends StatefulWidget {
 
@@ -67,6 +68,9 @@ class LoginWindowState extends State<LoginWindow> {
   double loginHeight = 0;
   double fontSize = 16;
 
+  late AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSubscription;
+
   @override
   void initState() {
     loginWindowChangeNotifier = LoginWindowChangeNotifier();
@@ -85,6 +89,34 @@ class LoginWindowState extends State<LoginWindow> {
     });
 
     super.initState();
+    initDeepLinks();
+  }
+
+  Future<void> initDeepLinks() async {
+    _appLinks = AppLinks();
+
+    // Handle links
+    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
+      // The deep link sometimes gets send to the server,
+      // but sometimes to the app.
+      // We will add functionality for all possibilities I've seen happen.
+      // This is for if the redirect is send to the app instead of the server.
+      // First check the uri to be sure and gather the access and refresh token.
+      String? accessToken = uri.queryParameters["access_token"];
+      String? refreshToken = uri.queryParameters["refresh_token"];
+      // There is also a `code` but it's not necessary for the login process.
+      // Use the tokens to immediately refresh the access token
+      if (accessToken != null && refreshToken != null) {
+        AuthServiceLogin authService = AuthServiceLogin();
+        authService.getRefresh(accessToken, refreshToken).then((loginResponse) {
+          if (loginResponse.getResult()) {
+            setState(() {
+              LoginWindowChangeNotifier().setLoginWindowVisible(false);
+            });
+          }
+        });
+      }
+    });
   }
 
   @override
@@ -959,18 +991,28 @@ class LoginWindowState extends State<LoginWindow> {
 
   Future<void> _handleSignInApple() async {
     isLoading = true;
-    final credential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-      webAuthenticationOptions: WebAuthenticationOptions(
-        clientId: appleClientId,
-        redirectUri: Uri.parse(
-          appleRedirectUri,
+    print("Apple login");
+    final AuthorizationCredentialAppleID credential;
+    try {
+      credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        webAuthenticationOptions: WebAuthenticationOptions(
+          clientId: appleClientId,
+          redirectUri: Uri.parse(
+            appleRedirectUri,
+          ),
         ),
-      ),
-    );
+      );
+    } catch (error) {
+      print("Apple login error: $error");
+      isLoading = false;
+      return;
+    }
+    print("Apple login 2");
+    print("credential.authorizationCode: ${credential.authorizationCode}");
 
     AuthServiceLogin().getLoginApple(credential.authorizationCode).then((
         loginResponse) {

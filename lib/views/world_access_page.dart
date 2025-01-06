@@ -30,6 +30,9 @@ class _WorldAccessState extends State<WorldAccess> {
     String? accessToken = Uri.base.queryParameters["access_token"];
     String? refreshToken = Uri.base.queryParameters["refresh_token"];
 
+    print("WorldAccess: accessToken: $accessToken");
+    print("WorldAccess: refreshToken: $refreshToken");
+
     // Use the tokens to immediately refresh the access token
     if (accessToken != null && refreshToken != null) {
       AuthServiceLogin authService = AuthServiceLogin();
