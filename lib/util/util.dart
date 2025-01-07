@@ -574,7 +574,7 @@ int getRankId(String guildRank) {
 Widget hexPlaceLogo(double width, bool normalMode) {
   return Container(
       padding: normalMode
-          ? EdgeInsets.only(left: width/4, right: width/4)
+          ? EdgeInsets.only(left: width/3, right: width/3)
           : EdgeInsets.only(left: width/8, right: width/8),
       alignment: Alignment.center,
       child: Image.asset("assets/images/hex_place_logo.png")
