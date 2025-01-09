@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:hex_place/constants/route_paths.dart' as routes;
 import 'package:hex_place/locator.dart';
 import 'package:hex_place/services/settings.dart';
@@ -31,6 +32,7 @@ import 'views/user_interface/ui_views/chat_box/chat_box.dart';
 import 'views/user_interface/ui_views/chat_window/chat_window.dart';
 import 'views/user_interface/ui_views/friend_window/friend_window.dart';
 import 'views/user_interface/ui_views/loading_box/loading_box.dart';
+import 'views/user_interface/ui_views/web_view/web_view_box.dart';
 import 'views/user_interface/ui_views/profile_box/profile_box.dart';
 import 'views/user_interface/ui_views/profile_overview/profile_overview.dart';
 import 'views/user_interface/ui_views/tile_box/tile_box.dart';
@@ -71,6 +73,7 @@ Future<void> main() async {
           'guildWindow': _guildWindowBoxBuilder,
           'changeGuildCrest': _changeGuildCrestBoxBuilder,
           'areYouSureBox': _areYouSureBoxBuilder,
+          'webviewBox': _webViewBoxBuilder,
           'loadingBox': _loadingBoxBuilder,
         },
         initialActiveOverlays: const [
@@ -90,6 +93,7 @@ Future<void> main() async {
           'guildWindow',
           'changeGuildCrest',
           'areYouSureBox',
+          'webviewBox',
           'loadingBox',
         ],
       )
@@ -216,6 +220,17 @@ Widget _changeAvatarBoxBuilder(BuildContext buildContext, HexPlace game) {
 
 Widget _loadingBoxBuilder(BuildContext buildContext, HexPlace game) {
   return LoadingBox(key: UniqueKey(), game: game);
+}
+
+Widget _webViewBoxBuilder(BuildContext buildContext, HexPlace game) {
+  if (kIsWeb) {
+    // If we are on the web, we can't use the web view
+    // But we don't need to.
+    // We load the LoadingBox to avoid initialization errors
+    // But this view should never be opened in the web.
+    return LoadingBox(key: UniqueKey(), game: game);
+  }
+  return WebViewBox(key: UniqueKey(), game: game);
 }
 
 Widget _areYouSureBoxBuilder(BuildContext buildContext, HexPlace game) {

@@ -67,6 +67,22 @@ class AuthServiceLogin {
     return baseResponse;
   }
 
+  Future<LoginResponse> getRedditCallback(String code) async {
+    Settings().setLoggingIn(true);
+    String endPoint = "/login/reddit/callback?state=x&code=$code";
+    var response = await AuthApiLogin().dio.get(endPoint,
+      options: Options(headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      }),
+    );
+
+    LoginResponse loginResponse = LoginResponse.fromJson(response.data);
+    if (loginResponse.getResult()) {
+      successfulLogin(loginResponse);
+    }
+    return loginResponse;
+  }
+
   Future<LoginResponse> getRefresh(String accessToken, String refreshToken) async {
     Settings().setLoggingIn(true);
     String endPoint = "refresh";
@@ -78,7 +94,7 @@ class AuthServiceLogin {
           "access_token": accessToken,
           "refresh_token": refreshToken
         }
-      )
+        )
     );
 
     LoginResponse loginResponse = LoginResponse.fromJson(response.data);
@@ -231,7 +247,7 @@ class AuthServiceLogin {
   Future<LoginResponse> getLoginApple(String authorizationCode) async {
     Settings().setLoggingIn(true);
     String endPoint = "/login/apple/verify?code=$authorizationCode";
-    var response = await AuthApiAppleLogin().dio.get(endPoint,
+    var response = await AuthApiLogin().dio.get(endPoint,
       options: Options(headers: {
         HttpHeaders.contentTypeHeader: "application/json",
       }),

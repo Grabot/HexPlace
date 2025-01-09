@@ -14,9 +14,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hex_place/views/user_interface/ui_views/web_view/web_view_box_change_notifier.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:app_links/app_links.dart';
+
+import '../loading_box/loading_box_change_notifier.dart';
 
 class LoginWindow extends StatefulWidget {
 
@@ -68,9 +70,6 @@ class LoginWindowState extends State<LoginWindow> {
   double loginHeight = 0;
   double fontSize = 16;
 
-  late AppLinks _appLinks;
-  StreamSubscription<Uri>? _linkSubscription;
-
   @override
   void initState() {
     loginWindowChangeNotifier = LoginWindowChangeNotifier();
@@ -89,34 +88,6 @@ class LoginWindowState extends State<LoginWindow> {
     });
 
     super.initState();
-    initDeepLinks();
-  }
-
-  Future<void> initDeepLinks() async {
-    _appLinks = AppLinks();
-
-    // Handle links
-    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
-      // The deep link sometimes gets send to the server,
-      // but sometimes to the app.
-      // We will add functionality for all possibilities I've seen happen.
-      // This is for if the redirect is send to the app instead of the server.
-      // First check the uri to be sure and gather the access and refresh token.
-      String? accessToken = uri.queryParameters["access_token"];
-      String? refreshToken = uri.queryParameters["refresh_token"];
-      // There is also a `code` but it's not necessary for the login process.
-      // Use the tokens to immediately refresh the access token
-      if (accessToken != null && refreshToken != null) {
-        AuthServiceLogin authService = AuthServiceLogin();
-        authService.getRefresh(accessToken, refreshToken).then((loginResponse) {
-          if (loginResponse.getResult()) {
-            setState(() {
-              LoginWindowChangeNotifier().setLoginWindowVisible(false);
-            });
-          }
-        });
-      }
-    });
   }
 
   @override
@@ -128,8 +99,10 @@ class LoginWindowState extends State<LoginWindow> {
 
   goBack() {
     setState(() {
-      LoginWindowChangeNotifier().setLoginWindowVisible(false);
-      widget.game.windowFocus(false);
+      if (!WebViewBoxChangeNotifier().getWebViewBoxVisible()) {
+        LoginWindowChangeNotifier().setLoginWindowVisible(false);
+        widget.game.windowFocus(false);
+      }
     });
   }
 
@@ -980,53 +953,65 @@ class LoginWindowState extends State<LoginWindow> {
         throw 'Could not launch $url';
       }
     } else {
-      if (!await launchUrl(
-          url,
-          mode: LaunchMode.externalApplication
-      )) {
-        throw 'Could not launch $url';
-      }
+      // We also set the loadingbox, this is to not allow any tapping while the url is loading.
+      LoadingBoxChangeNotifier loadingBoxChangeNotifier = LoadingBoxChangeNotifier();
+      loadingBoxChangeNotifier.setWithBlackout(true);
+      loadingBoxChangeNotifier.setLoadingBoxVisible(true);
+
+      WebViewBoxChangeNotifier webViewBoxChangeNotifier = WebViewBoxChangeNotifier();
+      webViewBoxChangeNotifier.setWebViewBoxUri(url);
+      webViewBoxChangeNotifier.setWebViewBoxVisible(true);
     }
   }
 
   Future<void> _handleSignInApple() async {
-    isLoading = true;
-    print("Apple login");
-    final AuthorizationCredentialAppleID credential;
-    try {
-      credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-        webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: appleClientId,
-          redirectUri: Uri.parse(
-            appleRedirectUri,
-          ),
-        ),
-      );
-    } catch (error) {
-      print("Apple login error: $error");
-      isLoading = false;
-      return;
-    }
-    print("Apple login 2");
-    print("credential.authorizationCode: ${credential.authorizationCode}");
+    if (!kIsWeb) {
+      // We also set the loadingbox, this is to not allow any tapping while the url is loading.
+      LoadingBoxChangeNotifier loadingBoxChangeNotifier = LoadingBoxChangeNotifier();
+      loadingBoxChangeNotifier.setWithBlackout(true);
+      loadingBoxChangeNotifier.setLoadingBoxVisible(true);
 
-    AuthServiceLogin().getLoginApple(credential.authorizationCode).then((
-        loginResponse) {
-      if (loginResponse.getResult()) {
-        goBack();
+      String appleLogin = "$appleLoginUrl}?response_type=code&client_id=$appleClientId&redirect_uri=$appleRedirectUri&scope=email%20name&state=random_generated_state&response_mode=form_post";
+      WebViewBoxChangeNotifier webViewBoxChangeNotifier = WebViewBoxChangeNotifier();
+      webViewBoxChangeNotifier.setWebViewBoxUrl(appleLogin);
+      webViewBoxChangeNotifier.setWebViewBoxVisible(true);
+
+      return;
+    } else {
+      isLoading = true;
+      final AuthorizationCredentialAppleID credential;
+      try {
+        credential = await SignInWithApple.getAppleIDCredential(
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName,
+          ],
+          webAuthenticationOptions: WebAuthenticationOptions(
+            clientId: appleClientId,
+            redirectUri: Uri.parse(
+              appleRedirectUri,
+            ),
+          ),
+        );
+      } catch (error) {
         isLoading = false;
-        setState(() {});
-      } else if (!loginResponse.getResult()) {
-        showToastMessage(loginResponse.getMessage());
+        return;
       }
-    }).onError((error, stackTrace) {
-      showToastMessage(error.toString());
-    });
-    isLoading = false;
+
+      AuthServiceLogin().getLoginApple(credential.authorizationCode).then((
+          loginResponse) {
+        if (loginResponse.getResult()) {
+          goBack();
+          isLoading = false;
+          setState(() {});
+        } else if (!loginResponse.getResult()) {
+          showToastMessage(loginResponse.getMessage());
+        }
+      }).onError((error, stackTrace) {
+        showToastMessage(error.toString());
+      });
+      isLoading = false;
+    }
   }
 
   Future<void> _handleSignInGoogle() async {

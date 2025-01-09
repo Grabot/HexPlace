@@ -7,14 +7,14 @@ import '../util/util.dart';
 import 'models/login_response.dart';
 
 
-class AuthApiAppleLogin {
+class AuthApiLogin {
   final dio = createDio();
 
-  AuthApiAppleLogin._internal();
+  AuthApiLogin._internal();
 
-  static final _singleton = AuthApiAppleLogin._internal();
+  static final _singleton = AuthApiLogin._internal();
 
-  factory AuthApiAppleLogin() => _singleton;
+  factory AuthApiLogin() => _singleton;
 
   static Dio createDio() {
     var dio = Dio(
