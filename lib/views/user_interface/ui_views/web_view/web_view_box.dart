@@ -132,9 +132,7 @@ class WebViewBoxState extends State<WebViewBox> {
       child: Column(
         children: [
           webViewBoxHeader(20),
-          SizedBox(
-            width: webViewWidth,
-            height: webViewHeight-20,
+          Expanded(
             child: WebViewWidget(controller: webViewController),
           ),
         ],
