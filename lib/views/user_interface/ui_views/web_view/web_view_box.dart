@@ -101,6 +101,7 @@ class WebViewBoxState extends State<WebViewBox> {
   }
 
   goBack() {
+    webViewController.loadRequest(Uri.parse('about:blank'));
     setState(() {
       WebViewBoxChangeNotifier().setWebViewBoxVisible(false);
     });
