@@ -971,7 +971,7 @@ class LoginWindowState extends State<LoginWindow> {
       loadingBoxChangeNotifier.setWithBlackout(true);
       loadingBoxChangeNotifier.setLoadingBoxVisible(true);
 
-      String appleLogin = "$appleLoginUrl}?response_type=code&client_id=$appleClientId&redirect_uri=$appleRedirectUri&scope=email%20name&state=random_generated_state&response_mode=form_post";
+      String appleLogin = "$appleLoginUrl?response_type=code&client_id=$appleClientId&redirect_uri=$appleRedirectUri&scope=email%20name&state=random_generated_state&response_mode=form_post";
       WebViewBoxChangeNotifier webViewBoxChangeNotifier = WebViewBoxChangeNotifier();
       webViewBoxChangeNotifier.setWebViewBoxUrl(appleLogin);
       webViewBoxChangeNotifier.setWebViewBoxVisible(true);

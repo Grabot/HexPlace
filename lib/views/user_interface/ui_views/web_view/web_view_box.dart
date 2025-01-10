@@ -194,20 +194,4 @@ class WebViewBoxState extends State<WebViewBox> {
         child: showWebViewWindow ? webViewScreen(context) : Container()
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(),
-  //     body: Column(
-  //       children: [
-  //         Expanded(
-  //           child: WebViewWidget(
-  //             controller: webViewController,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }
