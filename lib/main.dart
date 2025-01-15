@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:hex_place/constants/route_paths.dart' as routes;
 import 'package:hex_place/locator.dart';
@@ -130,6 +130,7 @@ Future<void> main() async {
             routes.DeleteRoute: (context) => delete,
             routes.DeleteAccountRoute: (context) => deleteAccount,
           },
+          scrollBehavior: MyCustomScrollBehavior(),
           onGenerateRoute: (settings) {
             if (settings.name != null && settings.name!.startsWith(routes.WorldAccessRoute)) {
               return MaterialPageRoute(
@@ -263,4 +264,13 @@ Widget _guildWindowBoxBuilder(BuildContext buildContext, HexPlace game) {
 
 Widget _changeGuildCrestBoxBuilder(BuildContext buildContext, HexPlace game) {
   return ChangeGuildCrestBox(key: UniqueKey(), game: game);
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }

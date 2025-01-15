@@ -14,6 +14,8 @@ import 'package:hex_place/views/user_interface/ui_views/login_view/login_window_
 import 'package:hex_place/views/user_interface/ui_views/profile_box/profile_change_notifier.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../services/models/user.dart';
+
 
 class ProfileBox extends StatefulWidget {
 
@@ -646,9 +648,14 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
     final RenderBox overlay =
     Overlay.of(context).context.findRenderObject() as RenderBox;
 
+    User? me = settings.getUser();
+    bool isOrigin = false;
+    if (me != null) {
+      isOrigin = me.origin;
+    }
     showMenu(
         context: context,
-        items: [SettingPopup(key: UniqueKey())],
+        items: [SettingPopup(key: UniqueKey(), showPasswordChange: isOrigin)],
         position: RelativeRect.fromRect(
             _tapPosition! & const Size(40, 40), Offset.zero & overlay.size))
         .then((int? delta) {
@@ -669,7 +676,6 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
         areYouSureBoxChangeNotifier.setShowLeaveGuild(false);
         areYouSureBoxChangeNotifier.setAreYouSureBoxVisible(true);
       } else if (delta == 4) {
-        // TODO: Finish delete account (maybe add functionality to see which login the user has (email or via google)) and add the are you sure box
         AreYouSureBoxChangeNotifier areYouSureBoxChangeNotifier = AreYouSureBoxChangeNotifier();
         areYouSureBoxChangeNotifier.setShowDelete(true);
         areYouSureBoxChangeNotifier.setShowLogout(false);
@@ -690,7 +696,12 @@ class ProfileBoxState extends State<ProfileBox> with TickerProviderStateMixin {
 
 class SettingPopup extends PopupMenuEntry<int> {
 
-  const SettingPopup({required Key key}) : super(key: key);
+  final bool showPasswordChange;
+
+  const SettingPopup({
+    required Key key,
+    required this.showPasswordChange
+  }) : super(key: key);
 
   @override
   bool represents(int? n) => n == 1 || n == -1;
@@ -705,7 +716,7 @@ class SettingPopup extends PopupMenuEntry<int> {
 class SettingPopupState extends State<SettingPopup> {
   @override
   Widget build(BuildContext context) {
-    return getPopupItems(context);
+    return getPopupItems(context, widget.showPasswordChange);
   }
 }
 
@@ -728,7 +739,7 @@ void buttonDeleteAccount(BuildContext context) {
   Navigator.pop<int>(context, 4);
 }
 
-Widget getPopupItems(BuildContext context) {
+Widget getPopupItems(BuildContext context, bool showPasswordChange) {
   return Column(
     children: [
       Container(
@@ -765,7 +776,7 @@ Widget getPopupItems(BuildContext context) {
             )
         ),
       ),
-      Container(
+      showPasswordChange ? Container(
         alignment: Alignment.centerLeft,
         child: TextButton(
             onPressed: () {
@@ -781,7 +792,7 @@ Widget getPopupItems(BuildContext context) {
               ]
           )
         ),
-      ),
+      ) : Container(),
       Container(
         alignment: Alignment.centerLeft,
         child: TextButton(

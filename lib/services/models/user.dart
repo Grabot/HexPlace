@@ -18,6 +18,7 @@ class User {
   Uint8List? avatar;
   Guild? guild;
   List<Guild> guildInvites = [];
+  bool origin = false;
 
   User(this.id, this.userName, this.verified, this.friends, String? timeLock) {
     if (timeLock != null) {
@@ -65,6 +66,10 @@ class User {
 
   setGuildInvites(List<Guild> guildInvites) {
     this.guildInvites = guildInvites;
+  }
+
+  bool isOrigin() {
+    return origin;
   }
 
   addGuildInvites(Guild guildInvite) {
@@ -210,6 +215,9 @@ class User {
     if (json.containsKey("guild") && json["guild"] != null) {
       setGuild(Guild.fromJson(json["guild"], false));
       setMyGuildRank();
+    }
+    if (json.containsKey("origin")) {
+      origin = json["origin"];
     }
   }
 

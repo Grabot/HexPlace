@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class WebViewBoxChangeNotifier extends ChangeNotifier {
 
   bool showWebViewBox = false;
-  Uri webViewUrl = Uri.parse('https://flutter.dev');
+  Uri webViewUrl = Uri.parse('about:blank');
 
   static final WebViewBoxChangeNotifier _instance = WebViewBoxChangeNotifier._internal();
 

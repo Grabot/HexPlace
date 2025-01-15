@@ -49,7 +49,7 @@ class WebViewBoxState extends State<WebViewBox> {
           onWebResourceError: (WebResourceError error) {
           },
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://hexplace.eu/worldaccess?')) {
+            if (request.url.startsWith('https://hexplace.eu/worldaccess?') || request.url.startsWith('https://www.hexplace.eu/worldaccess?')) {
               LoadingBoxChangeNotifier loadingBoxChangeNotifier = LoadingBoxChangeNotifier();
               loadingBoxChangeNotifier.setWithBlackout(false);
               loadingBoxChangeNotifier.setLoadingBoxVisible(true);
@@ -66,7 +66,6 @@ class WebViewBoxState extends State<WebViewBox> {
                 authService.getRefresh(accessToken, refreshToken).then((loginResponse) {
                   if (loginResponse.getResult()) {
                     setState(() {
-                      LoginWindowChangeNotifier().setLoginWindowVisible(false);
                       LoginWindowChangeNotifier().setLoginWindowVisible(false);
                       WebViewBoxChangeNotifier().setWebViewBoxVisible(false);
                     });
@@ -157,8 +156,7 @@ class WebViewBoxState extends State<WebViewBox> {
 
     return Align(
       alignment: FractionalOffset.center,
-      child: Container(
-          color: Colors.amber,
+      child: SizedBox(
           width: webViewWidth,
           height: webViewHeight,
           child: webViewContainer(webViewWidth, webViewHeight, webViewBoxSize),
