@@ -110,6 +110,7 @@ Future<void> main() async {
   runApp(
       OKToast(
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: "Hex Place",
           navigatorKey: locator<NavigationService>().navigatorKey,
           theme: ThemeData(
