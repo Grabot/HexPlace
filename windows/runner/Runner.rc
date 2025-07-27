@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "hex_place" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "hex_place" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 eu.hexplace. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 eu.hexplace. All rights reserved." "\0"
             VALUE "OriginalFilename", "hex_place.exe" "\0"
             VALUE "ProductName", "hex_place" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

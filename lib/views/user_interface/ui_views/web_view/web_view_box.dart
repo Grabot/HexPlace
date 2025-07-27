@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hex_place/views/user_interface/ui_views/loading_box/loading_box_change_notifier.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../hex_place.dart';
 import '../../../../services/auth_service_login.dart';
+import '../../../../util/util.dart';
 import '../login_view/login_window_change_notifier.dart';
 import 'web_view_box_change_notifier.dart';
 
@@ -70,7 +70,7 @@ class WebViewBoxState extends State<WebViewBox> {
                       WebViewBoxChangeNotifier().setWebViewBoxVisible(false);
                     });
                   } else {
-                    showToast("Failed to log in.");
+                    showToastMessage("Failed to log in.");
                   }
                 });
               }
